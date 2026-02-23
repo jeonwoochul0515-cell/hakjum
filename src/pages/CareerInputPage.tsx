@@ -4,6 +4,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { GradeSelector } from '@/components/career/GradeSelector';
 import { CareerInput } from '@/components/career/CareerInput';
 import { QuickTag } from '@/components/career/QuickTag';
+import { MajorSelector } from '@/components/major/MajorSelector';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useWizard } from '@/context/WizardContext';
@@ -25,7 +26,7 @@ export default function CareerInputPage() {
           <button onClick={() => navigate('/school')} className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 mb-2 cursor-pointer">
             <ArrowLeft size={16} /> 학교 다시 선택
           </button>
-          <h1 className="text-xl font-bold text-slate-800">진로를 알려주세요</h1>
+          <h1 className="text-xl font-bold text-slate-800">진로·목표 대학을 알려주세요</h1>
           <div className="flex items-center gap-2 mt-1">
             <Badge color="sky">{state.school.name}</Badge>
           </div>
@@ -47,6 +48,11 @@ export default function CareerInputPage() {
           onToggle={(tag) => dispatch({ type: 'TOGGLE_TAG', payload: tag })}
         />
 
+        <MajorSelector
+          selected={state.targetMajor}
+          onSelect={(major) => dispatch({ type: 'SET_TARGET_MAJOR', payload: major })}
+        />
+
         <Button
           size="lg"
           className="w-full"
@@ -54,7 +60,7 @@ export default function CareerInputPage() {
           onClick={() => navigate('/recommendation')}
         >
           <Sparkles size={18} className="mr-2" />
-          AI 추천 받기
+          {state.targetMajor ? 'AI 추천 + 입시 분석' : 'AI 추천 받기'}
         </Button>
       </div>
     </AppShell>

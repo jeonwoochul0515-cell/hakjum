@@ -7,11 +7,32 @@ export interface School {
   allSubjects: string[];
 }
 
+export interface University {
+  name: string;
+  area: string; // 부산, 서울 등
+}
+
+export interface Major {
+  id: string;
+  name: string;
+  category: string; // 공학계열, 인문계열 등
+  relateSubject: {
+    common: string;       // 공통과목
+    general: string;      // 일반선택과목
+    career: string;       // 진로선택과목
+    professional: string; // 전문교과Ⅰ
+  };
+  universities: University[];
+  jobs: string;
+  qualifications: string;
+}
+
 export interface WizardState {
   school: School | null;
   grade: string;
   careerGoal: string;
   tags: string[];
+  targetMajor: Major | null;
 }
 
 export type WizardAction =
@@ -19,6 +40,7 @@ export type WizardAction =
   | { type: 'SET_GRADE'; payload: string }
   | { type: 'SET_CAREER_GOAL'; payload: string }
   | { type: 'TOGGLE_TAG'; payload: string }
+  | { type: 'SET_TARGET_MAJOR'; payload: Major | null }
   | { type: 'RESET' };
 
 export interface SubjectRecommendation {
@@ -32,8 +54,23 @@ export interface TierRecommendation {
   subjects: SubjectRecommendation[];
 }
 
+export interface SubjectMatch {
+  subject: string;
+  status: 'available' | 'missing' | 'similar';
+  note: string;
+}
+
+export interface AdmissionInfo {
+  earlyAdmission: string;  // 수시 전략
+  regularAdmission: string; // 정시 전략
+  relatedCerts: string;    // 관련 자격증
+  relatedJobs: string;     // 관련 직업
+}
+
 export interface RecommendationResult {
   tiers: TierRecommendation[];
   strategy: string;
   source: 'ai' | 'fallback';
+  subjectMatches?: SubjectMatch[];
+  admissionInfo?: AdmissionInfo;
 }

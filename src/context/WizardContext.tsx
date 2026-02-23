@@ -6,6 +6,7 @@ const initialState: WizardState = {
   grade: '',
   careerGoal: '',
   tags: [],
+  targetMajor: null,
 };
 
 function wizardReducer(state: WizardState, action: WizardAction): WizardState {
@@ -23,6 +24,8 @@ function wizardReducer(state: WizardState, action: WizardAction): WizardState {
         : [...state.tags, tag];
       return { ...state, tags };
     }
+    case 'SET_TARGET_MAJOR':
+      return { ...state, targetMajor: action.payload };
     case 'RESET':
       return initialState;
     default:

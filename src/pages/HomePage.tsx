@@ -51,8 +51,8 @@ export default function HomePage() {
           <h2 className="text-sm font-bold text-slate-700 text-center mb-4">이용 방법</h2>
           {[
             { step: 1, title: '학교 선택', desc: '부산 지역 고등학교를 검색하고 선택하세요' },
-            { step: 2, title: '진로 입력', desc: '희망 진로와 관심 분야를 알려주세요' },
-            { step: 3, title: 'AI 추천', desc: '실제 개설과목 기반 맞춤 추천을 받아보세요' },
+            { step: 2, title: '진로·목표 대학 입력', desc: '희망 진로와 목표 대학·학과를 알려주세요' },
+            { step: 3, title: 'AI 추천', desc: '개설과목 + 입시 요건 기반 맞춤 추천을 받아보세요' },
           ].map(({ step, title, desc }) => (
             <div key={step} className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm border border-slate-100">
               <div className="w-9 h-9 rounded-full bg-gradient-to-r from-sky-primary to-indigo-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">

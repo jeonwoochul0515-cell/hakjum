@@ -4,6 +4,8 @@ import { RotateCcw, AlertCircle } from 'lucide-react';
 import { AppShell } from '@/components/layout/AppShell';
 import { LoadingAnimation } from '@/components/recommendation/LoadingAnimation';
 import { SubjectTier } from '@/components/recommendation/SubjectTier';
+import { SubjectMatchList } from '@/components/recommendation/SubjectMatchList';
+import { AdmissionStrategy } from '@/components/recommendation/AdmissionStrategy';
 import { StrategySummary } from '@/components/recommendation/StrategySummary';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -32,6 +34,9 @@ export default function RecommendationPage() {
           <div className="flex flex-wrap items-center gap-2 mt-2">
             <Badge color="sky">{state.school.name}</Badge>
             <Badge color="indigo">{state.grade}</Badge>
+            {state.targetMajor && (
+              <Badge color="green">{state.targetMajor.name}</Badge>
+            )}
             {state.tags.map((tag) => (
               <Badge key={tag} color="amber">{tag}</Badge>
             ))}
@@ -62,11 +67,25 @@ export default function RecommendationPage() {
               <Badge color="amber">키워드 기반 추천</Badge>
             )}
 
+            {/* 과목 추천 4단계 */}
             <div className="space-y-3">
               {result.tiers.map((tier) => (
                 <SubjectTier key={tier.tier} tier={tier} />
               ))}
             </div>
+
+            {/* 학과 요구과목 교차 분석 */}
+            {result.subjectMatches && result.subjectMatches.length > 0 && (
+              <SubjectMatchList matches={result.subjectMatches} />
+            )}
+
+            {/* 입시 전략 */}
+            {result.admissionInfo && state.targetMajor && (
+              <AdmissionStrategy
+                info={result.admissionInfo}
+                majorName={state.targetMajor.name}
+              />
+            )}
 
             <StrategySummary strategy={result.strategy} source={result.source} />
           </>
