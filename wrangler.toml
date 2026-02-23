@@ -1,0 +1,10 @@
+name = "hakjum"
+compatibility_date = "2024-12-01"
+
+[build]
+command = "npm run build"
+
+[build.upload]
+format = "modules"
+
+pages_build_output_dir = "dist"
