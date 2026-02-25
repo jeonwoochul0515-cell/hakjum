@@ -8,3 +8,6 @@ command = "npm run build"
 format = "modules"
 
 pages_build_output_dir = "dist"
+
+[vars]
+CAREER_API_KEY = "e8dca18e77b1552efadc7ea6287963e0"

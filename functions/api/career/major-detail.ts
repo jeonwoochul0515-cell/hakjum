@@ -28,6 +28,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     svcType: 'api',
     svcCode: 'MAJOR_VIEW',
     contentType: 'json',
+    gubun: 'univ_list',
     majorSeq: majorId,
   });
 
