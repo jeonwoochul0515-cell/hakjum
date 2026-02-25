@@ -1,4 +1,5 @@
-import { MapPin, ExternalLink, Users } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp } from 'lucide-react';
 import type { UniversityFull } from '@/types';
 import type { EnrollmentInfo } from '@/lib/university-api';
 
@@ -8,11 +9,17 @@ interface Props {
 }
 
 export function UniversityGrid({ universities, enrollment = [] }: Props) {
+  const [expandedSchool, setExpandedSchool] = useState<string | null>(null);
+
   // 정원 데이터를 학교명으로 매핑
-  const enrollmentMap = new Map<string, number>();
+  const enrollmentMap = new Map<string, EnrollmentInfo>();
   for (const e of enrollment) {
-    enrollmentMap.set(e.schoolName, e.enrollmentQuota);
+    enrollmentMap.set(e.schoolName, e);
   }
+
+  // 주요교과목·관련직업: 전체 enrollment에서 첫 번째로 있는 것 사용 (학과 기준 공통)
+  const commonCourses = enrollment.find((e) => e.mainCourses)?.mainCourses || '';
+  const commonJobs = enrollment.find((e) => e.relatedJobs)?.relatedJobs || '';
   // 지역별 그룹핑: 부산 → 서울 → 나머지 가나다순
   const grouped = new Map<string, UniversityFull[]>();
   for (const u of universities) {
@@ -42,6 +49,42 @@ export function UniversityGrid({ universities, enrollment = [] }: Props) {
         총 <strong className="text-slate-600">{universities.length}개</strong> 대학에 설치되어 있어요
       </p>
 
+      {/* 학과 공통 정보: 주요교과목, 관련직업 */}
+      {(commonCourses || commonJobs) && (
+        <div className="bg-white rounded-xl border border-slate-100 p-4 mb-5 space-y-3">
+          {commonCourses && (
+            <div>
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <BookOpen size={13} className="text-sky-500" />
+                <span className="text-xs font-semibold text-slate-600">주요 교과목</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {commonCourses.split(',').map((c) => c.trim()).filter(Boolean).map((course) => (
+                  <span key={course} className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 rounded-md text-[11px]">
+                    {course}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {commonJobs && (
+            <div>
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <Briefcase size={13} className="text-indigo-500" />
+                <span className="text-xs font-semibold text-slate-600">관련 직업</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {commonJobs.split(',').map((j) => j.trim()).filter(Boolean).map((job) => (
+                  <span key={job} className="inline-block px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md text-[11px]">
+                    {job}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {areaOrder.map((area) => (
         <div key={area} className="mb-5">
           <div className="flex items-center gap-2 mb-2">
@@ -50,43 +93,101 @@ export function UniversityGrid({ universities, enrollment = [] }: Props) {
             <span className="text-xs text-slate-400">({grouped.get(area)!.length})</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
-            {grouped.get(area)!.map((u) => (
-              <div
-                key={u.name}
-                className="bg-white rounded-lg p-3 border border-slate-100 hover:border-slate-200 transition-colors"
-              >
-                <div className="flex items-start justify-between gap-1">
-                  <div className="min-w-0">
-                    <h5 className="text-sm font-medium text-slate-700 truncate">{u.name}</h5>
-                    {u.majorName && u.majorName !== u.name && (
-                      <p className="text-xs text-slate-400 truncate mt-0.5">{u.majorName}</p>
-                    )}
-                  </div>
-                  {u.schoolURL && (
-                    <a
-                      href={u.schoolURL.startsWith('http') ? u.schoolURL : `https://${u.schoolURL}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-slate-300 hover:text-sky-primary transition-colors flex-shrink-0"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink size={12} />
-                    </a>
+            {grouped.get(area)!.map((u) => {
+              const info = enrollmentMap.get(u.name);
+              const isExpanded = expandedSchool === u.name;
+
+              return (
+                <div
+                  key={u.name}
+                  className="bg-white rounded-lg border border-slate-100 hover:border-slate-200 transition-colors"
+                >
+                  <button
+                    className="w-full p-3 text-left cursor-pointer"
+                    onClick={() => setExpandedSchool(isExpanded ? null : u.name)}
+                  >
+                    <div className="flex items-start justify-between gap-1">
+                      <div className="min-w-0">
+                        <h5 className="text-sm font-medium text-slate-700 truncate">{u.name}</h5>
+                        {u.majorName && u.majorName !== u.name && (
+                          <p className="text-xs text-slate-400 truncate mt-0.5">{u.majorName}</p>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        {u.schoolURL && (
+                          <a
+                            href={u.schoolURL.startsWith('http') ? u.schoolURL : `https://${u.schoolURL}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-slate-300 hover:text-sky-primary transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink size={12} />
+                          </a>
+                        )}
+                        {info && (
+                          isExpanded
+                            ? <ChevronUp size={12} className="text-slate-400" />
+                            : <ChevronDown size={12} className="text-slate-400" />
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${areaColorMap[area] || 'bg-gray-100 text-gray-600'}`}>
+                        {area}
+                      </span>
+                      {info && info.enrollmentQuota > 0 && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-green-50 text-green-600 text-[10px] font-medium">
+                          <Users size={9} />
+                          정원 {info.enrollmentQuota}명
+                        </span>
+                      )}
+                      {info && info.graduateCount > 0 && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-purple-50 text-purple-600 text-[10px] font-medium">
+                          <GraduationCap size={9} />
+                          졸업 {info.graduateCount}명
+                        </span>
+                      )}
+                      {info?.duration && (
+                        <span className="inline-block px-1.5 py-0.5 rounded bg-slate-50 text-slate-500 text-[10px] font-medium">
+                          {info.duration}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+
+                  {/* 확장 상세 */}
+                  {isExpanded && info && (
+                    <div className="px-3 pb-3 border-t border-slate-50 pt-2 space-y-2 animate-fade-in-up">
+                      {info.schoolType && (
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                          <span className="font-medium text-slate-600">구분</span>
+                          {info.schoolType}
+                        </div>
+                      )}
+                      {info.category7 && (
+                        <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                          <span className="font-medium text-slate-600">계열</span>
+                          {info.category7}
+                        </div>
+                      )}
+                      {info.mainCourses && (
+                        <div>
+                          <p className="text-[11px] font-medium text-slate-600 mb-1">주요 교과목</p>
+                          <p className="text-[11px] text-slate-500 leading-relaxed">{info.mainCourses}</p>
+                        </div>
+                      )}
+                      {info.relatedJobs && (
+                        <div>
+                          <p className="text-[11px] font-medium text-slate-600 mb-1">관련 직업</p>
+                          <p className="text-[11px] text-slate-500 leading-relaxed">{info.relatedJobs}</p>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
-                <div className="flex items-center gap-1.5 mt-1.5">
-                  <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${areaColorMap[area] || 'bg-gray-100 text-gray-600'}`}>
-                    {area}
-                  </span>
-                  {enrollmentMap.has(u.name) && (
-                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-green-50 text-green-600 text-[10px] font-medium">
-                      <Users size={9} />
-                      {enrollmentMap.get(u.name)}명
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ))}

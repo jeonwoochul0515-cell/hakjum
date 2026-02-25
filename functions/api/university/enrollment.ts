@@ -14,7 +14,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const url = new URL(context.request.url);
   const majorName = url.searchParams.get('major') || '';
   const schoolName = url.searchParams.get('school') || '';
-  const numOfRows = url.searchParams.get('limit') || '50';
+  const numOfRows = url.searchParams.get('limit') || '100';
 
   const params = new URLSearchParams({
     serviceKey: apiKey,
