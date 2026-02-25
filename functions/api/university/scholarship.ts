@@ -2,6 +2,8 @@ interface Env {
   DATA_GO_KR_API_KEY: string;
 }
 
+// 공공데이터 표준 #159 대학별장학금정보
+// GET /api/university/scholarship?school=학교명
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const apiKey = context.env.DATA_GO_KR_API_KEY;
   if (!apiKey) {
@@ -12,21 +14,18 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   }
 
   const url = new URL(context.request.url);
-  const majorName = url.searchParams.get('major') || '';
   const schoolName = url.searchParams.get('school') || '';
-  const numOfRows = url.searchParams.get('limit') || '100';
 
   const params = new URLSearchParams({
     serviceKey: apiKey,
     pageNo: '1',
-    numOfRows,
+    numOfRows: '1000',
     type: 'json',
   });
 
-  if (majorName) params.set('scsbjtNm', majorName);
-  if (schoolName) params.set('schlNm', schoolName);
+  if (schoolName) params.set('univNm', schoolName);
 
-  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_major_api?${params}`;
+  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_schlship_amt_api?${params}`;
 
   try {
     const response = await fetch(apiUrl);
@@ -43,11 +42,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     return new Response(JSON.stringify({ items }), {
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=86400', // 1 day cache
+        'Cache-Control': 'public, max-age=86400',
       },
     });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: 'Failed to fetch enrollment data', items: [] }), {
+  } catch {
+    return new Response(JSON.stringify({ error: 'Failed to fetch scholarship data', items: [] }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

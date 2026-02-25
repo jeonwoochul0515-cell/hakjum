@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp, TrendingUp, Wallet } from 'lucide-react';
+import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp, Wallet } from 'lucide-react';
 import type { UniversityFull } from '@/types';
 import type { EnrollmentInfo, UniversityStats } from '@/lib/university-api';
 
@@ -66,7 +66,7 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                 <span className="text-xs font-semibold text-slate-600">주요 교과목</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {commonCourses.split(',').map((c) => c.trim()).filter(Boolean).map((course) => (
+                {commonCourses.split(/[,+]/).map((c) => c.trim()).filter(Boolean).slice(0, 15).map((course) => (
                   <span key={course} className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 rounded-md text-[11px]">
                     {course}
                   </span>
@@ -81,7 +81,7 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                 <span className="text-xs font-semibold text-slate-600">관련 직업</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {commonJobs.split(',').map((j) => j.trim()).filter(Boolean).map((job) => (
+                {commonJobs.split(/[,+]/).map((j) => j.trim()).filter(Boolean).slice(0, 10).map((job) => (
                   <span key={job} className="inline-block px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-md text-[11px]">
                     {job}
                   </span>
@@ -157,10 +157,10 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           졸업 {info.graduateCount}명
                         </span>
                       )}
-                      {stats?.employmentRate && (
-                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[10px] font-medium">
-                          <TrendingUp size={9} />
-                          취업 {stats.employmentRate}%
+                      {stats?.tuitionAvg && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 text-[10px] font-medium">
+                          <Wallet size={9} />
+                          {Math.round(stats.tuitionAvg / 10000).toLocaleString()}만원
                         </span>
                       )}
                       {info?.duration && (
@@ -186,21 +186,27 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           {info.category7}
                         </div>
                       )}
-                      {/* 대학알리미 통계 */}
+                      {/* 등록금/장학금 (표준 공공데이터) */}
                       {stats && (
                         <div className="flex flex-wrap gap-2 py-1">
-                          {stats.tuition && (
+                          {stats.tuitionAvg && (
                             <div className="flex items-center gap-1 text-[11px]">
                               <Wallet size={10} className="text-amber-500" />
                               <span className="text-slate-500">등록금</span>
-                              <span className="font-medium text-slate-700">{stats.tuition.toLocaleString()}만원</span>
+                              <span className="font-medium text-slate-700">{Math.round(stats.tuitionAvg / 10000).toLocaleString()}만원</span>
                             </div>
                           )}
-                          {stats.scholarship && (
+                          {stats.foundationType && (
+                            <div className="flex items-center gap-1 text-[11px]">
+                              <span className="text-slate-500">설립</span>
+                              <span className="font-medium text-slate-700">{stats.foundationType}</span>
+                            </div>
+                          )}
+                          {stats.scholarshipTotal && (
                             <div className="flex items-center gap-1 text-[11px]">
                               <GraduationCap size={10} className="text-sky-500" />
                               <span className="text-slate-500">장학금</span>
-                              <span className="font-medium text-slate-700">{stats.scholarship}%</span>
+                              <span className="font-medium text-slate-700">{Math.round(stats.scholarshipTotal / 100000000).toLocaleString()}억원</span>
                             </div>
                           )}
                         </div>
