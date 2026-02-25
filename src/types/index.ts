@@ -109,3 +109,20 @@ export interface ShareableResult {
   topSubjects: string[];
   timestamp: number;
 }
+
+// AI 학과 탐색 추천 결과
+export interface AIExploreRecommendation {
+  majorName: string;
+  majorId?: string;
+  category: string;
+  reason: string;
+  universities: { name: string; area: string }[];
+  relatedJobs: string[];
+  matchScore: number; // 0-100
+}
+
+export interface AIExploreResult {
+  recommendations: AIExploreRecommendation[];
+  summary: string;
+  source: 'ai' | 'fallback';
+}

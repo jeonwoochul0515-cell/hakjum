@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { ArrowLeft, ArrowRight, Compass, RotateCcw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Compass } from 'lucide-react';
 import { useWizard } from '@/context/WizardContext';
-import { getMajorFullAPI } from '@/lib/career-api';
-import { MajorSearchPanel } from '@/components/explore/MajorSearchPanel';
+import { useExploreAI } from '@/hooks/useExploreAI';
+import { AIInterestInput } from '@/components/explore/AIInterestInput';
+import { AIRecommendationCards } from '@/components/explore/AIRecommendationCards';
+import { AILoadingState } from '@/components/explore/AILoadingState';
 import { MajorOverviewCard } from '@/components/explore/MajorOverviewCard';
 import { UniversityGrid } from '@/components/explore/UniversityGrid';
 import { CareerOutcomeSection } from '@/components/explore/CareerOutcomeSection';
 import { RequiredSubjectsView } from '@/components/explore/RequiredSubjectsView';
 import { Badge } from '@/components/ui/Badge';
-import type { Major, MajorFull } from '@/types';
+import { useState } from 'react';
 
 type Tab = 'overview' | 'university' | 'career' | 'subjects';
 
@@ -23,30 +24,30 @@ const TABS: { key: Tab; label: string }[] = [
 export default function MajorExplorePage() {
   const navigate = useNavigate();
   const { dispatch } = useWizard();
-  const [selectedMajor, setSelectedMajor] = useState<MajorFull | null>(null);
-  const [activeTab, setActiveTab] = useState<Tab>('overview');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const {
+    step,
+    school,
+    interest,
+    result,
+    selectedMajor,
+    detailLoading,
+    error,
+    setSchool,
+    setInterest,
+    analyze,
+    selectMajor,
+    backToResults,
+    reset,
+  } = useExploreAI();
 
-  const handleSelectMajor = async (major: Major) => {
-    setLoading(true);
-    setError('');
-    try {
-      const full = await getMajorFullAPI(major.id);
-      full.category = major.category || full.category;
-      setSelectedMajor(full);
-      setActiveTab('overview');
-    } catch {
-      setError('학과 정보를 불러오지 못했어요. 다시 시도해주세요.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [activeTab, setActiveTab] = useState<Tab>('overview');
 
   const handleBack = () => {
-    if (selectedMajor) {
-      setSelectedMajor(null);
-      setError('');
+    if (step === 'detail') {
+      backToResults();
+      setActiveTab('overview');
+    } else if (step === 'results') {
+      reset();
     } else {
       navigate('/');
     }
@@ -54,11 +55,12 @@ export default function MajorExplorePage() {
 
   const handleGoToRecommendation = () => {
     if (!selectedMajor) return;
-    // WizardContext에 targetMajor 설정
     dispatch({ type: 'SET_TARGET_MAJOR', payload: selectedMajor });
     dispatch({ type: 'SET_CAREER_GOAL', payload: selectedMajor.name });
     navigate('/school');
   };
+
+  const backLabel = step === 'detail' ? '추천 결과로' : step === 'results' ? '다시 입력' : '홈';
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">
@@ -67,7 +69,7 @@ export default function MajorExplorePage() {
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
           <button onClick={handleBack} className="flex items-center gap-1.5 text-slate-600 hover:text-slate-800 cursor-pointer">
             <ArrowLeft size={18} />
-            <span className="text-sm font-medium">{selectedMajor ? '검색으로' : '홈'}</span>
+            <span className="text-sm font-medium">{backLabel}</span>
           </button>
           <button onClick={() => navigate('/')} className="flex items-center gap-2 cursor-pointer">
             <img src="/butterfly.svg" alt="학점나비" className="w-7 h-7" />
@@ -75,54 +77,91 @@ export default function MajorExplorePage() {
               학점나비
             </span>
           </button>
-          <div className="w-16" /> {/* Spacer */}
+          <div className="w-16" />
         </div>
       </header>
 
       <div className="max-w-lg mx-auto px-4 pb-8">
-        {/* 검색 화면 */}
-        {!selectedMajor && !loading && (
-          <div className="animate-fade-in-up">
-            {/* 히어로 */}
+        {/* Step 1: 입력 */}
+        {step === 'input' && (
+          <div>
             <div className="text-center pt-8 pb-6">
               <div className="inline-flex items-center justify-center w-14 h-14 bg-sky-50 rounded-2xl mb-4">
                 <Compass size={28} className="text-sky-primary" />
               </div>
               <h1 className="text-2xl font-bold text-slate-800">
-                어떤 학과가 궁금하세요?
+                어떤 학과가 나에게 맞을까?
               </h1>
               <p className="text-sm text-slate-500 mt-2">
-                학과를 탐색하고 필요한 과목을 확인해보세요
+                관심사를 알려주면 AI가 맞춤 학과를 추천해드려요
               </p>
             </div>
 
-            <MajorSearchPanel onSelect={handleSelectMajor} />
+            <AIInterestInput
+              school={school}
+              interest={interest}
+              onSchoolChange={setSchool}
+              onInterestChange={setInterest}
+              onSubmit={analyze}
+            />
+
+            {error && (
+              <div className="mt-4 text-center">
+                <p className="text-sm text-red-500">{error}</p>
+              </div>
+            )}
           </div>
         )}
 
-        {/* 로딩 */}
-        {loading && (
-          <div className="flex flex-col items-center justify-center py-20 animate-fade-in-up">
-            <div className="w-10 h-10 border-3 border-sky-primary border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-slate-500 mt-4">학과 정보를 불러오고 있어요...</p>
+        {/* Step 2: 로딩 */}
+        {step === 'loading' && <AILoadingState />}
+
+        {/* Step 3: 추천 결과 */}
+        {step === 'results' && result && (
+          <div>
+            <div className="pt-6 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-xl font-bold text-slate-800">추천 학과</h1>
+                  <p className="text-sm text-slate-500 mt-1">
+                    "{interest}" 관련 {result.recommendations.length}개 학과를 찾았어요
+                  </p>
+                </div>
+                <button
+                  onClick={reset}
+                  className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 cursor-pointer"
+                >
+                  <RotateCcw size={14} />
+                  다시
+                </button>
+              </div>
+            </div>
+
+            <AIRecommendationCards
+              result={result}
+              loading={detailLoading}
+              onSelectMajor={selectMajor}
+            />
+
+            {error && (
+              <div className="mt-4 text-center">
+                <p className="text-sm text-red-500">{error}</p>
+              </div>
+            )}
+
+            {detailLoading && (
+              <div className="mt-4 flex justify-center">
+                <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 shadow-sm border border-slate-100">
+                  <div className="w-4 h-4 border-2 border-sky-primary border-t-transparent rounded-full animate-spin" />
+                  <p className="text-sm text-slate-500">학과 상세 정보를 불러오고 있어요...</p>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
-        {/* 에러 */}
-        {error && !loading && (
-          <div className="text-center py-12">
-            <p className="text-sm text-red-500">{error}</p>
-            <button
-              onClick={() => { setError(''); setSelectedMajor(null); }}
-              className="mt-3 text-sm text-sky-primary hover:underline cursor-pointer"
-            >
-              다시 검색하기
-            </button>
-          </div>
-        )}
-
-        {/* 학과 상세 */}
-        {selectedMajor && !loading && !error && (
+        {/* Step 4: 학과 상세 */}
+        {step === 'detail' && selectedMajor && (
           <div className="animate-fade-in-up">
             {/* 학과명 + 뱃지 */}
             <div className="pt-6 pb-4">
@@ -132,6 +171,11 @@ export default function MajorExplorePage() {
                   <Badge color="sky">{selectedMajor.category}</Badge>
                 )}
               </div>
+              {school && (
+                <p className="text-xs text-slate-400 mt-1.5">
+                  {school.name} 학생을 위한 맞춤 정보
+                </p>
+              )}
             </div>
 
             {/* 탭 */}
