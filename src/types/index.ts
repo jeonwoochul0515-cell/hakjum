@@ -27,6 +27,25 @@ export interface Major {
   qualifications: string;
 }
 
+export interface UniversityFull extends University {
+  schoolURL: string;
+  majorName: string;
+}
+
+export interface MajorFull extends Major {
+  summary: string;
+  property: string;
+  interest: string;
+  mainSubjects: { name: string; desc: string }[];
+  employmentRate: string;
+  salary: string;
+  admissionInfo: string;
+  postGraduation: string;
+  enterField: string;
+  careerActivities: { name: string; desc: string }[];
+  universitiesFull: UniversityFull[];
+}
+
 export interface WizardState {
   school: School | null;
   grade: string;

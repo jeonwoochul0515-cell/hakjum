@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, ArrowRight, Users } from 'lucide-react';
+import { Sparkles, ArrowRight, Users, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useWizard } from '@/context/WizardContext';
 
@@ -129,8 +129,19 @@ export default function HomePage() {
           </p>
         </div>
 
+        {/* Explore CTA */}
+        <div className="mt-4">
+          <button
+            onClick={() => navigate('/explore')}
+            className="w-full py-3 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+          >
+            <Compass size={16} className="text-sky-primary" />
+            아직 학과가 정해지지 않았다면? 학과 탐색하기 →
+          </button>
+        </div>
+
         {/* Parent CTA */}
-        <div className="mt-4 text-center">
+        <div className="mt-3 text-center">
           <button
             onClick={handleStart}
             className="text-sm text-slate-500 hover:text-indigo-primary transition-colors cursor-pointer underline underline-offset-2"
