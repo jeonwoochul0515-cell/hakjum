@@ -27,21 +27,20 @@ export function AIInterestInput({ school, interest, onSchoolChange, onInterestCh
   };
 
   return (
-    <div className="space-y-5 animate-fade-in-up">
+    <div className="space-y-3 animate-fade-in-up">
       {/* 학교 선택 */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          <SchoolIcon size={14} className="inline mr-1.5 -mt-0.5" />
-          내 고등학교
+        <label className="block text-xs font-semibold text-slate-500 mb-1.5">
+          <SchoolIcon size={12} className="inline mr-1 -mt-0.5" />
+          내 고등학교 (선택)
         </label>
 
         {school ? (
-          <div className="flex items-center gap-2 bg-sky-50 border border-sky-200 rounded-xl px-4 py-3">
-            <SchoolIcon size={16} className="text-sky-primary flex-shrink-0" />
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-800 truncate">{school.name}</p>
-              <p className="text-xs text-slate-500">{school.type} · 과목 {school.totalRecords}개</p>
-            </div>
+          <div className="flex items-center gap-2 bg-sky-50 border border-sky-200 rounded-xl px-3 py-2">
+            <SchoolIcon size={14} className="text-sky-primary flex-shrink-0" />
+            <p className="flex-1 min-w-0 text-sm font-medium text-slate-800 truncate">{school.name}
+              <span className="text-xs text-slate-400 font-normal ml-1.5">{school.type}</span>
+            </p>
             <button
               onClick={() => { onSchoolChange(null); setShowSchoolSearch(false); }}
               className="text-slate-400 hover:text-slate-600 cursor-pointer"
@@ -52,9 +51,9 @@ export function AIInterestInput({ school, interest, onSchoolChange, onInterestCh
         ) : (
           <button
             onClick={() => setShowSchoolSearch((v) => !v)}
-            className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-xl px-4 py-3 text-left hover:border-sky-primary/30 transition-all cursor-pointer"
+            className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-xl px-3 py-2 text-left hover:border-sky-primary/30 transition-all cursor-pointer"
           >
-            <span className="text-sm text-slate-400">학교를 선택하면 더 정확한 추천을 받을 수 있어요</span>
+            <span className="text-xs text-slate-400">학교를 선택하면 더 정확한 추천을 받을 수 있어요</span>
             {showSchoolSearch ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
           </button>
         )}
@@ -93,15 +92,15 @@ export function AIInterestInput({ school, interest, onSchoolChange, onInterestCh
 
       {/* 관심사 입력 */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          <Sparkles size={14} className="inline mr-1.5 -mt-0.5" />
-          관심사 또는 하고 싶은 일
+        <label className="block text-xs font-semibold text-slate-500 mb-1.5">
+          <Sparkles size={12} className="inline mr-1 -mt-0.5" />
+          하고 싶은 일 / 관심 분야
         </label>
         <textarea
           value={interest}
           onChange={(e) => onInterestChange(e.target.value)}
-          placeholder="예: 코딩이 재미있고 AI에 관심이 많아요&#10;예: 사람을 돕는 일을 하고 싶어요&#10;예: 경영이나 마케팅 쪽에 관심이 있어요"
-          rows={3}
+          placeholder="예: 코딩이 재미있고 AI에 관심이 많아요 / 사람을 돕는 일을 하고 싶어요"
+          rows={2}
           className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sky-primary/30 focus:border-sky-primary transition-all leading-relaxed"
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -110,16 +109,13 @@ export function AIInterestInput({ school, interest, onSchoolChange, onInterestCh
             }
           }}
         />
-        <p className="text-xs text-slate-400 mt-1.5">
-          자유롭게 적어주세요. AI가 분석해서 맞춤 학과를 추천해드려요
-        </p>
       </div>
 
       {/* 제출 */}
       <button
         onClick={handleSubmit}
         disabled={interest.trim().length < 2}
-        className="w-full py-3.5 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg flex items-center justify-center gap-2"
+        className="w-full py-3 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg flex items-center justify-center gap-2"
       >
         <Sparkles size={16} />
         AI 학과 추천 받기

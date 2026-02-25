@@ -85,16 +85,14 @@ export default function MajorExplorePage() {
         {/* Step 1: 입력 */}
         {step === 'input' && (
           <div>
-            <div className="text-center pt-8 pb-6">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-sky-50 rounded-2xl mb-4">
-                <Compass size={28} className="text-sky-primary" />
+            <div className="flex items-center gap-3 pt-5 pb-4">
+              <div className="inline-flex items-center justify-center w-10 h-10 bg-sky-50 rounded-xl flex-shrink-0">
+                <Compass size={22} className="text-sky-primary" />
               </div>
-              <h1 className="text-2xl font-bold text-slate-800">
-                어떤 학과가 나에게 맞을까?
-              </h1>
-              <p className="text-sm text-slate-500 mt-2">
-                관심사를 알려주면 AI가 맞춤 학과를 추천해드려요
-              </p>
+              <div>
+                <h1 className="text-lg font-bold text-slate-800">어떤 학과가 나에게 맞을까?</h1>
+                <p className="text-xs text-slate-500">관심사를 알려주면 AI가 맞춤 학과를 추천해드려요</p>
+              </div>
             </div>
 
             <AIInterestInput
