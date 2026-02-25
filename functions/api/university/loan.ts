@@ -2,8 +2,17 @@ interface Env {
   DATA_GO_KR_API_KEY: string;
 }
 
+function extractItems(data: unknown): Record<string, unknown>[] {
+  const body = (data as any)?.response?.body;
+  if (!body) return [];
+  const items = body.items;
+  if (!items) return [];
+  if (Array.isArray(items)) return items;
+  if (items.item) return Array.isArray(items.item) ? items.item : [items.item];
+  return [];
+}
+
 // 공공데이터 표준 #160 대학별학자금대출정보
-// GET /api/university/loan?school=학교명
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const apiKey = context.env.DATA_GO_KR_API_KEY;
   if (!apiKey) {
@@ -37,7 +46,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     }
 
     const data = await response.json();
-    const items = data?.response?.body?.items || [];
+    const items = extractItems(data);
 
     return new Response(JSON.stringify({ items }), {
       headers: {
@@ -45,8 +54,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         'Cache-Control': 'public, max-age=86400',
       },
     });
-  } catch {
-    return new Response(JSON.stringify({ error: 'Failed to fetch loan data', items: [] }), {
+  } catch (err) {
+    return new Response(JSON.stringify({ error: 'Failed to fetch loan data', details: String(err), items: [] }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
