@@ -14,12 +14,14 @@ export interface EnrollmentInfo {
   degreeType: string; // 학위과정명 (degCrseCrsNm)
 }
 
-// 공공데이터 표준 #158 대학별평균등록금정보 + #159 대학별장학금정보
+// 공공데이터 표준 #158 대학별평균등록금정보 + #159 대학별장학금정보 + #160 대학별학자금대출정보
 export interface UniversityStats {
   schoolName: string;
   tuitionAvg?: number; // 평균등록금 (원) (avgRegAmt)
   entranceFee?: number; // 평균입학금 (원) (avgMtcltnAmt)
   scholarshipTotal?: number; // 장학금 총액 (원) (합산)
+  loanTotal?: number; // 학자금대출 총액 (원) (합산)
+  loanCount?: number; // 학자금대출 인원수
   foundationType?: string; // 설립형태 (fndnFormSeNm)
 }
 
@@ -76,9 +78,10 @@ export async function getUniversityStats(schoolNames: string[]): Promise<Univers
   if (schoolNames.length === 0) return [];
 
   try {
-    const [tuiRes, schRes] = await Promise.allSettled([
+    const [tuiRes, schRes, loanRes] = await Promise.allSettled([
       fetch('/api/university/tuition'),
       fetch('/api/university/scholarship'),
+      fetch('/api/university/loan'),
     ]);
 
     const tuiItems: RawItem[] = tuiRes.status === 'fulfilled' && tuiRes.value.ok
@@ -86,6 +89,9 @@ export async function getUniversityStats(schoolNames: string[]): Promise<Univers
       : [];
     const schItems: RawItem[] = schRes.status === 'fulfilled' && schRes.value.ok
       ? (await schRes.value.json())?.items || []
+      : [];
+    const loanItems: RawItem[] = loanRes.status === 'fulfilled' && loanRes.value.ok
+      ? (await loanRes.value.json())?.items || []
       : [];
 
     // 학교명 매칭용 (간략화)
@@ -121,6 +127,23 @@ export async function getUniversityStats(schoolNames: string[]): Promise<Univers
       if (amount > 0) {
         const existing = statsMap.get(name) || { schoolName: name };
         existing.scholarshipTotal = (existing.scholarshipTotal || 0) + amount;
+        statsMap.set(name, existing);
+      }
+    }
+
+    // 학자금대출 (학교별 합산 - 대학만)
+    for (const item of loanItems) {
+      const name = field(item, 'univNm').replace(/\(.*\)\s*학부$/, '').trim();
+      const univType = field(item, 'univSeNm');
+      if (!name || !matches(name) || univType !== '대학') continue;
+      const totalAmt = parseInt(field(item, 'genrlrpmtWholloanAmt') || '0', 10)
+        + parseInt(field(item, 'emplymtRpmtWholloanAmt') || '0', 10);
+      const totalCnt = parseInt(field(item, 'genrlrpmtWholloanNopeCnt') || '0', 10)
+        + parseInt(field(item, 'emplymtRpmtWholloanNopeCnt') || '0', 10);
+      if (totalAmt > 0) {
+        const existing = statsMap.get(name) || { schoolName: name };
+        existing.loanTotal = (existing.loanTotal || 0) + totalAmt;
+        existing.loanCount = (existing.loanCount || 0) + totalCnt;
         statsMap.set(name, existing);
       }
     }

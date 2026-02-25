@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Compass, RotateCcw } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useWizard } from '@/context/WizardContext';
 import { useExploreAI } from '@/hooks/useExploreAI';
 import { AIInterestInput } from '@/components/explore/AIInterestInput';
@@ -9,8 +9,12 @@ import { MajorOverviewCard } from '@/components/explore/MajorOverviewCard';
 import { UniversityGrid } from '@/components/explore/UniversityGrid';
 import { CareerOutcomeSection } from '@/components/explore/CareerOutcomeSection';
 import { RequiredSubjectsView } from '@/components/explore/RequiredSubjectsView';
+import { ShareButton } from '@/components/explore/ShareButton';
+import { FavoriteButton } from '@/components/explore/FavoriteButton';
+import { RecentSearches } from '@/components/explore/RecentSearches';
 import { Badge } from '@/components/ui/Badge';
-import { useState } from 'react';
+import { addSearchHistory } from '@/lib/history';
+import { useState, useEffect, useCallback } from 'react';
 
 type Tab = 'overview' | 'university' | 'career' | 'subjects';
 
@@ -42,7 +46,21 @@ export default function MajorExplorePage() {
     reset,
   } = useExploreAI();
 
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<Tab>('overview');
+
+  // 공유 링크로 진입 시 자동 분석
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q && step === 'input' && !interest) {
+      setInterest(q);
+      // URL 파라미터 정리
+      setSearchParams({}, { replace: true });
+      // 다음 틱에 분석 실행
+      const timer = setTimeout(() => analyze(), 100);
+      return () => clearTimeout(timer);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const switchTab = (tab: Tab) => {
     setActiveTab(tab);
@@ -66,6 +84,21 @@ export default function MajorExplorePage() {
     dispatch({ type: 'SET_CAREER_GOAL', payload: selectedMajor.name });
     navigate('/school');
   };
+
+  const analyzeWithHistory = useCallback(async () => {
+    if (interest.trim()) addSearchHistory(interest.trim(), school?.name);
+    return analyze();
+  }, [analyze, interest, school]);
+
+  const handleRecentSelect = useCallback((q: string) => {
+    setInterest(q);
+    addSearchHistory(q, school?.name);
+    setTimeout(() => analyze(), 50);
+  }, [analyze, school, setInterest]);
+
+  const handleFavoriteMajorSelect = useCallback((majorName: string, category: string) => {
+    selectMajor(majorName, category);
+  }, [selectMajor]);
 
   const backLabel = step === 'detail' ? '추천 결과로' : step === 'results' ? '다시 입력' : '홈';
 
@@ -107,7 +140,7 @@ export default function MajorExplorePage() {
               interest={interest}
               onSchoolChange={setSchool}
               onInterestChange={setInterest}
-              onSubmit={analyze}
+              onSubmit={analyzeWithHistory}
             />
 
             {error && (
@@ -115,6 +148,11 @@ export default function MajorExplorePage() {
                 <p className="text-sm text-red-500">{error}</p>
               </div>
             )}
+
+            <RecentSearches
+              onSelectInterest={handleRecentSelect}
+              onSelectMajor={handleFavoriteMajorSelect}
+            />
           </div>
         )}
 
@@ -132,13 +170,16 @@ export default function MajorExplorePage() {
                     "{interest}" 관련 {result.recommendations.length}개 학과를 찾았어요
                   </p>
                 </div>
-                <button
-                  onClick={reset}
-                  className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 cursor-pointer"
-                >
-                  <RotateCcw size={14} />
-                  다시
-                </button>
+                <div className="flex items-center gap-3">
+                  <ShareButton interest={interest} />
+                  <button
+                    onClick={reset}
+                    className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 cursor-pointer"
+                  >
+                    <RotateCcw size={14} />
+                    다시
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -170,11 +211,17 @@ export default function MajorExplorePage() {
           <div className="animate-fade-in-up">
             {/* 학과명 + 뱃지 */}
             <div className="pt-6 pb-4">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-2xl font-bold text-slate-800">{selectedMajor.name}</h1>
-                {selectedMajor.category && (
-                  <Badge color="sky">{selectedMajor.category}</Badge>
-                )}
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h1 className="text-2xl font-bold text-slate-800">{selectedMajor.name}</h1>
+                  {selectedMajor.category && (
+                    <Badge color="sky">{selectedMajor.category}</Badge>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <FavoriteButton majorName={selectedMajor.name} category={selectedMajor.category || ''} interest={interest} />
+                  <ShareButton interest={interest} majorName={selectedMajor.name} />
+                </div>
               </div>
               {school && (
                 <p className="text-xs text-slate-400 mt-1.5">

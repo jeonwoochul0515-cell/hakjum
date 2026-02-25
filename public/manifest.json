@@ -1,0 +1,18 @@
+{
+  "name": "학점나비 - AI 맞춤 과목 추천",
+  "short_name": "학점나비",
+  "description": "고교학점제 AI 맞춤 과목 추천 서비스",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f9ff",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/butterfly.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
