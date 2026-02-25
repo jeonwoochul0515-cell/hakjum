@@ -104,12 +104,13 @@ export function useFlow() {
       const prompt = buildPrompt(wizardCompat);
       const result = await callClaudeAPI(prompt);
       dispatch({ type: 'SET_RECOMMENDATION', payload: result });
-    } catch {
+    } catch (err) {
+      console.error('[runRecommendation] AI failed, using fallback:', err);
       try {
         const result = fallbackRecommend(wizardCompat);
         dispatch({ type: 'SET_RECOMMENDATION', payload: result });
-      } catch {
-        // stay on subject-match step with null result (shows error)
+      } catch (fbErr) {
+        console.error('[runRecommendation] Fallback also failed:', fbErr);
       }
     }
   }, [state.school, state.selectedMajor, state.grade, state.interest, state.tags, dispatch]);
