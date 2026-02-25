@@ -1,3 +1,5 @@
+import type { EnrollmentInfo, UniversityStats } from '@/lib/university-api';
+
 export interface School {
   id: string;
   name: string;
@@ -111,6 +113,48 @@ export interface ShareableResult {
   topSubjects: string[];
   timestamp: number;
 }
+
+// ── 통합 플로우 ──
+
+export type FlowStep =
+  | 'school-select'
+  | 'interest-input'
+  | 'ai-loading'
+  | 'major-results'
+  | 'major-detail'
+  | 'university-list'
+  | 'university-detail'
+  | 'subject-match';
+
+export interface FlowState {
+  currentStep: FlowStep;
+  stepHistory: FlowStep[];
+  school: School | null;
+  grade: string;
+  interest: string;
+  tags: string[];
+  exploreResult: AIExploreResult | null;
+  selectedMajor: MajorFull | null;
+  enrollment: EnrollmentInfo[];
+  universityStats: UniversityStats[];
+  selectedUniversity: UniversityFull | null;
+  recommendationResult: RecommendationResult | null;
+}
+
+export type FlowAction =
+  | { type: 'GO'; payload: FlowStep }
+  | { type: 'BACK' }
+  | { type: 'SET_SCHOOL'; payload: School }
+  | { type: 'SET_GRADE'; payload: string }
+  | { type: 'SET_INTEREST'; payload: string }
+  | { type: 'TOGGLE_TAG'; payload: string }
+  | { type: 'SET_EXPLORE_RESULT'; payload: AIExploreResult }
+  | { type: 'SET_SELECTED_MAJOR'; payload: MajorFull }
+  | { type: 'SET_ENROLLMENT'; payload: EnrollmentInfo[] }
+  | { type: 'SET_UNIVERSITY_STATS'; payload: UniversityStats[] }
+  | { type: 'SET_SELECTED_UNIVERSITY'; payload: UniversityFull }
+  | { type: 'SET_RECOMMENDATION'; payload: RecommendationResult }
+  | { type: 'RESET' };
 
 // AI 학과 탐색 추천 결과
 export interface AIExploreRecommendation {

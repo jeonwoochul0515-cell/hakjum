@@ -1,11 +1,8 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
-const MajorExplorePage = lazy(() => import('@/pages/MajorExplorePage'));
-const SchoolSelectPage = lazy(() => import('@/pages/SchoolSelectPage'));
-const CareerInputPage = lazy(() => import('@/pages/CareerInputPage'));
-const RecommendationPage = lazy(() => import('@/pages/RecommendationPage'));
+const FlowPage = lazy(() => import('@/pages/FlowPage'));
 
 function PageLoader() {
   return (
@@ -23,10 +20,12 @@ export default function App() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/explore" element={<MajorExplorePage />} />
-        <Route path="/school" element={<SchoolSelectPage />} />
-        <Route path="/career" element={<CareerInputPage />} />
-        <Route path="/recommendation" element={<RecommendationPage />} />
+        <Route path="/flow" element={<FlowPage />} />
+        {/* Legacy redirects */}
+        <Route path="/explore" element={<Navigate to="/flow" replace />} />
+        <Route path="/school" element={<Navigate to="/flow" replace />} />
+        <Route path="/career" element={<Navigate to="/flow" replace />} />
+        <Route path="/recommendation" element={<Navigate to="/flow" replace />} />
       </Routes>
     </Suspense>
   );

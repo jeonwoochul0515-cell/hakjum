@@ -52,7 +52,7 @@ export default function HomePage() {
 
   const handleStart = () => {
     incrementUsageCount();
-    navigate('/explore');
+    navigate('/flow');
   };
 
   return (
@@ -64,7 +64,7 @@ export default function HomePage() {
             <p className="text-sm font-medium text-slate-700">지난번에 받은 추천이 있어요!</p>
             <div className="flex gap-2 mt-2">
               <button
-                onClick={() => navigate('/recommendation')}
+                onClick={() => navigate('/flow')}
                 className="px-3 py-1.5 text-sm font-medium text-sky-primary bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors cursor-pointer"
               >
                 다시 보기

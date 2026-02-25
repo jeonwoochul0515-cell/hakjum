@@ -1,0 +1,75 @@
+import { Sparkles } from 'lucide-react';
+import { GradeSelector } from '@/components/career/GradeSelector';
+import { QuickTag } from '@/components/career/QuickTag';
+import { RecentSearches } from '@/components/explore/RecentSearches';
+import { useFlow } from '@/hooks/useFlow';
+
+export function InterestInputStep() {
+  const { state, dispatch, analyze, selectMajor } = useFlow();
+
+  const canProceed = state.interest.trim().length >= 2 || state.tags.length > 0;
+
+  const handleRecentSelect = (q: string) => {
+    dispatch({ type: 'SET_INTEREST', payload: q });
+    setTimeout(() => analyze(), 50);
+  };
+
+  return (
+    <div className="space-y-5 animate-fade-in-up">
+      <div>
+        <h1 className="text-xl font-bold text-slate-800">어떤 꿈을 꾸고 있나요?</h1>
+        <p className="text-sm text-slate-500 mt-1">관심사를 알려주면 AI가 맞춤 학과를 추천해드려요</p>
+      </div>
+
+      {/* 학년 */}
+      <GradeSelector
+        value={state.grade}
+        onChange={(g) => dispatch({ type: 'SET_GRADE', payload: g })}
+      />
+
+      {/* 관심 분야 태그 */}
+      <QuickTag
+        tags={state.tags}
+        selected={state.tags}
+        onToggle={(tag) => dispatch({ type: 'TOGGLE_TAG', payload: tag })}
+      />
+
+      {/* 자유 텍스트 */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-500 mb-1.5">
+          <Sparkles size={12} className="inline mr-1 -mt-0.5" />
+          장래희망 / 관심 분야 (선택)
+        </label>
+        <textarea
+          value={state.interest}
+          onChange={(e) => dispatch({ type: 'SET_INTEREST', payload: e.target.value })}
+          placeholder="예: 코딩이 재미있고 AI에 관심이 많아요 / 사람을 돕는 일을 하고 싶어요"
+          rows={2}
+          className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-sky-primary/30 focus:border-sky-primary transition-all leading-relaxed"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              if (canProceed) analyze();
+            }
+          }}
+        />
+      </div>
+
+      {/* CTA */}
+      <button
+        onClick={analyze}
+        disabled={!canProceed}
+        className="w-full py-3.5 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-lg flex items-center justify-center gap-2"
+      >
+        <Sparkles size={16} />
+        AI 학과 추천 받기
+      </button>
+
+      {/* 최근 검색 */}
+      <RecentSearches
+        onSelectInterest={handleRecentSelect}
+        onSelectMajor={(name, cat) => selectMajor(name, cat)}
+      />
+    </div>
+  );
+}

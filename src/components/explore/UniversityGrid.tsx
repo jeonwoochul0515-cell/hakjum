@@ -7,9 +7,10 @@ interface Props {
   universities: UniversityFull[];
   enrollment?: EnrollmentInfo[];
   universityStats?: UniversityStats[];
+  onSelectUniversity?: (university: UniversityFull) => void;
 }
 
-export function UniversityGrid({ universities, enrollment = [], universityStats = [] }: Props) {
+export function UniversityGrid({ universities, enrollment = [], universityStats = [], onSelectUniversity }: Props) {
   const [expandedSchool, setExpandedSchool] = useState<string | null>(null);
 
   // 정원 데이터를 학교명으로 매핑
@@ -222,6 +223,14 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           <p className="text-[11px] font-medium text-slate-600 mb-1">관련 직업</p>
                           <p className="text-[11px] text-slate-500 leading-relaxed">{info.relatedJobs}</p>
                         </div>
+                      )}
+                      {onSelectUniversity && (
+                        <button
+                          onClick={(e) => { e.stopPropagation(); onSelectUniversity(u); }}
+                          className="w-full mt-1 py-1.5 text-xs font-medium text-sky-primary hover:bg-sky-50 rounded-lg transition-colors cursor-pointer"
+                        >
+                          상세 보기 →
+                        </button>
                       )}
                     </div>
                   )}
