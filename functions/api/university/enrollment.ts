@@ -32,8 +32,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const schoolName = url.searchParams.get('school') || '';
   const numOfRows = url.searchParams.get('limit') || '500';
 
+  // serviceKey는 URLSearchParams에 넣으면 이중 인코딩됨 → 직접 URL에 붙임
   const params = new URLSearchParams({
-    serviceKey: apiKey,
     pageNo: '1',
     numOfRows,
     type: 'json',
@@ -42,7 +42,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   if (majorName) params.set('scsbjtNm', majorName);
   if (schoolName) params.set('schlNm', schoolName);
 
-  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_major_api?${params}`;
+  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_major_api?serviceKey=${encodeURIComponent(apiKey)}&${params}`;
 
   try {
     const response = await fetch(apiUrl);
