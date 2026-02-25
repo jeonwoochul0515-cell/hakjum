@@ -1,5 +1,7 @@
-import { createContext, useContext, useReducer, type ReactNode } from 'react';
+import { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
 import type { WizardState, WizardAction } from '@/types';
+
+const STORAGE_KEY = 'hakjum-wizard';
 
 const initialState: WizardState = {
   school: null,
@@ -7,7 +9,23 @@ const initialState: WizardState = {
   careerGoal: '',
   tags: [],
   targetMajor: null,
+  checkedSubjects: [],
+  lastResult: null,
 };
+
+function loadFromStorage(): Partial<WizardState> | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch { /* ignore */ }
+  return null;
+}
+
+function saveToStorage(state: WizardState) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch { /* ignore */ }
+}
 
 function wizardReducer(state: WizardState, action: WizardAction): WizardState {
   switch (action.type) {
@@ -26,8 +44,19 @@ function wizardReducer(state: WizardState, action: WizardAction): WizardState {
     }
     case 'SET_TARGET_MAJOR':
       return { ...state, targetMajor: action.payload };
+    case 'TOGGLE_CHECKED_SUBJECT': {
+      const subj = action.payload;
+      const checkedSubjects = state.checkedSubjects.includes(subj)
+        ? state.checkedSubjects.filter((s) => s !== subj)
+        : [...state.checkedSubjects, subj];
+      return { ...state, checkedSubjects };
+    }
+    case 'SAVE_RESULT':
+      return { ...state, lastResult: action.payload };
+    case 'HYDRATE':
+      return { ...state, ...action.payload };
     case 'RESET':
-      return initialState;
+      return { ...initialState, lastResult: state.lastResult };
     default:
       return state;
   }
@@ -41,7 +70,15 @@ interface WizardContextType {
 const WizardContext = createContext<WizardContextType | null>(null);
 
 export function WizardProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(wizardReducer, initialState);
+  const [state, dispatch] = useReducer(wizardReducer, initialState, () => {
+    const saved = loadFromStorage();
+    return saved ? { ...initialState, ...saved } : initialState;
+  });
+
+  useEffect(() => {
+    saveToStorage(state);
+  }, [state]);
+
   return (
     <WizardContext.Provider value={{ state, dispatch }}>
       {children}

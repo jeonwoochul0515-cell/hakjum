@@ -33,6 +33,8 @@ export interface WizardState {
   careerGoal: string;
   tags: string[];
   targetMajor: Major | null;
+  checkedSubjects: string[];
+  lastResult: RecommendationResult | null;
 }
 
 export type WizardAction =
@@ -41,6 +43,9 @@ export type WizardAction =
   | { type: 'SET_CAREER_GOAL'; payload: string }
   | { type: 'TOGGLE_TAG'; payload: string }
   | { type: 'SET_TARGET_MAJOR'; payload: Major | null }
+  | { type: 'TOGGLE_CHECKED_SUBJECT'; payload: string }
+  | { type: 'SAVE_RESULT'; payload: RecommendationResult }
+  | { type: 'HYDRATE'; payload: Partial<WizardState> }
   | { type: 'RESET' };
 
 export interface SubjectRecommendation {
@@ -73,4 +78,15 @@ export interface RecommendationResult {
   source: 'ai' | 'fallback';
   subjectMatches?: SubjectMatch[];
   admissionInfo?: AdmissionInfo;
+}
+
+export interface ShareableResult {
+  schoolName: string;
+  grade: string;
+  careerGoal: string;
+  tags: string[];
+  majorName?: string;
+  matchRate: number;
+  topSubjects: string[];
+  timestamp: number;
 }

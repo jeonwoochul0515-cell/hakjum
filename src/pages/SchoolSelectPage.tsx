@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight, TrendingUp } from 'lucide-react';
 import { AppShell } from '@/components/layout/AppShell';
 import { SchoolSearch } from '@/components/school/SchoolSearch';
 import { SchoolCard } from '@/components/school/SchoolCard';
@@ -6,18 +7,24 @@ import { SubjectPreview } from '@/components/school/SubjectPreview';
 import { Button } from '@/components/ui/Button';
 import { useSchoolSearch } from '@/hooks/useSchoolSearch';
 import { useWizard } from '@/context/WizardContext';
+import { schools } from '@/data/schools';
+
+const popularSchoolIds = schools.slice(0, 5).map(s => s.id);
 
 export default function SchoolSelectPage() {
   const navigate = useNavigate();
   const { state, dispatch } = useWizard();
   const { query, setQuery, typeFilter, setTypeFilter, filtered, types } = useSchoolSearch();
 
+  const showPopular = !query && typeFilter === '전체';
+  const popularSchools = schools.filter(s => popularSchoolIds.includes(s.id));
+
   return (
     <AppShell step={1}>
       <div className="space-y-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-800">학교를 선택하세요</h1>
-          <p className="text-sm text-slate-500 mt-1">부산 지역 고등학교의 실제 개설과목을 기반으로 추천합니다</p>
+          <h1 className="text-xl font-bold text-slate-800">내 학교의 숨겨진 과목들, 확인해볼까요?</h1>
+          <p className="text-sm text-slate-500 mt-1">학교마다 개설과목이 다릅니다. 내 학교에는 어떤 과목이 있을까요?</p>
         </div>
 
         <SchoolSearch query={query} onQueryChange={setQuery} />
@@ -39,11 +46,19 @@ export default function SchoolSelectPage() {
           ))}
         </div>
 
+        {/* Popular schools hint */}
+        {showPopular && !state.school && (
+          <div className="flex items-center gap-2 text-xs text-slate-400">
+            <TrendingUp size={14} />
+            <span>자주 검색되는 학교</span>
+          </div>
+        )}
+
         <p className="text-xs text-slate-400">{filtered.length}개 학교</p>
 
         {/* School list */}
         <div className="space-y-2 max-h-[40vh] overflow-y-auto">
-          {filtered.map((school) => (
+          {(showPopular && !state.school ? popularSchools : filtered).map((school) => (
             <SchoolCard
               key={school.id}
               school={school}
@@ -56,6 +71,15 @@ export default function SchoolSelectPage() {
           )}
         </div>
 
+        {/* Selection celebration */}
+        {state.school && (
+          <div className="bg-green-50 rounded-xl p-3 border border-green-200 animate-fade-in-up">
+            <p className="text-sm text-green-700 font-medium">
+              ✓ {state.school.name} 선택됨! {state.school.allSubjects.length}개 과목 중 딱 맞는 과목을 찾아볼게요
+            </p>
+          </div>
+        )}
+
         {/* Subject preview */}
         {state.school && <SubjectPreview school={state.school} />}
 
@@ -66,7 +90,8 @@ export default function SchoolSelectPage() {
           disabled={!state.school}
           onClick={() => navigate('/career')}
         >
-          다음 단계로
+          내 진로 입력하기
+          <ArrowRight size={18} className="ml-2" />
         </Button>
       </div>
     </AppShell>
