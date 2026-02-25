@@ -69,10 +69,12 @@ export default function RecommendationPage() {
   // Calculate match rate from subjectMatches
   const matchRate = useMemo(() => {
     if (!result?.subjectMatches || result.subjectMatches.length === 0) {
-      // Estimate from tier counts
+      // 폴백은 과목 수 기준으로 적당한 매칭률 계산
       if (!result) return 0;
-      const total = result.tiers.reduce((sum, t) => sum + t.subjects.length, 0);
-      return total > 0 ? Math.min(95, Math.round(60 + total * 2.5)) : 0;
+      const essential = result.tiers.find(t => t.tier === 'essential')?.subjects.length || 0;
+      const recommended = result.tiers.find(t => t.tier === 'strongly_recommended')?.subjects.length || 0;
+      // essential 5개 + recommended 5개 = 최대 10 → 100%
+      return Math.min(90, Math.round((essential + recommended * 0.7) * 10));
     }
     const available = result.subjectMatches.filter(m => m.status === 'available').length;
     const total = result.subjectMatches.length;
