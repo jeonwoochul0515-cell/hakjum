@@ -109,7 +109,9 @@ function fallbackExploreRecommend(interest: string): AIExploreResult {
     const keywordMap: Record<string, string[]> = {
       '컴퓨터공학과': ['코딩', '프로그래밍', '개발', 'ai', '인공지능', '소프트웨어', '앱', '게임', '해킹', '보안', '데이터', '컴퓨터', '웹', '서버', '알고리즘'],
       '간호학과': ['간호', '병원', '환자', '돌봄', '의료', '건강', '헌신', '봉사'],
-      '의예과(의학과)': ['의사', '의대', '의학', '수술', '치료', '생명', '진단'],
+      '의예과(의학과)': ['의사', '의대', '의학', '수술', '치료', '생명', '진단', '병원', '환자', '진료', '내과', '외과', '소아과', '의료'],
+      '치의예과(치의학과)': ['치과', '치의', '치아', '구강', '교정'],
+      '한의예과(한의학과)': ['한의사', '한의', '한방', '침', '한약', '보약'],
       '경영학과': ['경영', '사업', '창업', '마케팅', '회사', '기업', 'ceo', '비즈니스', '리더', '장교', '군인', '지휘', '관리', '조직', '인사', '전략'],
       '법학과': ['법', '변호사', '판사', '검사', '법률', '정의', '인권', '범죄', '수사', '공무원', '공직', '장교', '군법'],
       '교육학과': ['교사', '선생님', '교육', '가르치', '아이', '학생', '훈련', '교관'],
@@ -153,6 +155,10 @@ function fallbackExploreRecommend(interest: string): AIExploreResult {
         keywords: ['환경', '기후', '에너지', '지구', '생태', '동물', '식물'],
         boostMajors: { '전기·전자공학과': 15, '약학과': 10 },
       },
+      {
+        keywords: ['의사', '의대', '의학', '병원', '수술', '치료', '진료', '환자', '의료'],
+        boostMajors: { '의예과(의학과)': 25, '간호학과': 20, '약학과': 15 },
+      },
     ];
 
     for (const { keywords: kws, boostMajors } of indirectKeywords) {
@@ -174,7 +180,11 @@ function fallbackExploreRecommend(interest: string): AIExploreResult {
   });
 
   scored.sort((a, b) => b.score - a.score);
-  const top = scored.slice(0, 4).filter((s) => s.score >= 30);
+  // 기본 점수(30)보다 높은 것만 포함, 최소 1개는 보장
+  const relevant = scored.filter((s) => s.score > 30);
+  const top = relevant.length > 0
+    ? relevant.slice(0, 5)
+    : scored.slice(0, 3);
 
   const recommendations: AIExploreRecommendation[] = top.map(({ major, score }) => ({
     majorName: major.name,
