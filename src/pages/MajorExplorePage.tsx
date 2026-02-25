@@ -30,6 +30,7 @@ export default function MajorExplorePage() {
     interest,
     result,
     selectedMajor,
+    enrollment,
     detailLoading,
     error,
     setSchool,
@@ -199,7 +200,7 @@ export default function MajorExplorePage() {
             )}
 
             {activeTab === 'university' && (
-              <UniversityGrid universities={selectedMajor.universitiesFull} />
+              <UniversityGrid universities={selectedMajor.universitiesFull} enrollment={enrollment} />
             )}
 
             {activeTab === 'career' && (

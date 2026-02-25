@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import type { School, AIExploreResult, MajorFull } from '@/types';
+import type { EnrollmentInfo } from '@/lib/university-api';
 import { getExploreRecommendations } from '@/lib/explore-ai';
 import { getMajorFullAPI, searchMajorsAPI } from '@/lib/career-api';
+import { getEnrollmentAPI } from '@/lib/university-api';
 
 export type ExploreStep = 'input' | 'loading' | 'results' | 'detail';
 
@@ -11,6 +13,7 @@ interface UseExploreAIReturn {
   interest: string;
   result: AIExploreResult | null;
   selectedMajor: MajorFull | null;
+  enrollment: EnrollmentInfo[];
   detailLoading: boolean;
   error: string;
   setSchool: (school: School | null) => void;
@@ -27,6 +30,7 @@ export function useExploreAI(): UseExploreAIReturn {
   const [interest, setInterest] = useState('');
   const [result, setResult] = useState<AIExploreResult | null>(null);
   const [selectedMajor, setSelectedMajor] = useState<MajorFull | null>(null);
+  const [enrollment, setEnrollment] = useState<EnrollmentInfo[]>([]);
   const [detailLoading, setDetailLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -47,8 +51,8 @@ export function useExploreAI(): UseExploreAIReturn {
   const selectMajor = useCallback(async (majorName: string, category: string) => {
     setDetailLoading(true);
     setError('');
+    setEnrollment([]);
     try {
-      // CareerNet API에서 학과 검색 → 상세 정보 로드
       const searchResults = await searchMajorsAPI(majorName, category);
       const match = searchResults.find(
         (m) => m.name === majorName || m.name.includes(majorName) || majorName.includes(m.name)
@@ -59,6 +63,9 @@ export function useExploreAI(): UseExploreAIReturn {
         full.category = match.category || category || full.category;
         setSelectedMajor(full);
         setStep('detail');
+
+        // 학과 정원 데이터 비동기 로드 (실패해도 무시)
+        getEnrollmentAPI(match.name).then(setEnrollment).catch(() => {});
       } else {
         setError('학과 상세 정보를 찾지 못했어요.');
       }
@@ -71,6 +78,7 @@ export function useExploreAI(): UseExploreAIReturn {
 
   const backToResults = useCallback(() => {
     setSelectedMajor(null);
+    setEnrollment([]);
     setError('');
     setStep('results');
   }, []);
@@ -81,6 +89,7 @@ export function useExploreAI(): UseExploreAIReturn {
     setInterest('');
     setResult(null);
     setSelectedMajor(null);
+    setEnrollment([]);
     setError('');
   }, []);
 
@@ -90,6 +99,7 @@ export function useExploreAI(): UseExploreAIReturn {
     interest,
     result,
     selectedMajor,
+    enrollment,
     detailLoading,
     error,
     setSchool,

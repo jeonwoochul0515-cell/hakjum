@@ -1,11 +1,18 @@
-import { MapPin, ExternalLink } from 'lucide-react';
+import { MapPin, ExternalLink, Users } from 'lucide-react';
 import type { UniversityFull } from '@/types';
+import type { EnrollmentInfo } from '@/lib/university-api';
 
 interface Props {
   universities: UniversityFull[];
+  enrollment?: EnrollmentInfo[];
 }
 
-export function UniversityGrid({ universities }: Props) {
+export function UniversityGrid({ universities, enrollment = [] }: Props) {
+  // 정원 데이터를 학교명으로 매핑
+  const enrollmentMap = new Map<string, number>();
+  for (const e of enrollment) {
+    enrollmentMap.set(e.schoolName, e.enrollmentQuota);
+  }
   // 지역별 그룹핑: 부산 → 서울 → 나머지 가나다순
   const grouped = new Map<string, UniversityFull[]>();
   for (const u of universities) {
@@ -67,9 +74,17 @@ export function UniversityGrid({ universities }: Props) {
                     </a>
                   )}
                 </div>
-                <span className={`inline-block mt-1.5 px-1.5 py-0.5 rounded text-[10px] font-medium ${areaColorMap[area] || 'bg-gray-100 text-gray-600'}`}>
-                  {area}
-                </span>
+                <div className="flex items-center gap-1.5 mt-1.5">
+                  <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${areaColorMap[area] || 'bg-gray-100 text-gray-600'}`}>
+                    {area}
+                  </span>
+                  {enrollmentMap.has(u.name) && (
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-green-50 text-green-600 text-[10px] font-medium">
+                      <Users size={9} />
+                      {enrollmentMap.get(u.name)}명
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
           </div>

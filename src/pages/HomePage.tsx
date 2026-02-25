@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, ArrowRight, Users, Compass } from 'lucide-react';
+import { Sparkles, ArrowRight, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useWizard } from '@/context/WizardContext';
 
@@ -52,7 +52,7 @@ export default function HomePage() {
 
   const handleStart = () => {
     incrementUsageCount();
-    navigate('/school');
+    navigate('/explore');
   };
 
   return (
@@ -129,17 +129,6 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Explore CTA */}
-        <div className="mt-4">
-          <button
-            onClick={() => navigate('/explore')}
-            className="w-full py-3 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:border-slate-300 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
-          >
-            <Compass size={16} className="text-sky-primary" />
-            아직 학과가 정해지지 않았다면? 학과 탐색하기 →
-          </button>
-        </div>
-
         {/* Parent CTA */}
         <div className="mt-3 text-center">
           <button
@@ -170,9 +159,9 @@ export default function HomePage() {
         <div className="mt-10 space-y-3">
           <h2 className="text-xs font-bold text-slate-400 text-center uppercase tracking-wider">이용 방법</h2>
           {[
-            { step: 1, title: '내 학교 선택', desc: '개설과목을 자동으로 불러와요' },
-            { step: 2, title: '진로·꿈 입력', desc: '관심 분야만 골라도 OK' },
-            { step: 3, title: 'AI 맞춤 추천', desc: '최적 과목 조합을 바로 확인' },
+            { step: 1, title: '관심사 입력', desc: '하고 싶은 일을 자유롭게 적어요' },
+            { step: 2, title: 'AI 학과 추천', desc: '맞춤 학과 + 대학교를 추천받아요' },
+            { step: 3, title: '맞춤 과목 확인', desc: '내 학교 과목과 매칭해줘요' },
           ].map(({ step, title, desc }) => (
             <div key={step} className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm border border-slate-100">
               <div className="w-9 h-9 rounded-full bg-gradient-to-r from-sky-primary to-indigo-primary text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
