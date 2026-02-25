@@ -3,8 +3,6 @@ interface Env {
 }
 
 // data.go.kr 응답에서 items 배열 추출 (두 가지 형식 모두 처리)
-// 형식1: response.body.items = [ ... ]
-// 형식2: response.body.items = { item: [ ... ] } 또는 { item: { ... } }
 function extractItems(data: unknown): Record<string, unknown>[] {
   const body = (data as any)?.response?.body;
   if (!body) return [];
@@ -12,10 +10,7 @@ function extractItems(data: unknown): Record<string, unknown>[] {
   const items = body.items;
   if (!items) return [];
 
-  // 형식1: items가 배열
   if (Array.isArray(items)) return items;
-
-  // 형식2: items.item이 배열
   if (items.item) {
     return Array.isArray(items.item) ? items.item : [items.item];
   }
@@ -63,27 +58,26 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     try {
       data = JSON.parse(raw);
     } catch {
-      // data.go.kr가 XML로 응답한 경우
-      return new Response(JSON.stringify({ error: 'Non-JSON response', rawSnippet: raw.slice(0, 500), items: [] }), {
+      return new Response(JSON.stringify({ error: 'Non-JSON response', rawSnippet: raw.slice(0, 300), items: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const header = (data as any)?.response?.header;
+    if (header?.resultCode && header.resultCode !== '00') {
+      return new Response(JSON.stringify({ error: header.resultMsg || 'API error', resultCode: header.resultCode, items: [] }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
     const items = extractItems(data);
-    const header = (data as any)?.response?.header;
 
-    return new Response(JSON.stringify({
-      items,
-      totalCount: (data as any)?.response?.body?.totalCount,
-      resultCode: header?.resultCode,
-      resultMsg: header?.resultMsg,
-      _debug_bodyKeys: Object.keys((data as any)?.response?.body || {}),
-      _debug_itemsType: typeof (data as any)?.response?.body?.items,
-    }), {
+    return new Response(JSON.stringify({ items, totalCount: (data as any)?.response?.body?.totalCount }), {
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'public, max-age=86400',
       },
     });
   } catch (err) {

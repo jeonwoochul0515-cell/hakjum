@@ -165,12 +165,6 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           {Math.round(stats.tuitionAvg / 10000).toLocaleString()}만원
                         </span>
                       )}
-                      {stats?.scholarshipTotal && (
-                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-sky-50 text-sky-600 text-[10px] font-medium">
-                          <GraduationCap size={9} />
-                          장학 {Math.round(stats.scholarshipTotal / 100000000).toLocaleString()}억
-                        </span>
-                      )}
                       {info?.duration && (
                         <span className="inline-block px-1.5 py-0.5 rounded bg-slate-50 text-slate-500 text-[10px] font-medium">
                           {info.duration}
@@ -219,13 +213,6 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                             <div className="flex items-center gap-1 text-[11px]">
                               <span className="text-slate-500">설립</span>
                               <span className="font-medium text-slate-700">{stats.foundationType}</span>
-                            </div>
-                          )}
-                          {stats.scholarshipTotal && (
-                            <div className="flex items-center gap-1 text-[11px]">
-                              <GraduationCap size={10} className="text-sky-500" />
-                              <span className="text-slate-500">장학금</span>
-                              <span className="font-medium text-slate-700">{Math.round(stats.scholarshipTotal / 100000000).toLocaleString()}억원</span>
                             </div>
                           )}
                         </div>

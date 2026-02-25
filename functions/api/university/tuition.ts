@@ -45,7 +45,25 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       });
     }
 
-    const data = await response.json();
+    const raw = await response.text();
+    let data: unknown;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      return new Response(JSON.stringify({ error: 'Non-JSON response', rawSnippet: raw.slice(0, 300), items: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const header = (data as any)?.response?.header;
+    if (header?.resultCode && header.resultCode !== '00') {
+      return new Response(JSON.stringify({ error: header.resultMsg || 'API error', resultCode: header.resultCode, items: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const items = extractItems(data);
 
     return new Response(JSON.stringify({ items }), {

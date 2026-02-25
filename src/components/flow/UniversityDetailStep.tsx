@@ -85,10 +85,10 @@ export function UniversityDetailStep() {
         </div>
       )}
 
-      {/* 등록금·장학금·대출 */}
+      {/* 등록금 정보 */}
       {stats && (
         <div className="bg-white rounded-xl border border-slate-100 p-4 mb-4">
-          <h3 className="text-sm font-bold text-slate-700 mb-3">등록금 및 장학금</h3>
+          <h3 className="text-sm font-bold text-slate-700 mb-3">등록금 정보</h3>
           <div className="space-y-3">
             {stats.tuitionAvg && (
               <div className="flex items-center justify-between">
@@ -113,26 +113,6 @@ export function UniversityDetailStep() {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-600">설립 형태</span>
                 <span className="text-sm font-medium text-slate-700">{stats.foundationType}</span>
-              </div>
-            )}
-            {stats.scholarshipTotal && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <GraduationCap size={14} className="text-sky-500" />
-                  <span className="text-sm text-slate-600">장학금 총액</span>
-                </div>
-                <span className="text-sm font-bold text-sky-600">
-                  {Math.round(stats.scholarshipTotal / 100000000).toLocaleString()}억원
-                </span>
-              </div>
-            )}
-            {stats.loanTotal && (
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600">학자금 대출 총액</span>
-                <span className="text-sm font-medium text-slate-700">
-                  {Math.round(stats.loanTotal / 100000000).toLocaleString()}억원
-                  {stats.loanCount ? ` (${stats.loanCount.toLocaleString()}명)` : ''}
-                </span>
               </div>
             )}
           </div>
