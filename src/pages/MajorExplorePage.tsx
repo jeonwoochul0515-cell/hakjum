@@ -31,6 +31,7 @@ export default function MajorExplorePage() {
     result,
     selectedMajor,
     enrollment,
+    universityStats,
     detailLoading,
     error,
     setSchool,
@@ -42,6 +43,11 @@ export default function MajorExplorePage() {
   } = useExploreAI();
 
   const [activeTab, setActiveTab] = useState<Tab>('overview');
+
+  const switchTab = (tab: Tab) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleBack = () => {
     if (step === 'detail') {
@@ -82,7 +88,7 @@ export default function MajorExplorePage() {
         </div>
       </header>
 
-      <div className="max-w-lg mx-auto px-4 pb-8">
+      <div className="max-w-lg mx-auto px-4 pb-8 pb-safe">
         {/* Step 1: 입력 */}
         {step === 'input' && (
           <div>
@@ -182,7 +188,7 @@ export default function MajorExplorePage() {
               {TABS.map(({ key, label }) => (
                 <button
                   key={key}
-                  onClick={() => setActiveTab(key)}
+                  onClick={() => switchTab(key)}
                   className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     activeTab === key
                       ? 'bg-white text-slate-800 shadow-sm'
@@ -200,7 +206,7 @@ export default function MajorExplorePage() {
             )}
 
             {activeTab === 'university' && (
-              <UniversityGrid universities={selectedMajor.universitiesFull} enrollment={enrollment} />
+              <UniversityGrid universities={selectedMajor.universitiesFull} enrollment={enrollment} universityStats={universityStats} />
             )}
 
             {activeTab === 'career' && (

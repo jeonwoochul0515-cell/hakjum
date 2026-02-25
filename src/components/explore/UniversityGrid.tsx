@@ -1,20 +1,27 @@
 import { useState } from 'react';
-import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp, TrendingUp, Wallet } from 'lucide-react';
 import type { UniversityFull } from '@/types';
-import type { EnrollmentInfo } from '@/lib/university-api';
+import type { EnrollmentInfo, UniversityStats } from '@/lib/university-api';
 
 interface Props {
   universities: UniversityFull[];
   enrollment?: EnrollmentInfo[];
+  universityStats?: UniversityStats[];
 }
 
-export function UniversityGrid({ universities, enrollment = [] }: Props) {
+export function UniversityGrid({ universities, enrollment = [], universityStats = [] }: Props) {
   const [expandedSchool, setExpandedSchool] = useState<string | null>(null);
 
   // 정원 데이터를 학교명으로 매핑
   const enrollmentMap = new Map<string, EnrollmentInfo>();
   for (const e of enrollment) {
     enrollmentMap.set(e.schoolName, e);
+  }
+
+  // 대학알리미 통계 매핑
+  const statsMap = new Map<string, UniversityStats>();
+  for (const s of universityStats) {
+    statsMap.set(s.schoolName, s);
   }
 
   // 주요교과목·관련직업: 전체 enrollment에서 첫 번째로 있는 것 사용 (학과 기준 공통)
@@ -92,9 +99,11 @@ export function UniversityGrid({ universities, enrollment = [] }: Props) {
             <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{area}</h4>
             <span className="text-xs text-slate-400">({grouped.get(area)!.length})</span>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {grouped.get(area)!.map((u) => {
               const info = enrollmentMap.get(u.name);
+              const stats = statsMap.get(u.name);
+              const hasDetail = !!(info || stats);
               const isExpanded = expandedSchool === u.name;
 
               return (
@@ -125,7 +134,7 @@ export function UniversityGrid({ universities, enrollment = [] }: Props) {
                             <ExternalLink size={12} />
                           </a>
                         )}
-                        {info && (
+                        {hasDetail && (
                           isExpanded
                             ? <ChevronUp size={12} className="text-slate-400" />
                             : <ChevronDown size={12} className="text-slate-400" />
@@ -148,6 +157,12 @@ export function UniversityGrid({ universities, enrollment = [] }: Props) {
                           졸업 {info.graduateCount}명
                         </span>
                       )}
+                      {stats?.employmentRate && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[10px] font-medium">
+                          <TrendingUp size={9} />
+                          취업 {stats.employmentRate}%
+                        </span>
+                      )}
                       {info?.duration && (
                         <span className="inline-block px-1.5 py-0.5 rounded bg-slate-50 text-slate-500 text-[10px] font-medium">
                           {info.duration}
@@ -157,27 +172,46 @@ export function UniversityGrid({ universities, enrollment = [] }: Props) {
                   </button>
 
                   {/* 확장 상세 */}
-                  {isExpanded && info && (
+                  {isExpanded && hasDetail && (
                     <div className="px-3 pb-3 border-t border-slate-50 pt-2 space-y-2 animate-fade-in-up">
-                      {info.schoolType && (
+                      {info?.schoolType && (
                         <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
                           <span className="font-medium text-slate-600">구분</span>
                           {info.schoolType}
                         </div>
                       )}
-                      {info.category7 && (
+                      {info?.category7 && (
                         <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
                           <span className="font-medium text-slate-600">계열</span>
                           {info.category7}
                         </div>
                       )}
-                      {info.mainCourses && (
+                      {/* 대학알리미 통계 */}
+                      {stats && (
+                        <div className="flex flex-wrap gap-2 py-1">
+                          {stats.tuition && (
+                            <div className="flex items-center gap-1 text-[11px]">
+                              <Wallet size={10} className="text-amber-500" />
+                              <span className="text-slate-500">등록금</span>
+                              <span className="font-medium text-slate-700">{stats.tuition.toLocaleString()}만원</span>
+                            </div>
+                          )}
+                          {stats.scholarship && (
+                            <div className="flex items-center gap-1 text-[11px]">
+                              <GraduationCap size={10} className="text-sky-500" />
+                              <span className="text-slate-500">장학금</span>
+                              <span className="font-medium text-slate-700">{stats.scholarship}%</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      {info?.mainCourses && (
                         <div>
                           <p className="text-[11px] font-medium text-slate-600 mb-1">주요 교과목</p>
                           <p className="text-[11px] text-slate-500 leading-relaxed">{info.mainCourses}</p>
                         </div>
                       )}
-                      {info.relatedJobs && (
+                      {info?.relatedJobs && (
                         <div>
                           <p className="text-[11px] font-medium text-slate-600 mb-1">관련 직업</p>
                           <p className="text-[11px] text-slate-500 leading-relaxed">{info.relatedJobs}</p>

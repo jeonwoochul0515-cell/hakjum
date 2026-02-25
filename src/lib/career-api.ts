@@ -167,6 +167,18 @@ export async function getMajorFullAPI(majorSeq: string): Promise<MajorFull> {
 
   const cleanHtml = (s: string) => s.replace(/<br>/g, '\n').replace(/<[^>]+>/g, '').trim();
 
+  // 관련 직업 상세
+  const relatedJobDetails = (jobDetail?.relate_job ?? []).map((j) => ({
+    name: j.job_name || '',
+    desc: cleanHtml(j.job_description || ''),
+  }));
+
+  // 관련 자격증 상세
+  const relatedQualifiDetails = (jobDetail?.relate_qualifi ?? []).map((q) => ({
+    name: q.qualifi_name || '',
+    desc: cleanHtml(q.qualifi_description || ''),
+  }));
+
   return {
     id: majorSeq,
     name: univDetail.major,
@@ -191,5 +203,7 @@ export async function getMajorFullAPI(majorSeq: string): Promise<MajorFull> {
     postGraduation: cleanHtml(jobDetail?.post_graduation || ''),
     enterField: cleanHtml(jobDetail?.enter_field || ''),
     careerActivities,
+    relatedJobDetails,
+    relatedQualifiDetails,
   };
 }

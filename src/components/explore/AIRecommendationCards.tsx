@@ -44,7 +44,7 @@ export function AIRecommendationCards({ result, loading, onSelectMajor }: Props)
             key={i}
             onClick={() => onSelectMajor(rec.majorName, rec.category)}
             disabled={loading}
-            className="w-full text-left bg-white rounded-xl p-4 border border-slate-100 hover:border-sky-primary/30 hover:shadow-md transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait group"
+            className="w-full text-left bg-white rounded-xl p-4 border border-slate-100 hover:border-sky-primary/30 hover:shadow-md active:scale-[0.98] transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait group"
           >
             {/* 상단: 학과명 + 매칭 점수 */}
             <div className="flex items-start justify-between gap-3">

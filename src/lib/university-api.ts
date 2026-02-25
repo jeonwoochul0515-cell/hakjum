@@ -11,6 +11,14 @@ export interface EnrollmentInfo {
   category7: string; // 7대계열
 }
 
+export interface UniversityStats {
+  schoolName: string;
+  employmentRate?: number; // 취업률 (%)
+  competitionRatio?: number; // 경쟁률
+  tuition?: number; // 등록금 (만원)
+  scholarship?: number; // 장학금 수혜율 (%)
+}
+
 interface RawEnrollmentItem {
   schlNm?: string;
   schl_nm?: string;
@@ -64,6 +72,83 @@ export async function getEnrollmentAPI(majorName: string): Promise<EnrollmentInf
         if (!a.region.includes('부산') && b.region.includes('부산')) return 1;
         return b.enrollmentQuota - a.enrollmentQuota;
       });
+  } catch {
+    return [];
+  }
+}
+
+// 대학알리미 API: 대학별 취업률/등록금/장학금/경쟁률
+export async function getUniversityStats(schoolNames: string[]): Promise<UniversityStats[]> {
+  if (schoolNames.length === 0) return [];
+
+  try {
+    // 취업률 + 등록금 + 장학금 병렬 요청
+    const types = ['employment', 'tuition', 'scholarship'] as const;
+    const results = await Promise.allSettled(
+      types.map(async (type) => {
+        const res = await fetch(`/api/university/info?type=${type}`);
+        if (!res.ok) return [];
+        const data = await res.json();
+        return (data?.items || []) as Record<string, unknown>[];
+      })
+    );
+
+    const [empItems, tuiItems, schItems] = results.map((r) =>
+      r.status === 'fulfilled' ? r.value : []
+    );
+
+    // 학교명 Set
+    const nameSet = new Set(schoolNames.map((n) => n.replace(/대학교$|대학$/, '').trim()));
+
+    const statsMap = new Map<string, UniversityStats>();
+
+    const findSchoolName = (item: Record<string, unknown>): string => {
+      const raw = String(item.schlKrnNm || item.SCHL_KRN_NM || item.schlNm || '');
+      return raw;
+    };
+
+    const matchesAny = (name: string): boolean => {
+      const short = name.replace(/대학교$|대학$/, '').trim();
+      return nameSet.has(short) || schoolNames.includes(name);
+    };
+
+    // 취업률
+    for (const item of empItems) {
+      const name = findSchoolName(item);
+      if (!name || !matchesAny(name)) continue;
+      const val = parseFloat(String(item.indctVal1 || '0'));
+      if (val > 0) {
+        const existing = statsMap.get(name) || { schoolName: name };
+        existing.employmentRate = val;
+        statsMap.set(name, existing);
+      }
+    }
+
+    // 등록금
+    for (const item of tuiItems) {
+      const name = findSchoolName(item);
+      if (!name || !matchesAny(name)) continue;
+      const val = parseFloat(String(item.indctVal1 || '0'));
+      if (val > 0) {
+        const existing = statsMap.get(name) || { schoolName: name };
+        existing.tuition = Math.round(val / 10000); // 원 → 만원
+        statsMap.set(name, existing);
+      }
+    }
+
+    // 장학금
+    for (const item of schItems) {
+      const name = findSchoolName(item);
+      if (!name || !matchesAny(name)) continue;
+      const val = parseFloat(String(item.indctVal1 || '0'));
+      if (val > 0) {
+        const existing = statsMap.get(name) || { schoolName: name };
+        existing.scholarship = val;
+        statsMap.set(name, existing);
+      }
+    }
+
+    return [...statsMap.values()];
   } catch {
     return [];
   }

@@ -44,6 +44,8 @@ export interface MajorFull extends Major {
   enterField: string;
   careerActivities: { name: string; desc: string }[];
   universitiesFull: UniversityFull[];
+  relatedJobDetails: { name: string; desc: string }[];
+  relatedQualifiDetails: { name: string; desc: string }[];
 }
 
 export interface WizardState {
