@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp, Wallet } from 'lucide-react';
+import { MapPin, ExternalLink, Users, GraduationCap, BookOpen, Briefcase, ChevronDown, ChevronUp, Wallet, ArrowRight } from 'lucide-react';
 import type { UniversityFull } from '@/types';
 import type { EnrollmentInfo, UniversityStats } from '@/lib/university-api';
 
@@ -112,10 +112,7 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                   key={u.name}
                   className="bg-white rounded-lg border border-slate-100 hover:border-slate-200 transition-colors"
                 >
-                  <button
-                    className="w-full p-3 text-left cursor-pointer"
-                    onClick={() => setExpandedSchool(isExpanded ? null : u.name)}
-                  >
+                  <div className="p-3">
                     <div className="flex items-start justify-between gap-1">
                       <div className="min-w-0">
                         <h5 className="text-sm font-medium text-slate-700 truncate">{u.name}</h5>
@@ -123,7 +120,7 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           <p className="text-xs text-slate-400 truncate mt-0.5">{u.majorName}</p>
                         )}
                       </div>
-                      <div className="flex items-center gap-1 flex-shrink-0">
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
                         {u.schoolURL && (
                           <a
                             href={u.schoolURL.startsWith('http') ? u.schoolURL : `https://${u.schoolURL}`}
@@ -135,10 +132,14 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                             <ExternalLink size={12} />
                           </a>
                         )}
-                        {hasDetail && (
-                          isExpanded
-                            ? <ChevronUp size={12} className="text-slate-400" />
-                            : <ChevronDown size={12} className="text-slate-400" />
+                        {onSelectUniversity && (
+                          <button
+                            onClick={() => onSelectUniversity(u)}
+                            className="inline-flex items-center gap-0.5 px-2 py-0.5 text-[11px] font-medium text-sky-primary bg-sky-50 hover:bg-sky-100 rounded-md transition-colors cursor-pointer"
+                          >
+                            상세
+                            <ArrowRight size={10} />
+                          </button>
                         )}
                       </div>
                     </div>
@@ -164,15 +165,33 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           {Math.round(stats.tuitionAvg / 10000).toLocaleString()}만원
                         </span>
                       )}
+                      {stats?.scholarshipTotal && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-sky-50 text-sky-600 text-[10px] font-medium">
+                          <GraduationCap size={9} />
+                          장학 {Math.round(stats.scholarshipTotal / 100000000).toLocaleString()}억
+                        </span>
+                      )}
                       {info?.duration && (
                         <span className="inline-block px-1.5 py-0.5 rounded bg-slate-50 text-slate-500 text-[10px] font-medium">
                           {info.duration}
                         </span>
                       )}
                     </div>
-                  </button>
+                  </div>
 
-                  {/* 확장 상세 */}
+                  {/* 확장 상세 (더보기) */}
+                  {hasDetail && (
+                    <div className="px-3 pb-1">
+                      <button
+                        className="w-full flex items-center justify-center gap-0.5 py-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                        onClick={() => setExpandedSchool(isExpanded ? null : u.name)}
+                      >
+                        {isExpanded ? '접기' : '더보기'}
+                        {isExpanded ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
+                      </button>
+                    </div>
+                  )}
+
                   {isExpanded && hasDetail && (
                     <div className="px-3 pb-3 border-t border-slate-50 pt-2 space-y-2 animate-fade-in-up">
                       {info?.schoolType && (
@@ -187,7 +206,6 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           {info.category7}
                         </div>
                       )}
-                      {/* 등록금/장학금 (표준 공공데이터) */}
                       {stats && (
                         <div className="flex flex-wrap gap-2 py-1">
                           {stats.tuitionAvg && (
@@ -223,14 +241,6 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
                           <p className="text-[11px] font-medium text-slate-600 mb-1">관련 직업</p>
                           <p className="text-[11px] text-slate-500 leading-relaxed">{info.relatedJobs}</p>
                         </div>
-                      )}
-                      {onSelectUniversity && (
-                        <button
-                          onClick={(e) => { e.stopPropagation(); onSelectUniversity(u); }}
-                          className="w-full mt-1 py-1.5 text-xs font-medium text-sky-primary hover:bg-sky-50 rounded-lg transition-colors cursor-pointer"
-                        >
-                          상세 보기 →
-                        </button>
                       )}
                     </div>
                   )}
