@@ -42,7 +42,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   if (majorName) params.set('scsbjtNm', majorName);
   if (schoolName) params.set('schlNm', schoolName);
 
-  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_major_api?serviceKey=${encodeURIComponent(apiKey)}&${params}`;
+  // apiKey가 이미 URL-encoded 형태일 수 있으므로 그대로 전달
+  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_major_api?serviceKey=${apiKey}&${params}`;
 
   try {
     const response = await fetch(apiUrl);

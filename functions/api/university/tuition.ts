@@ -33,7 +33,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   if (schoolName) params.set('univNm', schoolName);
 
-  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_reg_amt_api?serviceKey=${encodeURIComponent(apiKey)}&${params}`;
+  const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_reg_amt_api?serviceKey=${apiKey}&${params}`;
 
   try {
     const response = await fetch(apiUrl);
