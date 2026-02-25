@@ -30,7 +30,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   const requestBody = JSON.stringify({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 4096,
+    max_tokens: 8192,
+    system: '반드시 유효한 JSON만 출력하세요. 마크다운, 설명, 주석 없이 순수 JSON 객체 하나만 반환합니다.',
     messages: [{ role: 'user', content: body.prompt }],
   });
 
