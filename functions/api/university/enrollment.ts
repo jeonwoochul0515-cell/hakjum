@@ -58,13 +58,32 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       });
     }
 
-    const data = await response.json();
-    const items = extractItems(data);
+    const raw = await response.text();
+    let data: unknown;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      // data.go.kr가 XML로 응답한 경우
+      return new Response(JSON.stringify({ error: 'Non-JSON response', rawSnippet: raw.slice(0, 500), items: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
-    return new Response(JSON.stringify({ items, totalCount: (data as any)?.response?.body?.totalCount }), {
+    const items = extractItems(data);
+    const header = (data as any)?.response?.header;
+
+    return new Response(JSON.stringify({
+      items,
+      totalCount: (data as any)?.response?.body?.totalCount,
+      resultCode: header?.resultCode,
+      resultMsg: header?.resultMsg,
+      _debug_bodyKeys: Object.keys((data as any)?.response?.body || {}),
+      _debug_itemsType: typeof (data as any)?.response?.body?.items,
+    }), {
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'public, max-age=86400',
+        'Cache-Control': 'no-cache',
       },
     });
   } catch (err) {
