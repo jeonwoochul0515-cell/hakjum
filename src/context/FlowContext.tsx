@@ -15,6 +15,7 @@ const initialState: FlowState = {
   enrollment: [],
   universityStats: [],
   selectedUniversity: null,
+  academyInfo: null,
   recommendationResult: null,
 };
 
@@ -78,13 +79,15 @@ function flowReducer(state: FlowState, action: FlowAction): FlowState {
     case 'SET_EXPLORE_RESULT':
       return { ...state, exploreResult: action.payload };
     case 'SET_SELECTED_MAJOR':
-      return { ...state, selectedMajor: action.payload, enrollment: [], universityStats: [], selectedUniversity: null, recommendationResult: null };
+      return { ...state, selectedMajor: action.payload, enrollment: [], universityStats: [], selectedUniversity: null, academyInfo: null, recommendationResult: null };
     case 'SET_ENROLLMENT':
       return { ...state, enrollment: action.payload };
     case 'SET_UNIVERSITY_STATS':
       return { ...state, universityStats: action.payload };
     case 'SET_SELECTED_UNIVERSITY':
-      return { ...state, selectedUniversity: action.payload };
+      return { ...state, selectedUniversity: action.payload, academyInfo: null };
+    case 'SET_ACADEMY_INFO':
+      return { ...state, academyInfo: action.payload };
     case 'SET_RECOMMENDATION':
       return { ...state, recommendationResult: action.payload };
     case 'RESET':

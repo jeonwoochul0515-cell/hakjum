@@ -25,6 +25,18 @@ export interface UniversityStats {
   foundationType?: string; // 설립형태 (fndnFormSeNm)
 }
 
+// 대학알리미 8개 지표
+export interface AcademyInfo {
+  competitionRate?: number;    // 경쟁률 (배수)
+  employmentRate?: number;     // 취업률 (%)
+  fillingRate?: number;        // 충원율 (%)
+  dropoutRate?: number;        // 중퇴율 (%)
+  foreignStudents?: number;    // 외국인학생수
+  studentsPerFaculty?: number; // 교원1인당학생수
+  eduCostPerStudent?: number;  // 학생1인당교육비 (원)
+  industryCoopCount?: number;  // 산학협력 건수
+}
+
 interface RawItem {
   [key: string]: unknown;
 }
@@ -151,5 +163,16 @@ export async function getUniversityStats(schoolNames: string[]): Promise<Univers
     return [...statsMap.values()];
   } catch {
     return [];
+  }
+}
+
+// 대학알리미 API (8개 지표)
+export async function getAcademyInfoStats(schoolName: string): Promise<AcademyInfo> {
+  try {
+    const res = await fetch(`/api/university/academyinfo?school=${encodeURIComponent(schoolName)}`);
+    if (!res.ok) return {};
+    return await res.json();
+  } catch {
+    return {};
   }
 }

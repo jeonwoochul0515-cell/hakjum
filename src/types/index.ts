@@ -1,4 +1,4 @@
-import type { EnrollmentInfo, UniversityStats } from '@/lib/university-api';
+import type { EnrollmentInfo, UniversityStats, AcademyInfo } from '@/lib/university-api';
 
 export interface School {
   id: string;
@@ -138,6 +138,7 @@ export interface FlowState {
   enrollment: EnrollmentInfo[];
   universityStats: UniversityStats[];
   selectedUniversity: UniversityFull | null;
+  academyInfo: AcademyInfo | null;
   recommendationResult: RecommendationResult | null;
 }
 
@@ -153,6 +154,7 @@ export type FlowAction =
   | { type: 'SET_ENROLLMENT'; payload: EnrollmentInfo[] }
   | { type: 'SET_UNIVERSITY_STATS'; payload: UniversityStats[] }
   | { type: 'SET_SELECTED_UNIVERSITY'; payload: UniversityFull }
+  | { type: 'SET_ACADEMY_INFO'; payload: AcademyInfo }
   | { type: 'SET_RECOMMENDATION'; payload: RecommendationResult }
   | { type: 'RESET' };
 

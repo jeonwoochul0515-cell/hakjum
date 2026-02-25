@@ -1,15 +1,17 @@
-import { ExternalLink, Users, GraduationCap, Wallet, BookOpen, Briefcase, MapPin, ArrowRight } from 'lucide-react';
+import { ExternalLink, Users, GraduationCap, Wallet, BookOpen, Briefcase, MapPin, ArrowRight, BarChart3 } from 'lucide-react';
 import { useFlow } from '@/hooks/useFlow';
-import type { EnrollmentInfo, UniversityStats } from '@/lib/university-api';
+import type { EnrollmentInfo, UniversityStats, AcademyInfo } from '@/lib/university-api';
 
 export function UniversityDetailStep() {
   const { state, runRecommendation } = useFlow();
-  const { selectedUniversity, selectedMajor, enrollment, universityStats } = state;
+  const { selectedUniversity, selectedMajor, enrollment, universityStats, academyInfo } = state;
 
   if (!selectedUniversity || !selectedMajor) return null;
 
   const info: EnrollmentInfo | undefined = enrollment.find((e) => e.schoolName === selectedUniversity.name);
   const stats: UniversityStats | undefined = universityStats.find((s) => s.schoolName === selectedUniversity.name);
+  const academy: AcademyInfo | null = academyInfo;
+  const hasAcademyData = academy && Object.keys(academy).length > 0;
 
   return (
     <div className="animate-fade-in-up">
@@ -131,6 +133,66 @@ export function UniversityDetailStep() {
                   {Math.round(stats.loanTotal / 100000000).toLocaleString()}억원
                   {stats.loanCount ? ` (${stats.loanCount.toLocaleString()}명)` : ''}
                 </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 대학 주요 지표 */}
+      {hasAcademyData && (
+        <div className="bg-white rounded-xl border border-slate-100 p-4 mb-4">
+          <div className="flex items-center gap-1.5 mb-3">
+            <BarChart3 size={14} className="text-emerald-500" />
+            <h3 className="text-sm font-bold text-slate-700">대학 주요 지표</h3>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {academy!.competitionRate != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">경쟁률</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.competitionRate}:1</p>
+              </div>
+            )}
+            {academy!.employmentRate != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">취업률</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.employmentRate}%</p>
+              </div>
+            )}
+            {academy!.fillingRate != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">충원율</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.fillingRate}%</p>
+              </div>
+            )}
+            {academy!.dropoutRate != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">중퇴율</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.dropoutRate}%</p>
+              </div>
+            )}
+            {academy!.foreignStudents != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">외국인 학생</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.foreignStudents.toLocaleString()}명</p>
+              </div>
+            )}
+            {academy!.studentsPerFaculty != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">교원 1인당 학생</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.studentsPerFaculty}명</p>
+              </div>
+            )}
+            {academy!.eduCostPerStudent != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">1인당 교육비</p>
+                <p className="text-sm font-semibold text-slate-700">{Math.round(academy!.eduCostPerStudent / 10000).toLocaleString()}만원</p>
+              </div>
+            )}
+            {academy!.industryCoopCount != null && (
+              <div>
+                <p className="text-[11px] text-slate-400">산학협력</p>
+                <p className="text-sm font-semibold text-slate-700">{academy!.industryCoopCount.toLocaleString()}건</p>
               </div>
             )}
           </div>

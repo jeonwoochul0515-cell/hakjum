@@ -4,14 +4,13 @@ import { ArrowRight } from 'lucide-react';
 import type { UniversityFull } from '@/types';
 
 export function UniversityListStep() {
-  const { state, dispatch, go, runRecommendation } = useFlow();
+  const { state, selectUniversity, runRecommendation } = useFlow();
   const { selectedMajor, enrollment, universityStats } = state;
 
   if (!selectedMajor) return null;
 
   const handleSelectUniversity = (u: UniversityFull) => {
-    dispatch({ type: 'SET_SELECTED_UNIVERSITY', payload: u });
-    go('university-detail');
+    selectUniversity(u);
   };
 
   return (

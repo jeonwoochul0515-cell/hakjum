@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import { useFlowContext } from '@/context/FlowContext';
 import { getExploreRecommendations } from '@/lib/explore-ai';
 import { getMajorFullAPI, searchMajorsAPI } from '@/lib/career-api';
-import { getEnrollmentAPI, getUniversityStats } from '@/lib/university-api';
+import { getEnrollmentAPI, getUniversityStats, getAcademyInfoStats } from '@/lib/university-api';
 import { buildPrompt } from '@/lib/recommendation-prompt';
 import { callClaudeAPI } from '@/lib/claude-api';
 import { fallbackRecommend } from '@/lib/fallback-engine';
@@ -83,6 +83,17 @@ export function useFlow() {
     }
   }, [dispatch]);
 
+  // ── Select University (loads academy info) ──
+  const selectUniversity = useCallback((u: import('@/types').UniversityFull) => {
+    dispatch({ type: 'SET_SELECTED_UNIVERSITY', payload: u });
+    dispatch({ type: 'GO', payload: 'university-detail' });
+
+    // Async load academy info (fire and forget)
+    getAcademyInfoStats(u.name)
+      .then((data) => dispatch({ type: 'SET_ACADEMY_INFO', payload: data }))
+      .catch(() => {});
+  }, [dispatch]);
+
   // ── Subject Match (recommendation) ──
   const runRecommendation = useCallback(async () => {
     if (!state.school || !state.selectedMajor) return;
@@ -124,6 +135,7 @@ export function useFlow() {
     back,
     analyze,
     selectMajor,
+    selectUniversity,
     runRecommendation,
     reset,
   };
