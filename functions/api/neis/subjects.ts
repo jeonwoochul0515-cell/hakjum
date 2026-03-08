@@ -2,9 +2,10 @@
 // GET /api/neis/subjects?regionCode=C10&schoolCode=7150119&year=2025&semester=1
 //
 // 최적화 전략:
-// 1. TI_FROM_YMD/TI_TO_YMD로 2주 날짜 범위만 조회 (7000행 → 300행, 96% 감소)
+// 1. TI_FROM_YMD/TI_TO_YMD로 4주 날짜 범위만 조회 (7000행 → ~1000행, 85% 감소)
 // 2. 12개 요청(3학년 × 2학기 × 2연도) 동시 발사 (Promise.all)
 // 3. Cloudflare Cache API로 반복 요청 즉시 응답
+// 선택과목은 격주/순환 편성이 흔하므로 4주 필요
 
 interface Env {
   NEIS_API_KEY?: string;
@@ -48,30 +49,30 @@ function normalizeSubjectName(raw: string): string {
   return name;
 }
 
-// 학기별 대표 1주 날짜 반환 (YYYYMMDD 형식)
-// 시간표는 주 단위 반복 → 1주(월~금)면 해당 학년의 모든 과목 확보
-// 공휴일 없는 월~금 선택: 1학기 4/14~18, 2학기 11/10~14
+// 학기별 대표 4주 날짜 반환 (YYYYMMDD 형식)
+// 선택과목은 격주/순환 편성이 흔하므로 1주로는 부족 → 4주(20일)로 확보
+// 공휴일이 포함되어도 EXCLUDED_PATTERNS로 필터링됨
 function getDateRange(year: string, semester: string): { from: string; to: string } {
   const y = Number(year);
   const now = new Date();
   const isCurrentYear = y === now.getFullYear();
 
   if (semester === '1') {
-    if (isCurrentYear && now.getMonth() < 3) {
-      // 현재 연도 3월 → 3월 첫 주부터 현재까지
+    if (isCurrentYear && now.getMonth() < 4) {
+      // 현재 연도 3~4월 → 3월 초부터 현재까지
       const end = new Date(now);
       end.setDate(end.getDate() - 1);
       const start = new Date(y, 2, 4);
       return { from: fmt(start), to: fmt(end) };
     }
-    // 4월 둘째 주 (월~금) - 공휴일 없음
-    return { from: `${year}0414`, to: `${year}0418` };
+    // 4월~5월 초 (4주)
+    return { from: `${year}0407`, to: `${year}0502` };
   } else {
     if (isCurrentYear && now.getMonth() < 9) {
       return { from: `${year}0901`, to: `${year}0901` };
     }
-    // 11월 둘째 주 (월~금) - 공휴일 없음
-    return { from: `${year}1110`, to: `${year}1114` };
+    // 10월 말~11월 중순 (4주)
+    return { from: `${year}1020`, to: `${year}1114` };
   }
 }
 
@@ -236,7 +237,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     }
 
     // ── 자동 모드: 12개 요청 동시 발사 (3학년 × 2학기 × 2연도) ──
-    // 각 요청에 2주 날짜 범위 적용 → 학년당 ~300행 (1페이지)
+    // 각 요청에 4주 날짜 범위 적용 → 학년당 ~1000행 (1페이지)
     const grades = ['1', '2', '3'];
     const semesters = ['1', '2'];
     const years = [currentYearStr, prevYearStr];
