@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AlertTriangle, CheckCircle, BookOpen, ChevronDown, GraduationCap, Shield } from 'lucide-react';
 import { getRequirementsForMajor } from '@/data/admission-requirements';
+import { checkSubjectAvailability } from '@/lib/subject-content';
 
 interface Props {
   majorName: string;
@@ -13,19 +14,7 @@ export function AdmissionRequirementSection({ majorName, schoolSubjects }: Props
 
   if (!req.essential.length && !req.recommended.length) return null;
 
-  const schoolSet = new Set(schoolSubjects.map((s) => s.replace(/[IⅠⅡ1234]+$/, '').trim()));
-
-  function checkSubject(subject: string): 'available' | 'missing' | 'partial' {
-    // 정확한 매칭
-    if (schoolSubjects.includes(subject)) return 'available';
-    // 부분 매칭 (예: "물리학I" → "물리학" 포함)
-    const base = subject.replace(/[IⅠⅡ1234]+$/, '').trim();
-    if (schoolSubjects.some((s) => s.includes(base))) return 'available';
-    if (schoolSet.has(base)) return 'available';
-    // 과목이 없으면
-    if (schoolSubjects.length === 0) return 'partial'; // 학교 데이터 없음
-    return 'missing';
-  }
+  const checkSubject = (subject: string) => checkSubjectAvailability(subject, schoolSubjects);
 
   const essentialChecks = req.essential.map((s) => ({ name: s, status: checkSubject(s) }));
   const recommendedChecks = req.recommended.map((s) => ({ name: s, status: checkSubject(s) }));

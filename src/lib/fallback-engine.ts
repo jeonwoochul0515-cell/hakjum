@@ -10,6 +10,7 @@
  * AI 추천 실패 시에만 사용됩니다. 정확한 추천은 AI 엔진을 통해 제공됩니다.
  */
 import type { WizardState, RecommendationResult, SubjectRecommendation } from '@/types';
+import { findMatchingSubject } from '@/lib/subject-content';
 
 interface CategoryConfig {
   keywords: string[];
@@ -162,11 +163,7 @@ function matchCategories(careerGoal: string, tags: string[]): string[] {
 }
 
 function findAvailable(subjectName: string, available: string[]): string | null {
-  // 정확히 일치
-  if (available.includes(subjectName)) return subjectName;
-  // 부분 포함 매칭
-  const match = available.find((a) => a.includes(subjectName) || subjectName.includes(a));
-  return match || null;
+  return findMatchingSubject(subjectName, available);
 }
 
 function getReason(subjectName: string, categories: string[]): string {
