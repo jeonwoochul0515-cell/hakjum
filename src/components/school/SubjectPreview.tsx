@@ -57,6 +57,7 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
   // 선택과목만 필터링 (활동 제외)
   const grade2Electives = grade2.filter((s) => isElective(s) && categorize(s) !== 'activity');
   const grade3Electives = grade3.filter((s) => isElective(s) && categorize(s) !== 'activity');
+  const hasElectives = grade2Electives.length > 0 || grade3Electives.length > 0;
 
   // 이전 연도 데이터 사용 여부
   const grade2IsPrevYear = gradeDataYear['2학년'] && gradeDataYear['2학년'] !== currentYearStr;
@@ -85,18 +86,32 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
         </div>
       )}
 
-      {/* 카테고리 범례 */}
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {Object.entries(categoryConfig)
-          .filter(([key]) => key !== 'activity')
-          .map(([key, cfg]) => (
-            <span key={key} className={`px-2 py-0.5 rounded text-[11px] font-medium ${cfg.bg} ${cfg.text} border ${cfg.border}`}>
-              {cfg.label}
-            </span>
-          ))}
-      </div>
+      {/* 카테고리 범례 (과목이 있을 때만) */}
+      {hasElectives && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {Object.entries(categoryConfig)
+            .filter(([key]) => key !== 'activity')
+            .map(([key, cfg]) => (
+              <span key={key} className={`px-2 py-0.5 rounded text-[11px] font-medium ${cfg.bg} ${cfg.text} border ${cfg.border}`}>
+                {cfg.label}
+              </span>
+            ))}
+        </div>
+      )}
 
       <div className="space-y-5">
+        {/* 데이터 없음 안내 */}
+        {!hasElectives && (
+          <div className="flex items-start gap-2 bg-slate-50 rounded-lg px-3 py-3 border border-slate-200">
+            <Info size={16} className="text-slate-400 mt-0.5 shrink-0" />
+            <p className="text-sm text-slate-500 leading-relaxed">
+              아직 NEIS에 선택과목 데이터가 등록되지 않았습니다. 학기 초에는 데이터가 늦게 올라올 수 있어요.
+              <br />
+              <span className="text-xs text-slate-400">그래도 AI 추천은 정상적으로 이용 가능합니다.</span>
+            </p>
+          </div>
+        )}
+
         {/* 2학년 선택과목 */}
         <GradeSection
           title="2학년 선택과목"
