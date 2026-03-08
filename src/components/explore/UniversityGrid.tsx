@@ -8,9 +8,10 @@ interface Props {
   enrollment?: EnrollmentInfo[];
   universityStats?: UniversityStats[];
   onSelectUniversity?: (university: UniversityFull) => void;
+  userRegion?: string;
 }
 
-export function UniversityGrid({ universities, enrollment = [], universityStats = [], onSelectUniversity }: Props) {
+export function UniversityGrid({ universities, enrollment = [], universityStats = [], onSelectUniversity, userRegion }: Props) {
   const [expandedSchool, setExpandedSchool] = useState<string | null>(null);
 
   // 정원 데이터를 학교명으로 매핑
@@ -37,8 +38,14 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
   }
 
   const areaOrder = [...grouped.keys()].sort((a, b) => {
-    if (a === '서울') return -1;
-    if (b === '서울') return 1;
+    // 사용자 출신 지역 우선
+    if (userRegion) {
+      if (a === userRegion && b !== userRegion) return -1;
+      if (a !== userRegion && b === userRegion) return 1;
+    }
+    // 서울 그 다음
+    if (a === '서울' && b !== '서울') return -1;
+    if (a !== '서울' && b === '서울') return 1;
     return a.localeCompare(b);
   });
 

@@ -1,11 +1,16 @@
 import { UniversityGrid } from '@/components/explore/UniversityGrid';
 import { useFlow } from '@/hooks/useFlow';
 import { ArrowRight } from 'lucide-react';
+import { REGION_CODES } from '@/lib/neis-api';
 import type { UniversityFull } from '@/types';
 
 export function UniversityListStep() {
   const { state, selectUniversity, runRecommendation } = useFlow();
-  const { selectedMajor, enrollment, universityStats } = state;
+  const { selectedMajor, enrollment, universityStats, school } = state;
+
+  // 학교 ID에서 지역코드 추출 → 지역명 매핑
+  const regionCode = school?.id?.split('_')[0] || '';
+  const userRegion = REGION_CODES.find((r) => r.code === regionCode)?.name;
 
   if (!selectedMajor) return null;
 
@@ -25,6 +30,7 @@ export function UniversityListStep() {
         enrollment={enrollment}
         universityStats={universityStats}
         onSelectUniversity={handleSelectUniversity}
+        userRegion={userRegion}
       />
 
       {/* 하단 CTA */}

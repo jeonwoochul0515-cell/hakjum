@@ -78,7 +78,7 @@ export async function getMajorDetailAPI(majorSeq: string): Promise<Major> {
       subjectMap.professional = clean;
   }
 
-  // 대학 목록: 중복 학교 제거, 서울 → 가나다순
+  // 대학 목록: 중복 학교 제거, 가나다순
   const univMap = new Map<string, University>();
   for (const u of detail.university ?? []) {
     if (!univMap.has(u.schoolName)) {
@@ -88,11 +88,7 @@ export async function getMajorDetailAPI(majorSeq: string): Promise<Major> {
       });
     }
   }
-  const universities = [...univMap.values()].sort((a, b) => {
-    if (a.area === '서울' && b.area !== '서울') return -1;
-    if (a.area !== '서울' && b.area === '서울') return 1;
-    return a.name.localeCompare(b.name);
-  });
+  const universities = [...univMap.values()].sort((a, b) => a.name.localeCompare(b.name));
 
   return {
     id: majorSeq,
@@ -133,7 +129,7 @@ export async function getMajorFullAPI(majorSeq: string): Promise<MajorFull> {
       subjectMap.professional = clean;
   }
 
-  // 대학 목록: 중복 학교 제거, 서울 → 가나다순 (URL 포함)
+  // 대학 목록: 중복 학교 제거, 가나다순 (URL 포함)
   const univMap = new Map<string, UniversityFull>();
   for (const u of univDetail.university ?? []) {
     if (!univMap.has(u.schoolName)) {
@@ -145,11 +141,7 @@ export async function getMajorFullAPI(majorSeq: string): Promise<MajorFull> {
       });
     }
   }
-  const universitiesFull = [...univMap.values()].sort((a, b) => {
-    if (a.area === '서울' && b.area !== '서울') return -1;
-    if (a.area !== '서울' && b.area === '서울') return 1;
-    return a.name.localeCompare(b.name);
-  });
+  const universitiesFull = [...univMap.values()].sort((a, b) => a.name.localeCompare(b.name));
 
   const universities: University[] = universitiesFull.map(({ name, area }) => ({ name, area }));
 
