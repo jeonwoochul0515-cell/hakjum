@@ -1,30 +1,23 @@
 import { useState } from 'react';
-import { ArrowRight, TrendingUp, MapPin, Search, School as SchoolIcon, Loader2, Globe, Database } from 'lucide-react';
-import { SchoolCard } from '@/components/school/SchoolCard';
+import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe } from 'lucide-react';
 import { SubjectPreview } from '@/components/school/SubjectPreview';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useSchoolSearch } from '@/hooks/useSchoolSearch';
 import { useFlow } from '@/hooks/useFlow';
-import { schools } from '@/data/schools';
 import type { NEISSchool } from '@/lib/neis-api';
-
-const popularSchoolIds = schools.slice(0, 5).map((s) => s.id);
 
 export function SchoolSelectStep() {
   const { state, dispatch, go } = useFlow();
   const {
-    query, setQuery, typeFilter, setTypeFilter,
-    searchMode, setSearchMode, regionFilter, setRegionFilter,
-    filtered, types, regions,
+    query, setQuery,
+    regionFilter, setRegionFilter,
+    regions,
     neisResults, neisLoading, neisTotalCount,
     loadNeisSchoolSubjects,
   } = useSchoolSearch();
   const [neisLoadingSchool, setNeisLoadingSchool] = useState<string | null>(null);
-
-  const showPopular = searchMode === 'local' && !query && typeFilter === '전체';
-  const popularSchools = schools.filter((s) => popularSchoolIds.includes(s.id));
 
   const handleNeisSchoolSelect = async (neisSchool: NEISSchool) => {
     setNeisLoadingSchool(neisSchool.code);
@@ -43,30 +36,10 @@ export function SchoolSelectStep() {
         <p className="text-sm text-slate-500 mt-1">학교마다 개설과목이 다릅니다. 내 학교에는 어떤 과목이 있을까요?</p>
       </div>
 
-      {/* 검색 모드 토글 */}
-      <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
-        <button
-          onClick={() => setSearchMode('local')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-            searchMode === 'local'
-              ? 'bg-white text-sky-primary shadow-sm'
-              : 'text-slate-500 hover:text-slate-700'
-          }`}
-        >
-          <Database size={14} />
-          부산 (즉시검색)
-        </button>
-        <button
-          onClick={() => setSearchMode('national')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-            searchMode === 'national'
-              ? 'bg-white text-indigo-primary shadow-sm'
-              : 'text-slate-500 hover:text-slate-700'
-          }`}
-        >
-          <Globe size={14} />
-          전국 (NEIS 실시간)
-        </button>
+      {/* 전국 검색 헤더 */}
+      <div className="flex items-center gap-1.5 text-sm text-indigo-primary font-medium">
+        <Globe size={14} />
+        전국 고등학교 검색 (NEIS 실시간)
       </div>
 
       {/* 검색 입력 */}
@@ -76,139 +49,80 @@ export function SchoolSelectStep() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder={searchMode === 'local' ? '부산 지역 학교 검색...' : '전국 학교 이름 검색...'}
+          placeholder="학교 이름을 검색하세요..."
           className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-sky-primary/30 focus:border-sky-primary text-sm transition-all"
         />
       </div>
 
-      {/* 지역 필터 (전국 모드) */}
-      {searchMode === 'national' && (
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+      {/* 지역 필터 */}
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <button
+          onClick={() => setRegionFilter('')}
+          className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${
+            !regionFilter
+              ? 'bg-indigo-primary text-white shadow-sm'
+              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+          }`}
+        >
+          전체
+        </button>
+        {regions.map((r) => (
           <button
-            onClick={() => setRegionFilter('')}
+            key={r.code}
+            onClick={() => setRegionFilter(r.code)}
             className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${
-              !regionFilter
+              regionFilter === r.code
                 ? 'bg-indigo-primary text-white shadow-sm'
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
             }`}
           >
-            전체
+            {r.name}
           </button>
-          {regions.map((r) => (
-            <button
-              key={r.code}
-              onClick={() => setRegionFilter(r.code)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${
-                regionFilter === r.code
-                  ? 'bg-indigo-primary text-white shadow-sm'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              {r.name}
-            </button>
-          ))}
+        ))}
+      </div>
+
+      {/* 검색 결과 */}
+      {neisLoading && (
+        <div className="flex items-center justify-center gap-2 py-8 text-slate-400">
+          <Loader2 size={18} className="animate-spin" />
+          <span className="text-sm">NEIS에서 학교 검색 중...</span>
         </div>
       )}
 
-      {/* 타입 필터 (로컬 모드) */}
-      {searchMode === 'local' && (
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {types.map((t) => (
-            <button
-              key={t}
-              onClick={() => setTypeFilter(t)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${
-                typeFilter === t
-                  ? 'bg-sky-primary text-white shadow-sm'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* 로컬 모드 */}
-      {searchMode === 'local' && (
+      {!neisLoading && neisResults.length > 0 && (
         <>
-          {showPopular && !state.school && (
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              <TrendingUp size={14} />
-              <span>자주 검색되는 학교</span>
-            </div>
-          )}
-          <p className="text-xs text-slate-400">{filtered.length}개 학교</p>
+          <p className="text-xs text-slate-400">
+            {neisTotalCount > neisResults.length
+              ? `${neisTotalCount.toLocaleString()}개 중 ${neisResults.length}개 표시`
+              : `${neisResults.length}개 학교`
+            }
+          </p>
           <div className="space-y-2 max-h-[40vh] overflow-y-auto">
-            {(showPopular && !state.school ? popularSchools : filtered).map((school) => (
-              <SchoolCard
-                key={school.id}
-                school={school}
-                selected={state.school?.id === school.id}
-                onClick={() => dispatch({ type: 'SET_SCHOOL', payload: school })}
+            {neisResults.map((ns) => (
+              <NEISSchoolCard
+                key={`${ns.regionCode}_${ns.code}`}
+                school={ns}
+                selected={state.school?.id === `${ns.regionCode}_${ns.code}`}
+                loading={neisLoadingSchool === ns.code}
+                onClick={() => handleNeisSchoolSelect(ns)}
               />
             ))}
-            {filtered.length === 0 && (
-              <div className="text-center py-8">
-                <p className="text-slate-400 text-sm">부산 지역에서 검색 결과가 없습니다</p>
-                <button
-                  onClick={() => setSearchMode('national')}
-                  className="text-sm text-indigo-primary mt-2 underline cursor-pointer"
-                >
-                  전국 검색으로 전환 →
-                </button>
-              </div>
-            )}
           </div>
         </>
       )}
 
-      {/* 전국 NEIS 모드 */}
-      {searchMode === 'national' && (
-        <>
-          {neisLoading && (
-            <div className="flex items-center justify-center gap-2 py-8 text-slate-400">
-              <Loader2 size={18} className="animate-spin" />
-              <span className="text-sm">NEIS에서 학교 검색 중...</span>
-            </div>
-          )}
+      {!neisLoading && neisResults.length === 0 && (query || regionFilter) && (
+        <p className="text-center text-slate-400 py-8 text-sm">
+          {query ? `"${query}" 검색 결과가 없습니다` : '지역을 선택하고 학교 이름을 검색하세요'}
+        </p>
+      )}
 
-          {!neisLoading && neisResults.length > 0 && (
-            <>
-              <p className="text-xs text-slate-400">
-                {neisTotalCount > neisResults.length
-                  ? `${neisTotalCount.toLocaleString()}개 중 ${neisResults.length}개 표시`
-                  : `${neisResults.length}개 학교`
-                }
-              </p>
-              <div className="space-y-2 max-h-[40vh] overflow-y-auto">
-                {neisResults.map((ns) => (
-                  <NEISSchoolCard
-                    key={`${ns.regionCode}_${ns.code}`}
-                    school={ns}
-                    selected={state.school?.id === `${ns.regionCode}_${ns.code}`}
-                    loading={neisLoadingSchool === ns.code}
-                    onClick={() => handleNeisSchoolSelect(ns)}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-
-          {!neisLoading && neisResults.length === 0 && (query || regionFilter) && (
-            <p className="text-center text-slate-400 py-8 text-sm">
-              {query ? `"${query}" 검색 결과가 없습니다` : '지역을 선택하고 학교 이름을 검색하세요'}
-            </p>
-          )}
-
-          {!neisLoading && !query && !regionFilter && (
-            <div className="text-center py-8 text-slate-400">
-              <MapPin size={24} className="mx-auto mb-2 text-slate-300" />
-              <p className="text-sm">지역을 선택하거나 학교 이름을 검색하세요</p>
-              <p className="text-xs mt-1">NEIS에서 실시간으로 전국 2,400여 개 고등학교를 검색합니다</p>
-            </div>
-          )}
-        </>
+      {!neisLoading && !query && !regionFilter && (
+        <div className="text-center py-8 text-slate-400">
+          <MapPin size={24} className="mx-auto mb-2 text-slate-300" />
+          <p className="text-sm">지역을 선택하거나 학교 이름을 검색하세요</p>
+          <p className="text-xs mt-1">NEIS에서 실시간으로 전국 2,400여 개 고등학교를 검색합니다</p>
+        </div>
       )}
 
       {/* 선택된 학교 표시 */}

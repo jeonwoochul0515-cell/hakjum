@@ -72,11 +72,7 @@ export async function getEnrollmentAPI(majorName: string): Promise<EnrollmentInf
         degreeType: field(item, 'degCrseCrsNm'),
       }))
       .filter((e) => e.schoolName && e.schoolType === '대학교')
-      .sort((a, b) => {
-        if (a.region.includes('부산') && !b.region.includes('부산')) return -1;
-        if (!a.region.includes('부산') && b.region.includes('부산')) return 1;
-        return b.enrollmentQuota - a.enrollmentQuota;
-      });
+      .sort((a, b) => b.enrollmentQuota - a.enrollmentQuota);
   } catch {
     return [];
   }

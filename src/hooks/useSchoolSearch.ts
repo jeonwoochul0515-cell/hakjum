@@ -1,33 +1,15 @@
-import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { schools as localSchools, schoolTypes } from '@/data/schools';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { fetchSchoolList, fetchSchoolSubjects, REGION_CODES } from '@/lib/neis-api';
 import type { NEISSchool } from '@/lib/neis-api';
 import type { School } from '@/types';
 
-export type SearchMode = 'local' | 'national';
-
 export function useSchoolSearch() {
   const [query, setQuery] = useState('');
-  const [typeFilter, setTypeFilter] = useState<string>('전체');
-  const [searchMode, setSearchMode] = useState<SearchMode>('local');
   const [regionFilter, setRegionFilter] = useState<string>('');
   const [neisResults, setNeisResults] = useState<NEISSchool[]>([]);
   const [neisLoading, setNeisLoading] = useState(false);
   const [neisTotalCount, setNeisTotalCount] = useState(0);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  // 로컬 검색 (부산 기존 데이터)
-  const localFiltered = useMemo(() => {
-    let result = localSchools;
-    if (typeFilter !== '전체') {
-      result = result.filter((s) => s.type === typeFilter);
-    }
-    if (query.trim()) {
-      const q = query.trim().toLowerCase();
-      result = result.filter((s) => s.name.toLowerCase().includes(q));
-    }
-    return result;
-  }, [query, typeFilter]);
 
   // NEIS 전국 검색
   const searchNEIS = useCallback(async (name: string, region: string) => {
@@ -53,9 +35,8 @@ export function useSchoolSearch() {
     }
   }, []);
 
-  // 디바운스 검색 (전국 모드)
+  // 디바운스 검색
   useEffect(() => {
-    if (searchMode !== 'national') return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(() => {
@@ -63,7 +44,7 @@ export function useSchoolSearch() {
     }, 400);
 
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, [query, regionFilter, searchMode, searchNEIS]);
+  }, [query, regionFilter, searchNEIS]);
 
   // NEIS 학교 선택 시 개설과목 로딩
   const loadNeisSchoolSubjects = useCallback(async (neisSchool: NEISSchool): Promise<School> => {
@@ -78,7 +59,6 @@ export function useSchoolSearch() {
         allSubjects: subjects.allSubjects,
       };
     } catch {
-      // 개설과목 로딩 실패 시 기본 정보만 반환
       return {
         id: `${neisSchool.regionCode}_${neisSchool.code}`,
         name: neisSchool.name,
@@ -90,19 +70,11 @@ export function useSchoolSearch() {
     }
   }, []);
 
-  const filtered = searchMode === 'local' ? localFiltered : [];
-
   return {
     query,
     setQuery,
-    typeFilter,
-    setTypeFilter,
-    searchMode,
-    setSearchMode,
     regionFilter,
     setRegionFilter,
-    filtered,
-    types: ['전체', ...schoolTypes],
     regions: REGION_CODES,
     neisResults,
     neisLoading,

@@ -28,7 +28,7 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
   // 주요교과목·관련직업: 전체 enrollment에서 첫 번째로 있는 것 사용 (학과 기준 공통)
   const commonCourses = enrollment.find((e) => e.mainCourses)?.mainCourses || '';
   const commonJobs = enrollment.find((e) => e.relatedJobs)?.relatedJobs || '';
-  // 지역별 그룹핑: 부산 → 서울 → 나머지 가나다순
+  // 지역별 그룹핑: 서울 → 나머지 가나다순
   const grouped = new Map<string, UniversityFull[]>();
   for (const u of universities) {
     const area = u.area || '기타';
@@ -37,18 +37,29 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
   }
 
   const areaOrder = [...grouped.keys()].sort((a, b) => {
-    if (a === '부산') return -1;
-    if (b === '부산') return 1;
     if (a === '서울') return -1;
     if (b === '서울') return 1;
     return a.localeCompare(b);
   });
 
   const areaColorMap: Record<string, string> = {
-    부산: 'bg-sky-100 text-sky-700',
     서울: 'bg-indigo-100 text-indigo-700',
     경기: 'bg-green-100 text-green-700',
     인천: 'bg-amber-100 text-amber-700',
+    부산: 'bg-sky-100 text-sky-700',
+    대구: 'bg-rose-100 text-rose-700',
+    광주: 'bg-emerald-100 text-emerald-700',
+    대전: 'bg-violet-100 text-violet-700',
+    울산: 'bg-cyan-100 text-cyan-700',
+    세종: 'bg-teal-100 text-teal-700',
+    강원: 'bg-lime-100 text-lime-700',
+    충북: 'bg-orange-100 text-orange-700',
+    충남: 'bg-yellow-100 text-yellow-700',
+    전북: 'bg-pink-100 text-pink-700',
+    전남: 'bg-fuchsia-100 text-fuchsia-700',
+    경북: 'bg-red-100 text-red-700',
+    경남: 'bg-blue-100 text-blue-700',
+    제주: 'bg-purple-100 text-purple-700',
   };
 
   return (
