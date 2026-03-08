@@ -3,14 +3,13 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPopup,
   signOut,
   updateProfile,
 } from 'firebase/auth';
 import type { User, Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
-import { auth, db, googleProvider, firebaseEnabled } from '@/lib/firebase';
+import { auth, db, firebaseEnabled } from '@/lib/firebase';
 
 export interface ProfileExtra {
   userType?: string;
@@ -33,7 +32,6 @@ interface AuthContextType {
   savedResults: SavedResult[];
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, displayName: string) => Promise<void>;
-  loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   updateProfileExtra: (data: ProfileExtra) => Promise<void>;
   addSavedResult: (result: Omit<SavedResult, 'id'>) => Promise<void>;
@@ -137,11 +135,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await updateProfile(credential.user, { displayName });
   }
 
-  async function loginWithGoogle() {
-    if (!auth) throw new Error('Firebase not configured');
-    await signInWithPopup(auth, googleProvider);
-  }
-
   async function logout() {
     if (!auth) throw new Error('Firebase not configured');
     await signOut(auth);
@@ -179,7 +172,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     savedResults,
     login,
     signup,
-    loginWithGoogle,
     logout,
     updateProfileExtra,
     addSavedResult,
