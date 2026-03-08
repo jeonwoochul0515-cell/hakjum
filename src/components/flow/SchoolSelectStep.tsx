@@ -21,10 +21,14 @@ export function SchoolSelectStep() {
 
   const handleNeisSchoolSelect = async (neisSchool: NEISSchool) => {
     setNeisLoadingSchool(neisSchool.code);
-    try {
-      const school = await loadNeisSchoolSubjects(neisSchool);
-      dispatch({ type: 'SET_SCHOOL', payload: school });
-    } finally {
+    const school = await loadNeisSchoolSubjects(neisSchool, (fullSchool) => {
+      // 백그라운드에서 과목 로딩 완료 시 업데이트
+      dispatch({ type: 'SET_SCHOOL', payload: fullSchool });
+      setNeisLoadingSchool(null);
+    });
+    dispatch({ type: 'SET_SCHOOL', payload: school });
+    // 캐시 히트 시 이미 과목 있으므로 로딩 해제
+    if (school.allSubjects.length > 0) {
       setNeisLoadingSchool(null);
     }
   };
@@ -128,11 +132,13 @@ export function SchoolSelectStep() {
       {/* 선택된 학교 표시 */}
       {state.school && (
         <div className="bg-green-50 rounded-xl p-3 border border-green-200 animate-fade-in-up">
-          <p className="text-sm text-green-700 font-medium">
+          <p className="text-sm text-green-700 font-medium flex items-center gap-2">
             {state.school.name} 선택 완료!
             {state.school.allSubjects.length > 0
               ? ` ${state.school.allSubjects.length}개 과목 중 딱 맞는 과목을 찾아볼게요`
-              : ' 개설과목을 불러오는 중...'}
+              : neisLoadingSchool
+                ? <><Loader2 size={14} className="animate-spin" /> 개설과목 불러오는 중...</>
+                : ' 개설과목 데이터가 없습니다'}
           </p>
         </div>
       )}
