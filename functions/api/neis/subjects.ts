@@ -31,7 +31,7 @@ interface SchoolSubjectsResult {
 }
 
 // NEIS 시간표에서 과목이 아닌 항목 필터링
-const EXCLUDED_PATTERNS = /^(대체공휴일|공휴일|재량활동|자습|보충학습|방학|휴업일|개교기념일|졸업식|입학식|중간고사|기말고사|시험|수련활동|현장체험|수학여행|체험학습|학교행사|행사|방과후|야간자율학습|석식|조회|종례|청소|\.+|-)$/;
+const EXCLUDED_PATTERNS = /^(대체공휴일|공휴일|재량활동|자습|보충학습|방학|휴업일|개교기념일|졸업식|입학식|중간고사|기말고사|시험|수련활동|현장체험|수학여행|체험학습|학교행사|행사|방과후|야간자율학습|석식|조회|종례|청소|어린이날|추석|설날|설|부처님오신날|석가탄신일|광복절|개천절|한글날|성탄절|크리스마스|현충일|삼일절|3\.1절|신정|임시공휴일|대통령선거|국회의원선거|지방선거|재보궐선거|선거일|보강|재량휴업일|학교장재량|\.+|-)$/;
 
 function isValidSubject(name: string): boolean {
   if (!name || name.length < 2) return false;
@@ -48,30 +48,32 @@ function normalizeSubjectName(raw: string): string {
   return name;
 }
 
-// 학기별 대표 2주 날짜 범위 반환 (YYYYMMDD 형식)
-// 2주면 모든 정규 과목이 최소 1회 이상 시간표에 등장 (94-100% 커버)
+// 학기별 대표 날짜 범위 반환 (YYYYMMDD 형식)
+// 공휴일을 피한 3주 범위로 충분한 과목 커버리지 확보
+// 주요 공휴일: 3/1, 5/5(어린이날), 5/15(석가탄신일), 6/6(현충일),
+//              8/15(광복절), 10/3(개천절), 10/9(한글날), 추석(양력 변동)
 function getDateRange(year: string, semester: string): { from: string; to: string } {
   const y = Number(year);
   const now = new Date();
   const isCurrentYear = y === now.getFullYear();
 
   if (semester === '1') {
-    if (isCurrentYear && now.getMonth() < 4) {
-      // 현재 연도 + 아직 5월 전 → 현재까지의 데이터 사용
+    if (isCurrentYear && now.getMonth() < 3) {
+      // 현재 연도 3월 → 3월 초부터 현재까지
       const end = new Date(now);
       end.setDate(end.getDate() - 1);
       const start = new Date(y, 2, 4); // 3월 4일부터
       return { from: fmt(start), to: fmt(end) };
     }
-    // 5월 초중순: 학기 중반, 확실한 데이터
-    return { from: `${year}0505`, to: `${year}0518` };
+    // 4월 7일~25일: 공휴일 없는 안전 구간 (3주)
+    return { from: `${year}0407`, to: `${year}0425` };
   } else {
     if (isCurrentYear && now.getMonth() < 9) {
-      // 2학기 아직 시작 전 → 빈 결과 예상
+      // 2학기 아직 시작 전
       return { from: `${year}0901`, to: `${year}0901` };
     }
-    // 10월 초중순: 학기 중반, 확실한 데이터
-    return { from: `${year}1006`, to: `${year}1019` };
+    // 11월 3일~21일: 공휴일 없는 안전 구간 (3주)
+    return { from: `${year}1103`, to: `${year}1121` };
   }
 }
 
