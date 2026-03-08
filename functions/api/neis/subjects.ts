@@ -49,7 +49,7 @@ async function fetchTimetableSubjects(
   let totalRecords = 0;
   let schoolName = '';
   let page = 1;
-  const pageSize = 1000;
+  const pageSize = 5000;
 
   while (true) {
     const params = new URLSearchParams({
@@ -130,8 +130,13 @@ async function fetchYearSubjects(
   let totalRecords = 0;
   let schoolName = '';
 
-  for (const sem of ['1', '2']) {
-    const result = await fetchTimetableSubjects(regionCode, schoolCode, year, sem, apiKey);
+  // 양 학기 병렬 조회
+  const [sem1, sem2] = await Promise.all([
+    fetchTimetableSubjects(regionCode, schoolCode, year, '1', apiKey),
+    fetchTimetableSubjects(regionCode, schoolCode, year, '2', apiKey),
+  ]);
+
+  for (const result of [sem1, sem2]) {
     if (!schoolName && result.schoolName) schoolName = result.schoolName;
     totalRecords += result.totalRecords;
 
@@ -231,7 +236,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       } else if (prevData) {
         // 이전 연도 데이터로 대체
         const prevSubjects = prevData.subjectsByGrade[grade] || [];
-        if (prevSubjects.length > currentSubjects.length) {
+        if (prevSubjects.length > 0 && prevSubjects.length >= currentSubjects.length) {
           // 이전 연도가 더 많으면 이전 연도 기반 + 현재 연도 병합
           const merged = [...prevSubjects];
           for (const subj of currentSubjects) {
