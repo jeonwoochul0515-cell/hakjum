@@ -37,19 +37,20 @@ function isValidSubject(name: string): boolean {
   return true;
 }
 
-async function fetchTimetableSubjects(
+// 특정 학년+학기의 고유 과목명만 추출 (GRADE 파라미터로 학년별 개별 조회)
+async function fetchGradeSubjects(
   regionCode: string,
   schoolCode: string,
   year: string,
   semester: string,
+  grade: string,
   apiKey: string,
-): Promise<{ subjectsByGrade: SubjectsByGrade; allSubjects: Set<string>; totalRecords: number; schoolName: string }> {
-  const allSubjectsByGrade: SubjectsByGrade = {};
-  const allSubjectsSet = new Set<string>();
-  let totalRecords = 0;
+): Promise<{ subjects: string[]; schoolName: string; totalRecords: number }> {
+  const subjects = new Set<string>();
   let schoolName = '';
+  let totalRecords = 0;
   let page = 1;
-  const pageSize = 5000;
+  const pageSize = 1000;  // NEIS 실제 최대 반환 수
 
   while (true) {
     const params = new URLSearchParams({
@@ -60,19 +61,16 @@ async function fetchTimetableSubjects(
       SD_SCHUL_CODE: schoolCode,
       AY: year,
       SEM: semester,
+      GRADE: grade,
     });
 
     if (apiKey) params.set('KEY', apiKey);
 
-    const apiUrl = `https://open.neis.go.kr/hub/hisTimetable?${params}`;
-    const response = await fetch(apiUrl);
-
+    const response = await fetch(`https://open.neis.go.kr/hub/hisTimetable?${params}`);
     if (!response.ok) break;
 
     const data = await response.json() as any;
-
-    // NEIS 에러 (데이터 없음 등)
-    if (data?.RESULT) break;
+    if (data?.RESULT) break;  // 데이터 없음
 
     const timetable = data?.hisTimetable;
     if (!timetable || timetable.length < 2) break;
@@ -84,77 +82,50 @@ async function fetchTimetableSubjects(
     const rows = timetable[1]?.row || [];
     if (rows.length === 0) break;
 
+    const prevSize = subjects.size;
+
     for (const row of rows) {
       if (!schoolName) schoolName = row.SCHUL_NM || '';
 
-      const grade = `${row.GRADE || '?'}학년`;
-      const subject = (row.ITRT_CNTNT || '').trim();
+      const raw = (row.ITRT_CNTNT || '').trim();
+      if (!raw) continue;
 
-      if (!subject) continue;
-
-      const normalized = subject
-        .replace(/^\d+\.\s*/, '')
-        .trim();
-
-      if (!normalized || !isValidSubject(normalized)) continue;
-
-      if (!allSubjectsByGrade[grade]) {
-        allSubjectsByGrade[grade] = [];
-      }
-
-      allSubjectsSet.add(normalized);
-
-      if (!allSubjectsByGrade[grade].includes(normalized)) {
-        allSubjectsByGrade[grade].push(normalized);
+      const normalized = raw.replace(/^\d+\.\s*/, '').trim();
+      if (normalized && isValidSubject(normalized)) {
+        subjects.add(normalized);
       }
     }
+
+    // 새 과목이 없으면 더 읽을 필요 없음 (과목명 추출이 목적)
+    if (subjects.size === prevSize && page >= 2) break;
 
     if (page * pageSize >= totalRecords) break;
     page++;
-
-    if (page > 20) break;
+    if (page > 10) break;  // 안전장치
   }
 
-  return { subjectsByGrade: allSubjectsByGrade, allSubjects: allSubjectsSet, totalRecords, schoolName };
+  return { subjects: [...subjects], schoolName, totalRecords };
 }
 
-// 특정 연도의 양 학기를 합쳐서 학년별 과목을 조회
-async function fetchYearSubjects(
+// 특정 학년의 양 학기를 병렬 조회하여 과목 병합
+async function fetchGradeYearSubjects(
   regionCode: string,
   schoolCode: string,
   year: string,
+  grade: string,
   apiKey: string,
-): Promise<{ subjectsByGrade: SubjectsByGrade; allSubjects: Set<string>; totalRecords: number; schoolName: string }> {
-  const merged: SubjectsByGrade = {};
-  const allSubjects = new Set<string>();
-  let totalRecords = 0;
-  let schoolName = '';
-
-  // 양 학기 병렬 조회
+): Promise<{ subjects: string[]; schoolName: string; totalRecords: number }> {
   const [sem1, sem2] = await Promise.all([
-    fetchTimetableSubjects(regionCode, schoolCode, year, '1', apiKey),
-    fetchTimetableSubjects(regionCode, schoolCode, year, '2', apiKey),
+    fetchGradeSubjects(regionCode, schoolCode, year, '1', grade, apiKey),
+    fetchGradeSubjects(regionCode, schoolCode, year, '2', grade, apiKey),
   ]);
 
-  for (const result of [sem1, sem2]) {
-    if (!schoolName && result.schoolName) schoolName = result.schoolName;
-    totalRecords += result.totalRecords;
-
-    for (const [grade, subjects] of Object.entries(result.subjectsByGrade)) {
-      if (!merged[grade]) merged[grade] = [];
-      for (const subj of subjects) {
-        if (!merged[grade].includes(subj)) {
-          merged[grade].push(subj);
-        }
-      }
-    }
-
-    for (const subj of result.allSubjects) {
-      allSubjects.add(subj);
-    }
-  }
-
-  return { subjectsByGrade: merged, allSubjects, totalRecords, schoolName };
+  const merged = new Set<string>([...sem1.subjects, ...sem2.subjects]);
+  return {
+    subjects: [...merged],
+    schoolName: sem1.schoolName || sem2.schoolName,
+    totalRecords: sem1.totalRecords + sem2.totalRecords,
+  };
 }
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
@@ -179,120 +150,106 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   try {
     // 특정 연도/학기가 지정된 경우 해당 데이터만 조회
     if (requestedYear && requestedSemester) {
-      const result = await fetchTimetableSubjects(regionCode, schoolCode, requestedYear, requestedSemester, apiKey);
+      // 3개 학년 병렬 조회
+      const grades = ['1', '2', '3'];
+      const results = await Promise.all(
+        grades.map((g) => fetchGradeSubjects(regionCode, schoolCode, requestedYear, requestedSemester, g, apiKey))
+      );
 
-      for (const grade in result.subjectsByGrade) {
-        result.subjectsByGrade[grade].sort((a, b) => a.localeCompare(b, 'ko'));
+      const subjectsByGrade: SubjectsByGrade = {};
+      const allSubjects = new Set<string>();
+      let schoolName = '';
+      let totalRecords = 0;
+
+      for (let i = 0; i < grades.length; i++) {
+        const key = `${grades[i]}학년`;
+        subjectsByGrade[key] = results[i].subjects.sort((a, b) => a.localeCompare(b, 'ko'));
+        for (const s of results[i].subjects) allSubjects.add(s);
+        if (!schoolName) schoolName = results[i].schoolName;
+        totalRecords += results[i].totalRecords;
       }
 
-      const resp: SchoolSubjectsResult = {
-        schoolName: result.schoolName,
-        schoolCode,
-        regionCode,
-        year: requestedYear,
-        semester: requestedSemester,
-        subjectsByGrade: result.subjectsByGrade,
-        allSubjects: [...result.allSubjects].sort((a, b) => a.localeCompare(b, 'ko')),
-        totalRecords: result.totalRecords,
+      return new Response(JSON.stringify({
+        schoolName, schoolCode, regionCode,
+        year: requestedYear, semester: requestedSemester,
+        subjectsByGrade,
+        allSubjects: [...allSubjects].sort((a, b) => a.localeCompare(b, 'ko')),
+        totalRecords,
         gradeDataYear: {},
-      };
-
-      return new Response(JSON.stringify(resp), {
+      } as SchoolSubjectsResult), {
         headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' },
       });
     }
 
-    // ── 자동 모드: 학년별로 독립 조회 ──
+    // ── 자동 모드: 학년별 독립 조회 ──
+    // 3개 학년 × 현재연도 양 학기를 병렬 조회
+    const grades = ['1', '2', '3'];
+    const currentResults = await Promise.all(
+      grades.map((g) => fetchGradeYearSubjects(regionCode, schoolCode, currentYearStr, g, apiKey))
+    );
 
-    // Step 1: 현재 연도(2026) 양 학기 데이터 조회
-    const currentData = await fetchYearSubjects(regionCode, schoolCode, currentYearStr, apiKey);
+    // 부족한 학년은 이전 연도 조회
+    const needsPrevYear = grades.filter((_, i) => currentResults[i].subjects.length < 3);
+    let prevResults: Map<string, Awaited<ReturnType<typeof fetchGradeYearSubjects>>> | null = null;
 
-    // Step 2: 2학년/3학년 과목이 부족하면 이전 연도(2025) 조회
-    const grade2Current = currentData.subjectsByGrade['2학년'] || [];
-    const grade3Current = currentData.subjectsByGrade['3학년'] || [];
-    const needsFallback = grade2Current.length < 3 || grade3Current.length < 3;
-
-    let prevData: Awaited<ReturnType<typeof fetchYearSubjects>> | null = null;
-    if (needsFallback) {
-      prevData = await fetchYearSubjects(regionCode, schoolCode, prevYearStr, apiKey);
+    if (needsPrevYear.length > 0) {
+      const prevFetches = await Promise.all(
+        needsPrevYear.map((g) => fetchGradeYearSubjects(regionCode, schoolCode, prevYearStr, g, apiKey))
+      );
+      prevResults = new Map();
+      for (let i = 0; i < needsPrevYear.length; i++) {
+        prevResults.set(needsPrevYear[i], prevFetches[i]);
+      }
     }
 
-    // Step 3: 학년별 최종 데이터 조립 + 기준 연도 추적
+    // 최종 조립
     const finalByGrade: SubjectsByGrade = {};
     const gradeDataYear: GradeDataYear = {};
     const finalAllSubjects = new Set<string>();
-    let schoolName = currentData.schoolName || prevData?.schoolName || '';
-    let totalRecords = currentData.totalRecords;
+    let schoolName = '';
+    let totalRecords = 0;
 
-    const targetGrades = ['1학년', '2학년', '3학년'];
+    for (let i = 0; i < grades.length; i++) {
+      const gradeKey = `${grades[i]}학년`;
+      const current = currentResults[i];
+      if (!schoolName) schoolName = current.schoolName;
+      totalRecords += current.totalRecords;
 
-    for (const grade of targetGrades) {
-      const currentSubjects = currentData.subjectsByGrade[grade] || [];
+      if (current.subjects.length >= 3) {
+        // 현재 연도 데이터 충분
+        finalByGrade[gradeKey] = current.subjects;
+        gradeDataYear[gradeKey] = currentYearStr;
+      } else if (prevResults?.has(grades[i])) {
+        // 이전 연도 데이터로 보강
+        const prev = prevResults.get(grades[i])!;
+        if (!schoolName) schoolName = prev.schoolName;
+        totalRecords += prev.totalRecords;
 
-      if (currentSubjects.length >= 3) {
-        // 현재 연도 데이터 사용
-        finalByGrade[grade] = currentSubjects;
-        gradeDataYear[grade] = currentYearStr;
-      } else if (prevData) {
-        // 이전 연도 데이터로 대체
-        const prevSubjects = prevData.subjectsByGrade[grade] || [];
-        if (prevSubjects.length > 0 && prevSubjects.length >= currentSubjects.length) {
-          // 이전 연도가 더 많으면 이전 연도 기반 + 현재 연도 병합
-          const merged = [...prevSubjects];
-          for (const subj of currentSubjects) {
-            if (!merged.includes(subj)) merged.push(subj);
-          }
-          finalByGrade[grade] = merged;
-          gradeDataYear[grade] = prevYearStr;
-          totalRecords += prevData.totalRecords;
+        if (prev.subjects.length > 0) {
+          const merged = new Set<string>([...prev.subjects, ...current.subjects]);
+          finalByGrade[gradeKey] = [...merged];
+          gradeDataYear[gradeKey] = prevYearStr;
         } else {
-          finalByGrade[grade] = currentSubjects;
-          gradeDataYear[grade] = currentYearStr;
+          finalByGrade[gradeKey] = current.subjects;
+          gradeDataYear[gradeKey] = currentYearStr;
         }
       } else {
-        finalByGrade[grade] = currentSubjects;
-        gradeDataYear[grade] = currentYearStr;
+        finalByGrade[gradeKey] = current.subjects;
+        gradeDataYear[gradeKey] = currentYearStr;
       }
 
-      // 전체 과목에 추가
-      for (const subj of finalByGrade[grade]) {
-        finalAllSubjects.add(subj);
-      }
+      for (const s of finalByGrade[gradeKey]) finalAllSubjects.add(s);
+      finalByGrade[gradeKey].sort((a, b) => a.localeCompare(b, 'ko'));
     }
 
-    // 기타 학년 (혹시 있다면)
-    const allGradeKeys = new Set([
-      ...Object.keys(currentData.subjectsByGrade),
-      ...(prevData ? Object.keys(prevData.subjectsByGrade) : []),
-    ]);
-    for (const grade of allGradeKeys) {
-      if (!finalByGrade[grade]) {
-        finalByGrade[grade] = currentData.subjectsByGrade[grade] || prevData?.subjectsByGrade[grade] || [];
-        gradeDataYear[grade] = currentData.subjectsByGrade[grade]?.length ? currentYearStr : prevYearStr;
-        for (const subj of finalByGrade[grade]) {
-          finalAllSubjects.add(subj);
-        }
-      }
-    }
-
-    // 학년별 과목 정렬
-    for (const grade in finalByGrade) {
-      finalByGrade[grade].sort((a, b) => a.localeCompare(b, 'ko'));
-    }
-
-    const result: SchoolSubjectsResult = {
-      schoolName,
-      schoolCode,
-      regionCode,
-      year: currentYearStr,
-      semester: 'all',
+    return new Response(JSON.stringify({
+      schoolName, schoolCode, regionCode,
+      year: currentYearStr, semester: 'all',
       subjectsByGrade: finalByGrade,
       allSubjects: [...finalAllSubjects].sort((a, b) => a.localeCompare(b, 'ko')),
       totalRecords,
       gradeDataYear,
-    };
-
-    return new Response(JSON.stringify(result), {
+    } as SchoolSubjectsResult), {
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'public, max-age=3600',
