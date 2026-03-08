@@ -32,7 +32,7 @@ const STEP_LABELS: Partial<Record<FlowStep, string>> = {
 };
 
 export function FlowHeader() {
-  const { state, back } = useFlow();
+  const { state, back, reset } = useFlow();
   const { currentStep, stepHistory, school } = state;
 
   const currentIndex = STEP_ORDER.indexOf(currentStep);
@@ -54,18 +54,21 @@ export function FlowHeader() {
             <div className="w-16" />
           )}
 
-          {/* Logo */}
-          <div className="flex items-center gap-2">
+          {/* Logo - 클릭 시 첫 페이지로 */}
+          <button
+            onClick={() => reset()}
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <img src="/butterfly.svg" alt="학점나비" className="w-7 h-7" />
             <span className="text-lg font-bold bg-gradient-to-r from-sky-primary to-indigo-primary bg-clip-text text-transparent">
               학점나비
             </span>
-          </div>
+          </button>
 
-          {/* School badge */}
-          <div className="w-16 flex justify-end">
+          {/* School badge - 한줄 표시 */}
+          <div className="shrink-0 flex justify-end">
             {school && currentStep !== 'school-select' && (
-              <Badge color="sky">{school.name.length > 6 ? school.name.slice(0, 6) + '…' : school.name}</Badge>
+              <Badge color="sky"><span className="whitespace-nowrap">{school.name}</span></Badge>
             )}
           </div>
         </div>
