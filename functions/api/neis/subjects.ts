@@ -31,6 +31,44 @@ interface SchoolSubjectsResult {
   gradeDataYear: GradeDataYear;
 }
 
+// 2022 개정 교육과정 보통교과 기본 선택과목 (NEIS에 없어도 모든 고등학교에서 편성 가능)
+const CURRICULUM_2022_SUBJECTS = [
+  // 국어
+  '화법과 언어', '독서와 작문', '문학',
+  '주제 탐구 독서', '문학과 영상', '직무 의사소통',
+  '독서 토론과 글쓰기', '매체 의사소통',
+  // 수학
+  '대수', '미적분Ⅰ', '확률과 통계',
+  '기하', '미적분Ⅱ', '경제 수학', '인공지능 수학',
+  '실용 통계', '수학과제 탐구', '수학과 문화',
+  // 영어
+  '영어Ⅰ', '영어Ⅱ', '영어 독해와 작문',
+  '영미 문학 읽기', '영어 발표와 토론', '심화 영어',
+  '실생활 영어 회화', '미디어 영어', '세계 문화와 영어',
+  // 사회
+  '세계시민과 지리', '세계사', '사회와 문화', '현대사회와 윤리',
+  '한국지리 탐구', '도시의 미래 탐구', '동아시아 역사 기행',
+  '정치', '법과 사회', '경제', '윤리와 사상', '인문학과 윤리', '국제 관계의 이해',
+  '여행지리', '역사로 탐구하는 현대 세계', '사회문제 탐구', '금융과 경제생활',
+  // 과학
+  '물리학', '화학', '생명과학', '지구과학',
+  '역학과 에너지', '전자기와 양자', '물질과 에너지', '화학 반응의 세계',
+  '세포와 물질대사', '생물의 유전', '지구시스템과학', '행성우주과학',
+  '과학의 역사와 문화', '기후변화와 환경생태', '융합과학 탐구',
+  // 체육
+  '운동과 건강', '스포츠 문화', '스포츠 과학',
+  // 예술
+  '음악', '미술', '연극',
+  '음악 연주와 창작', '음악 감상과 비평', '미술 창작', '미술 감상과 비평',
+  // 기술·가정 / 정보
+  '정보', '인공지능 기초', '데이터 과학',
+  '로봇과 공학세계', '창의 공학 설계',
+  // 제2외국어 (주요)
+  '일본어', '중국어', '프랑스어', '독일어', '스페인어', '러시아어', '한문',
+  // 교양
+  '진로와 직업', '생태와 환경', '보건', '논술',
+];
+
 // NEIS 시간표에서 과목이 아닌 항목 필터링
 const EXCLUDED_PATTERNS = /^(대체공휴일|공휴일|재량활동|자습|보충학습|방학|휴업일|개교기념일|졸업식|입학식|중간고사|기말고사|시험|수련활동|현장체험|수학여행|체험학습|학교행사|행사|방과후|야간자율학습|석식|조회|종례|청소|어린이날|추석|설날|설|부처님오신날|석가탄신일|광복절|개천절|한글날|성탄절|크리스마스|현충일|삼일절|3\.1절|신정|임시공휴일|대통령선거|국회의원선거|지방선거|재보궐선거|선거일|보강|재량휴업일|학교장재량|\.+|-)$/;
 
@@ -221,6 +259,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         totalRecords += results[i].totalRecords;
       }
 
+      // 2022 개정 교육과정 기본 과목 병합
+      for (const s of CURRICULUM_2022_SUBJECTS) {
+        allSubjects.add(s);
+      }
+
       const response = new Response(JSON.stringify({
         schoolName, schoolCode, regionCode,
         year: requestedYear, semester: requestedSemester,
@@ -308,6 +351,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
       for (const s of finalByGrade[gradeKey]) finalAllSubjects.add(s);
       finalByGrade[gradeKey].sort((a, b) => a.localeCompare(b, 'ko'));
+    }
+
+    // 2022 개정 교육과정 기본 과목 병합 (NEIS에 없어도 편성 가능한 과목)
+    for (const s of CURRICULUM_2022_SUBJECTS) {
+      finalAllSubjects.add(s);
     }
 
     const response = new Response(JSON.stringify({
