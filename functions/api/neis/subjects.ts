@@ -48,10 +48,9 @@ function normalizeSubjectName(raw: string): string {
   return name;
 }
 
-// 학기별 대표 날짜 범위 반환 (YYYYMMDD 형식)
-// 공휴일을 피한 3주 범위로 충분한 과목 커버리지 확보
-// 주요 공휴일: 3/1, 5/5(어린이날), 5/15(석가탄신일), 6/6(현충일),
-//              8/15(광복절), 10/3(개천절), 10/9(한글날), 추석(양력 변동)
+// 학기별 대표 1주 날짜 반환 (YYYYMMDD 형식)
+// 시간표는 주 단위 반복 → 1주(월~금)면 해당 학년의 모든 과목 확보
+// 공휴일 없는 월~금 선택: 1학기 4/14~18, 2학기 11/10~14
 function getDateRange(year: string, semester: string): { from: string; to: string } {
   const y = Number(year);
   const now = new Date();
@@ -59,21 +58,20 @@ function getDateRange(year: string, semester: string): { from: string; to: strin
 
   if (semester === '1') {
     if (isCurrentYear && now.getMonth() < 3) {
-      // 현재 연도 3월 → 3월 초부터 현재까지
+      // 현재 연도 3월 → 3월 첫 주부터 현재까지
       const end = new Date(now);
       end.setDate(end.getDate() - 1);
-      const start = new Date(y, 2, 4); // 3월 4일부터
+      const start = new Date(y, 2, 4);
       return { from: fmt(start), to: fmt(end) };
     }
-    // 4월 7일~25일: 공휴일 없는 안전 구간 (3주)
-    return { from: `${year}0407`, to: `${year}0425` };
+    // 4월 둘째 주 (월~금) - 공휴일 없음
+    return { from: `${year}0414`, to: `${year}0418` };
   } else {
     if (isCurrentYear && now.getMonth() < 9) {
-      // 2학기 아직 시작 전
       return { from: `${year}0901`, to: `${year}0901` };
     }
-    // 11월 3일~21일: 공휴일 없는 안전 구간 (3주)
-    return { from: `${year}1103`, to: `${year}1121` };
+    // 11월 둘째 주 (월~금) - 공휴일 없음
+    return { from: `${year}1110`, to: `${year}1114` };
   }
 }
 
