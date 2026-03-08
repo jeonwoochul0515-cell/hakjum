@@ -11,16 +11,6 @@ import { useAuth } from '@/context/AuthContext';
 
 // ── 소비심리학 기반 데이터 ──
 
-// [손실회피] 과목선택 마감까지 남은 날짜 계산
-function getDaysUntilDeadline(): number {
-  const now = new Date();
-  const year = now.getFullYear();
-  // 보통 4월 말~5월 초가 2학년 선택과목 최종 확정 시기
-  let deadline = new Date(year, 4, 10); // 5월 10일
-  if (now > deadline) deadline = new Date(year + 1, 4, 10);
-  return Math.max(0, Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
-}
-
 
 // [손실회피 + 프레이밍] 고민 카드 - 불안감을 자극하되 해결책 제시
 const worryCards = [
@@ -85,7 +75,6 @@ export default function HomePage() {
   const { currentUser } = useAuth();
   const [currentWorry, setCurrentWorry] = useState(0);
   const [worryVisible, setWorryVisible] = useState(true);
-  const [daysLeft] = useState(getDaysUntilDeadline);
   const [showComparison, setShowComparison] = useState(false);
   const comparisonRef = useRef<HTMLDivElement>(null);
 
@@ -156,20 +145,7 @@ export default function HomePage() {
 
       <div className="max-w-lg mx-auto px-4 pt-6 pb-8">
 
-        {/* [긴급성] 상단 긴급 배너 */}
-        {daysLeft <= 90 && (
-          <div className="mb-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-3 border border-amber-200 animate-fade-in-up">
-            <div className="flex items-center gap-2">
-              <AlertTriangle size={16} className="text-amber-600 flex-shrink-0" />
-              <p className="text-xs font-medium text-amber-800">
-                2학년 선택과목 확정까지 <strong className="text-amber-900">D-{daysLeft}</strong>
-                <span className="text-amber-600 ml-1">· 아직 과목 못 정했다면 지금 바로!</span>
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* 재방문자 배너 */}
+{/* 재방문자 배너 */}
         {hasLastResult && (
           <div className="mb-4 bg-white rounded-2xl p-4 shadow-sm border border-sky-100 animate-fade-in-up">
             <p className="text-sm font-medium text-slate-700">지난번 추천 결과가 저장되어 있어요!</p>
@@ -464,9 +440,7 @@ export default function HomePage() {
             아직도 과목 선택 고민 중이라면
           </h3>
           <p className="text-sm text-sky-100 mt-2 leading-relaxed">
-            {daysLeft <= 90
-              ? `선택과목 확정까지 D-${daysLeft}. 지금 바로 확인하세요.`
-              : '미리 준비하는 학생이 원하는 대학에 갑니다.'}
+            미리 준비하는 학생이 원하는 대학에 갑니다.
           </p>
           <button
             onClick={() => handleStart('final-cta')}
