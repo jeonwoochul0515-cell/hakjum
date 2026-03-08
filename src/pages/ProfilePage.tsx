@@ -6,43 +6,15 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { useAuth } from '@/context/AuthContext';
 
-interface ProfileExtra {
-  userType?: string;
-  grade?: string;
-  schoolName?: string;
-}
-
-interface SavedResult {
-  id: string;
-  career: string;
-  major: string;
-  date: string;
-  subjectCount: number;
-}
-
 export default function ProfilePage() {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, profileExtra, savedResults } = useAuth();
   const navigate = useNavigate();
-  const [profileExtra, setProfileExtra] = useState<ProfileExtra>({});
-  const [savedResults, setSavedResults] = useState<SavedResult[]>([]);
   const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
       navigate('/login');
-      return;
     }
-    // Load extra profile info
-    try {
-      const raw = localStorage.getItem('hakjum-profile');
-      if (raw) setProfileExtra(JSON.parse(raw));
-    } catch { /* ignore */ }
-
-    // Load saved recommendation history from localStorage
-    try {
-      const raw = localStorage.getItem('hakjum-saved-results');
-      if (raw) setSavedResults(JSON.parse(raw));
-    } catch { /* ignore */ }
   }, [currentUser, navigate]);
 
   async function handleLogout() {

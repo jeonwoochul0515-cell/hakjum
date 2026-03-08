@@ -4,6 +4,8 @@ import { Mail, Lock, Eye, EyeOff, User, School } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { useAuth } from '@/context/AuthContext';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth as firebaseAuth, db } from '@/lib/firebase';
 
 type UserType = '학생' | '학부모' | '교사/상담사';
 type Grade = '고1' | '고2' | '고3';
@@ -46,9 +48,10 @@ export default function SignupPage() {
     setLoading(true);
     try {
       await signup(email, password, displayName);
-      // Save extra profile info to localStorage (can be migrated to Firestore later)
-      const profileExtra = { userType, grade, schoolName };
-      localStorage.setItem('hakjum-profile', JSON.stringify(profileExtra));
+      const uid = firebaseAuth.currentUser?.uid;
+      if (uid) {
+        await setDoc(doc(db, 'users', uid), { userType, grade, schoolName });
+      }
       navigate('/');
     } catch (err: unknown) {
       if (err instanceof Error && err.message.includes('email-already-in-use')) {
