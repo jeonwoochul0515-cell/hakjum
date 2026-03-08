@@ -26,6 +26,17 @@ interface SchoolSubjectsResult {
   gradeDataYear: GradeDataYear;  // 학년별 데이터 기준 연도
 }
 
+// NEIS 시간표에서 과목이 아닌 항목 필터링
+const EXCLUDED_PATTERNS = /^(대체공휴일|공휴일|재량활동|자습|보충학습|방학|휴업일|개교기념일|졸업식|입학식|중간고사|기말고사|시험|수련활동|현장체험|수학여행|체험학습|학교행사|행사|방과후|야간자율학습|석식|조회|종례|청소|\.+|-)$/;
+
+function isValidSubject(name: string): boolean {
+  if (!name || name.length < 2) return false;
+  if (EXCLUDED_PATTERNS.test(name)) return false;
+  // 숫자/특수문자만으로 이루어진 경우 제외
+  if (/^[\d\s.·\-_]+$/.test(name)) return false;
+  return true;
+}
+
 async function fetchTimetableSubjects(
   regionCode: string,
   schoolCode: string,
@@ -85,7 +96,7 @@ async function fetchTimetableSubjects(
         .replace(/^\d+\.\s*/, '')
         .trim();
 
-      if (!normalized) continue;
+      if (!normalized || !isValidSubject(normalized)) continue;
 
       if (!allSubjectsByGrade[grade]) {
         allSubjectsByGrade[grade] = [];
