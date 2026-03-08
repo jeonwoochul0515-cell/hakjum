@@ -5,9 +5,6 @@ import type { FlowStep } from '@/types';
 
 const STEP_ORDER: FlowStep[] = [
   'school-select',
-  'aptitude-intro',
-  'aptitude-test',
-  'aptitude-result',
   'interest-input',
   'ai-loading',
   'major-results',

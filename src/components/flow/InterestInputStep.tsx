@@ -1,11 +1,11 @@
-import { Sparkles, CheckCircle2, ExternalLink } from 'lucide-react';
+import { Sparkles, CheckCircle2, ExternalLink, ClipboardList } from 'lucide-react';
 import { GradeSelector } from '@/components/career/GradeSelector';
 import { QuickTag } from '@/components/career/QuickTag';
 import { RecentSearches } from '@/components/explore/RecentSearches';
 import { useFlow } from '@/hooks/useFlow';
 
 export function InterestInputStep() {
-  const { state, dispatch, analyze, selectMajor } = useFlow();
+  const { state, dispatch, go, analyze, selectMajor } = useFlow();
 
   const canProceed = state.interest.trim().length >= 2 || state.tags.length > 0;
 
@@ -21,8 +21,8 @@ export function InterestInputStep() {
         <p className="text-sm text-slate-500 mt-1">관심사를 알려주면 AI가 맞춤 학과를 추천해드려요</p>
       </div>
 
-      {/* 적성검사 완료 배지 */}
-      {state.aptitudeResult?.url && (
+      {/* 적성검사: 완료 시 결과 배지, 미완료 시 선택 카드 */}
+      {state.aptitudeResult?.url ? (
         <a
           href={state.aptitudeResult.url}
           target="_blank"
@@ -33,6 +33,19 @@ export function InterestInputStep() {
           <span className="text-sm font-medium text-green-700 flex-1">흥미검사 완료</span>
           <ExternalLink size={14} className="text-green-400" />
         </a>
+      ) : (
+        <button
+          onClick={() => go('aptitude-intro')}
+          className="w-full flex items-center gap-3 bg-slate-50 rounded-xl px-4 py-3 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-colors text-left cursor-pointer"
+        >
+          <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center shrink-0">
+            <ClipboardList size={16} className="text-indigo-400" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-slate-600">직업흥미검사 해보기</p>
+            <p className="text-[11px] text-slate-400">커리어넷 검사로 적성을 먼저 파악해보세요 (선택)</p>
+          </div>
+        </button>
       )}
 
       {/* 학년 */}
