@@ -10,6 +10,8 @@ const initialState: FlowState = {
   grade: '',
   interest: '',
   tags: [],
+  aptitudeResult: null,
+  aptitudeGender: '',
   exploreResult: null,
   selectedMajor: null,
   enrollment: [],
@@ -88,6 +90,10 @@ function flowReducer(state: FlowState, action: FlowAction): FlowState {
       return { ...state, selectedUniversity: action.payload, academyInfo: null };
     case 'SET_ACADEMY_INFO':
       return { ...state, academyInfo: action.payload };
+    case 'SET_APTITUDE_RESULT':
+      return { ...state, aptitudeResult: action.payload };
+    case 'SET_APTITUDE_GENDER':
+      return { ...state, aptitudeGender: action.payload };
     case 'SET_RECOMMENDATION':
       return { ...state, recommendationResult: action.payload };
     case 'RESET':

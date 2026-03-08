@@ -109,6 +109,7 @@ export function useFlow() {
       targetMajor: state.selectedMajor,
       checkedSubjects: [],
       lastResult: null,
+      aptitudeResult: state.aptitudeResult,
     };
 
     try {

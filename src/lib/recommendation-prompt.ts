@@ -13,7 +13,8 @@ export function buildPrompt(state: WizardState): string {
 - 학교: ${school.name} (${school.type})
 - 수강 학년: ${grade}
 - 희망 진로: ${careerGoal || '미입력'}
-- 관심 분야: ${tags.length > 0 ? tags.join(', ') : '미선택'}`;
+- 관심 분야: ${tags.length > 0 ? tags.join(', ') : '미선택'}
+- 적성검사: ${state.aptitudeResult ? '커리어넷 직업흥미검사 완료' : '미실시'}`;
 
   // 목표 대학·학과 정보 추가
   if (targetMajor) {

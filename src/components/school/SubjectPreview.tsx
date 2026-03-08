@@ -1,4 +1,5 @@
-import { BookOpen } from 'lucide-react';
+import { useState } from 'react';
+import { BookOpen, ChevronDown, ChevronUp, Info } from 'lucide-react';
 import type { School } from '@/types';
 
 interface SubjectPreviewProps {
@@ -21,63 +22,169 @@ const categoryConfig: Record<SubjectCategory, { label: string; bg: string; text:
   other:    { label: '기타/전문', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' },
 };
 
+// 공통과목 (1학년 필수/거의 강제 선택인 과목)
+const COMMON_SUBJECTS = /^(국어|수학|영어|한국사|통합사회|통합과학|과학탐구실험|체육|음악|미술|기술·?가정|정보|제2외국어|한문|교양|보건|진로와 직업|창의적 체험활동|자율활동|동아리활동|봉사활동)$/;
+
 function categorize(name: string): SubjectCategory {
-  // 활동
   if (/활동|동아리/.test(name)) return 'activity';
-  // 국어
   if (/국어|문학|화법|작문|독서|언어와 매체|고전|심화 국어/.test(name)) return 'korean';
-  // 수학
   if (/수학|미적분|기하|확률과 통계|경제 수학/.test(name)) return 'math';
-  // 영어
   if (/영어|영문|영어권/.test(name)) return 'english';
-  // 과학
   if (/과학|물리|화학|생명|지구|천문|과학사|융합|실험/.test(name)) return 'science';
-  // 사회
   if (/사회|역사|지리|정치|법|경제|윤리|한국사|세계사|도덕|통합사회/.test(name)) return 'social';
-  // 예술
   if (/미술|음악|연극|영화|사진|디자인|서예/.test(name)) return 'arts';
-  // 체육
   if (/체육|운동|스포츠|보건/.test(name)) return 'pe';
-  // 기술·정보
   if (/정보|프로그래밍|웹|빅데이터|인공지능|AI|공학|기술|로봇|SW|코딩|컴퓨터/.test(name)) return 'tech';
-  // 진로·교양 (제2외국어 포함)
   if (/진로|직업|교양|심리|교육|철학|논리|환경|한문|일본어|중국어|프랑스어|독일어|스페인어|아랍어|베트남어|러시아어/.test(name)) return 'career';
   return 'other';
 }
 
+function isElective(name: string): boolean {
+  return !COMMON_SUBJECTS.test(name.trim());
+}
+
 export function SubjectPreview({ school }: SubjectPreviewProps) {
-  const grades = Object.entries(school.subjectsByGrade).sort(([a], [b]) => a.localeCompare(b, 'ko'));
+  const [showGrade1, setShowGrade1] = useState(false);
+
+  const currentYear = new Date().getFullYear();
+  const currentYearStr = String(currentYear);
+  const gradeDataYear = school.gradeDataYear || {};
+
+  const grade2 = school.subjectsByGrade['2학년'] || [];
+  const grade3 = school.subjectsByGrade['3학년'] || [];
+  const grade1 = school.subjectsByGrade['1학년'] || [];
+
+  // 선택과목만 필터링 (활동 제외)
+  const grade2Electives = grade2.filter((s) => isElective(s) && categorize(s) !== 'activity');
+  const grade3Electives = grade3.filter((s) => isElective(s) && categorize(s) !== 'activity');
+
+  // 이전 연도 데이터 사용 여부
+  const grade2IsPrevYear = gradeDataYear['2학년'] && gradeDataYear['2학년'] !== currentYearStr;
+  const grade3IsPrevYear = gradeDataYear['3학년'] && gradeDataYear['3학년'] !== currentYearStr;
+  const hasPrevYearData = grade2IsPrevYear || grade3IsPrevYear;
 
   return (
     <div className="bg-sky-50/50 rounded-xl p-4 border border-sky-100">
-      <div className="flex items-center gap-2 mb-2">
-        <BookOpen size={16} className="text-sky-primary" />
-        <h4 className="text-sm font-semibold text-slate-700">{school.name} 개설과목</h4>
+      <div className="flex items-center gap-2 mb-3">
+        <BookOpen size={18} className="text-sky-primary" />
+        <h4 className="text-base font-bold text-slate-800">{school.name} 선택과목</h4>
       </div>
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {Object.entries(categoryConfig).map(([key, cfg]) => (
-          <span key={key} className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${cfg.bg} ${cfg.text} border ${cfg.border}`}>
-            {cfg.label}
-          </span>
-        ))}
+
+      {/* 이전 연도 데이터 노티스 */}
+      {hasPrevYearData && (
+        <div className="flex items-start gap-2 bg-amber-50 rounded-lg px-3 py-2.5 border border-amber-200 mb-4">
+          <Info size={16} className="text-amber-500 mt-0.5 shrink-0" />
+          <p className="text-xs text-amber-700 leading-relaxed">
+            {grade2IsPrevYear && grade3IsPrevYear
+              ? `2·3학년 과목은 ${gradeDataYear['2학년']}년 개설과목 기준입니다. (${currentYearStr}년 데이터가 아직 NEIS에 등록되지 않았습니다)`
+              : grade2IsPrevYear
+                ? `2학년 과목은 ${gradeDataYear['2학년']}년 개설과목 기준입니다.`
+                : `3학년 과목은 ${gradeDataYear['3학년']}년 개설과목 기준입니다.`
+            }
+          </p>
+        </div>
+      )}
+
+      {/* 카테고리 범례 */}
+      <div className="flex flex-wrap gap-1.5 mb-4">
+        {Object.entries(categoryConfig)
+          .filter(([key]) => key !== 'activity')
+          .map(([key, cfg]) => (
+            <span key={key} className={`px-2 py-0.5 rounded text-[11px] font-medium ${cfg.bg} ${cfg.text} border ${cfg.border}`}>
+              {cfg.label}
+            </span>
+          ))}
       </div>
-      <div className="space-y-3">
-        {grades.map(([grade, subjects]) => (
-          <div key={grade}>
-            <p className="text-xs font-medium text-slate-500 mb-1.5">{grade} <span className="text-slate-400">({subjects.length}개)</span></p>
-            <div className="flex flex-wrap gap-1.5">
-              {subjects.map((s) => {
-                const cat = categorize(s);
-                const cfg = categoryConfig[cat];
-                return (
-                  <span key={s} className={`px-2 py-0.5 rounded-md text-xs font-medium border ${cfg.bg} ${cfg.text} ${cfg.border}`}>
-                    {s}
-                  </span>
-                );
-              })}
-            </div>
+
+      <div className="space-y-5">
+        {/* 2학년 선택과목 */}
+        <GradeSection
+          title="2학년 선택과목"
+          subjects={grade2Electives}
+          dataYear={gradeDataYear['2학년']}
+          currentYear={currentYearStr}
+          highlight
+        />
+
+        {/* 3학년 선택과목 */}
+        <GradeSection
+          title="3학년 선택과목"
+          subjects={grade3Electives}
+          dataYear={gradeDataYear['3학년']}
+          currentYear={currentYearStr}
+          highlight
+        />
+
+        {/* 1학년 (접이식) */}
+        {grade1.length > 0 && (
+          <div>
+            <button
+              onClick={() => setShowGrade1(!showGrade1)}
+              className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            >
+              1학년 과목 ({grade1.length}개)
+              {showGrade1 ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+            {showGrade1 && (
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {grade1.map((s) => {
+                  const cat = categorize(s);
+                  const cfg = categoryConfig[cat];
+                  return (
+                    <span key={s} className={`px-2 py-0.5 rounded-md text-xs font-medium border ${cfg.bg} ${cfg.text} ${cfg.border} opacity-60`}>
+                      {s}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        ))}
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GradeSection({ title, subjects, dataYear, currentYear, highlight }: {
+  title: string;
+  subjects: string[];
+  dataYear?: string;
+  currentYear: string;
+  highlight?: boolean;
+}) {
+  const isPrevYear = dataYear && dataYear !== currentYear;
+
+  if (subjects.length === 0) {
+    return (
+      <div>
+        <p className="text-sm font-bold text-slate-600 mb-2">{title} <span className="text-slate-400 font-normal">(0개)</span></p>
+        <p className="text-sm text-slate-400">데이터 없음</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center gap-2 mb-2">
+        <p className={`font-bold ${highlight ? 'text-base text-slate-800' : 'text-sm text-slate-600'}`}>
+          {title} <span className="text-slate-400 font-normal">({subjects.length}개)</span>
+        </p>
+        {isPrevYear && (
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-600 border border-amber-200">
+            {dataYear}년 기준
+          </span>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {subjects.map((s) => {
+          const cat = categorize(s);
+          const cfg = categoryConfig[cat];
+          return (
+            <span key={s} className={`px-3 py-1 rounded-lg text-sm font-semibold border ${cfg.bg} ${cfg.text} ${cfg.border}`}>
+              {s}
+            </span>
+          );
+        })}
       </div>
     </div>
   );

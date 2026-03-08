@@ -1,5 +1,8 @@
 import { FlowHeader } from '@/components/flow/FlowHeader';
 import { SchoolSelectStep } from '@/components/flow/SchoolSelectStep';
+import { AptitudeIntroStep } from '@/components/flow/AptitudeIntroStep';
+import { AptitudeTestStep } from '@/components/flow/AptitudeTestStep';
+import { AptitudeResultStep } from '@/components/flow/AptitudeResultStep';
 import { InterestInputStep } from '@/components/flow/InterestInputStep';
 import { MajorResultsStep } from '@/components/flow/MajorResultsStep';
 import { MajorDetailStep } from '@/components/flow/MajorDetailStep';
@@ -11,6 +14,9 @@ import { useFlowContext } from '@/context/FlowContext';
 
 const STEP_COMPONENTS: Record<string, React.ComponentType> = {
   'school-select': SchoolSelectStep,
+  'aptitude-intro': AptitudeIntroStep,
+  'aptitude-test': AptitudeTestStep,
+  'aptitude-result': AptitudeResultStep,
   'interest-input': InterestInputStep,
   'ai-loading': AILoadingState,
   'major-results': MajorResultsStep,

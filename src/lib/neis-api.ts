@@ -30,6 +30,7 @@ export interface SchoolSubjects {
   subjectsByGrade: Record<string, string[]>;
   allSubjects: string[];
   totalRecords: number;
+  gradeDataYear?: Record<string, string>;  // 학년별 데이터 기준 연도
 }
 
 // 시도교육청 코드 (프론트에서 셀렉트박스용)

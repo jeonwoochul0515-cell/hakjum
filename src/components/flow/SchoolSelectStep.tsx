@@ -143,9 +143,9 @@ export function SchoolSelectStep() {
         size="lg"
         className="w-full"
         disabled={!state.school}
-        onClick={() => go('interest-input')}
+        onClick={() => go('aptitude-intro')}
       >
-        다음: 관심사 입력하기
+        다음: 흥미검사 / 관심사 입력
         <ArrowRight size={18} className="ml-2" />
       </Button>
     </div>

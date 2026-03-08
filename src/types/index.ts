@@ -7,6 +7,7 @@ export interface School {
   totalRecords: number;
   subjectsByGrade: Record<string, string[]>;
   allSubjects: string[];
+  gradeDataYear?: Record<string, string>;  // 학년별 데이터 기준 연도
 }
 
 export interface University {
@@ -58,6 +59,7 @@ export interface WizardState {
   targetMajor: Major | null;
   checkedSubjects: string[];
   lastResult: RecommendationResult | null;
+  aptitudeResult: AptitudeResult | null;
 }
 
 export type WizardAction =
@@ -114,10 +116,26 @@ export interface ShareableResult {
   timestamp: number;
 }
 
+// ── 적성검사 ──
+
+export interface AptitudeQuestion {
+  questionNo: number;
+  question: string;
+  answers: { answerNo: number; answer: string }[];
+}
+
+export interface AptitudeResult {
+  url: string;
+  inspctSeq: string;
+}
+
 // ── 통합 플로우 ──
 
 export type FlowStep =
   | 'school-select'
+  | 'aptitude-intro'
+  | 'aptitude-test'
+  | 'aptitude-result'
   | 'interest-input'
   | 'ai-loading'
   | 'major-results'
@@ -133,6 +151,8 @@ export interface FlowState {
   grade: string;
   interest: string;
   tags: string[];
+  aptitudeResult: AptitudeResult | null;
+  aptitudeGender: string;
   exploreResult: AIExploreResult | null;
   selectedMajor: MajorFull | null;
   enrollment: EnrollmentInfo[];
@@ -149,6 +169,8 @@ export type FlowAction =
   | { type: 'SET_GRADE'; payload: string }
   | { type: 'SET_INTEREST'; payload: string }
   | { type: 'TOGGLE_TAG'; payload: string }
+  | { type: 'SET_APTITUDE_RESULT'; payload: AptitudeResult }
+  | { type: 'SET_APTITUDE_GENDER'; payload: string }
   | { type: 'SET_EXPLORE_RESULT'; payload: AIExploreResult }
   | { type: 'SET_SELECTED_MAJOR'; payload: MajorFull }
   | { type: 'SET_ENROLLMENT'; payload: EnrollmentInfo[] }

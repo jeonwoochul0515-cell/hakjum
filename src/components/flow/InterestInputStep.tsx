@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import { Sparkles, CheckCircle2, ExternalLink } from 'lucide-react';
 import { GradeSelector } from '@/components/career/GradeSelector';
 import { QuickTag } from '@/components/career/QuickTag';
 import { RecentSearches } from '@/components/explore/RecentSearches';
@@ -20,6 +20,20 @@ export function InterestInputStep() {
         <h1 className="text-xl font-bold text-slate-800">어떤 꿈을 꾸고 있나요?</h1>
         <p className="text-sm text-slate-500 mt-1">관심사를 알려주면 AI가 맞춤 학과를 추천해드려요</p>
       </div>
+
+      {/* 적성검사 완료 배지 */}
+      {state.aptitudeResult?.url && (
+        <a
+          href={state.aptitudeResult.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 bg-green-50 rounded-xl px-4 py-2.5 border border-green-200 hover:bg-green-100 transition-colors"
+        >
+          <CheckCircle2 size={16} className="text-green-500" />
+          <span className="text-sm font-medium text-green-700 flex-1">흥미검사 완료</span>
+          <ExternalLink size={14} className="text-green-400" />
+        </a>
+      )}
 
       {/* 학년 */}
       <GradeSelector

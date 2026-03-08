@@ -5,6 +5,9 @@ import type { FlowStep } from '@/types';
 
 const STEP_ORDER: FlowStep[] = [
   'school-select',
+  'aptitude-intro',
+  'aptitude-test',
+  'aptitude-result',
   'interest-input',
   'ai-loading',
   'major-results',
@@ -16,6 +19,9 @@ const STEP_ORDER: FlowStep[] = [
 
 const STEP_LABELS: Partial<Record<FlowStep, string>> = {
   'school-select': '학교 선택',
+  'aptitude-intro': '흥미검사',
+  'aptitude-test': '검사 진행',
+  'aptitude-result': '검사 결과',
   'interest-input': '관심사 입력',
   'ai-loading': 'AI 분석 중',
   'major-results': '추천 학과',
@@ -32,7 +38,7 @@ export function FlowHeader() {
   const currentIndex = STEP_ORDER.indexOf(currentStep);
   const progress = Math.max(0, ((currentIndex + 1) / STEP_ORDER.length) * 100);
 
-  const canGoBack = stepHistory.length > 0 && currentStep !== 'ai-loading';
+  const canGoBack = stepHistory.length > 0 && currentStep !== 'ai-loading' && currentStep !== 'aptitude-test';
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">

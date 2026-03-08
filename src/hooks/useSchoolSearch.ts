@@ -57,6 +57,7 @@ export function useSchoolSearch() {
         totalRecords: subjects.totalRecords,
         subjectsByGrade: subjects.subjectsByGrade,
         allSubjects: subjects.allSubjects,
+        gradeDataYear: subjects.gradeDataYear,
       };
     } catch {
       return {
