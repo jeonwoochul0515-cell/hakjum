@@ -22,9 +22,6 @@ const categoryConfig: Record<SubjectCategory, { label: string; bg: string; text:
   other:    { label: '기타/전문', bg: 'bg-slate-50', text: 'text-slate-600', border: 'border-slate-200' },
 };
 
-// 공통과목 (1학년 필수/거의 강제 선택인 과목)
-const COMMON_SUBJECTS = /^(국어|수학|영어|한국사|통합사회|통합과학|과학탐구실험|체육|음악|미술|기술·?가정|정보|제2외국어|한문|교양|보건|진로와 직업|창의적 체험활동|자율활동|동아리활동|봉사활동)$/;
-
 function categorize(name: string): SubjectCategory {
   if (/활동|동아리/.test(name)) return 'activity';
   if (/국어|문학|화법|작문|독서|언어와 매체|고전|심화 국어/.test(name)) return 'korean';
@@ -39,10 +36,6 @@ function categorize(name: string): SubjectCategory {
   return 'other';
 }
 
-function isElective(name: string): boolean {
-  return !COMMON_SUBJECTS.test(name.trim());
-}
-
 export function SubjectPreview({ school }: SubjectPreviewProps) {
   const [showGrade1, setShowGrade1] = useState(false);
 
@@ -54,10 +47,10 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
   const grade3 = school.subjectsByGrade['3학년'] || [];
   const grade1 = school.subjectsByGrade['1학년'] || [];
 
-  // 선택과목만 필터링 (활동 제외)
-  const grade2Electives = grade2.filter((s) => isElective(s) && categorize(s) !== 'activity');
-  const grade3Electives = grade3.filter((s) => isElective(s) && categorize(s) !== 'activity');
-  const hasElectives = grade2Electives.length > 0 || grade3Electives.length > 0;
+  // 활동 제외, 나머지 모든 개설과목 표시
+  const grade2Subjects = grade2.filter((s) => categorize(s) !== 'activity');
+  const grade3Subjects = grade3.filter((s) => categorize(s) !== 'activity');
+  const hasSubjects = grade2Subjects.length > 0 || grade3Subjects.length > 0;
 
   // 이전 연도 데이터 사용 여부
   const grade2IsPrevYear = gradeDataYear['2학년'] && gradeDataYear['2학년'] !== currentYearStr;
@@ -68,7 +61,7 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
     <div className="bg-sky-50/50 rounded-xl p-4 border border-sky-100">
       <div className="flex items-center gap-2 mb-3">
         <BookOpen size={18} className="text-sky-primary" />
-        <h4 className="text-base font-bold text-slate-800">{school.name} 선택과목</h4>
+        <h4 className="text-base font-bold text-slate-800">{school.name} 개설과목</h4>
       </div>
 
       {/* 이전 연도 데이터 노티스 */}
@@ -87,7 +80,7 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
       )}
 
       {/* 카테고리 범례 (과목이 있을 때만) */}
-      {hasElectives && (
+      {hasSubjects && (
         <div className="flex flex-wrap gap-1.5 mb-4">
           {Object.entries(categoryConfig)
             .filter(([key]) => key !== 'activity')
@@ -101,11 +94,11 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
 
       <div className="space-y-5">
         {/* 데이터 없음 안내 */}
-        {!hasElectives && (
+        {!hasSubjects && (
           <div className="flex items-start gap-2 bg-slate-50 rounded-lg px-3 py-3 border border-slate-200">
             <Info size={16} className="text-slate-400 mt-0.5 shrink-0" />
             <p className="text-sm text-slate-500 leading-relaxed">
-              아직 NEIS에 선택과목 데이터가 등록되지 않았습니다. 학기 초에는 데이터가 늦게 올라올 수 있어요.
+              아직 NEIS에 개설과목 데이터가 등록되지 않았습니다. 학기 초에는 데이터가 늦게 올라올 수 있어요.
               <br />
               <span className="text-xs text-slate-400">그래도 AI 추천은 정상적으로 이용 가능합니다.</span>
             </p>
@@ -114,8 +107,8 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
 
         {/* 2학년 선택과목 */}
         <GradeSection
-          title="2학년 선택과목"
-          subjects={grade2Electives}
+          title="2학년 개설과목"
+          subjects={grade2Subjects}
           dataYear={gradeDataYear['2학년']}
           currentYear={currentYearStr}
           highlight
@@ -123,8 +116,8 @@ export function SubjectPreview({ school }: SubjectPreviewProps) {
 
         {/* 3학년 선택과목 */}
         <GradeSection
-          title="3학년 선택과목"
-          subjects={grade3Electives}
+          title="3학년 개설과목"
+          subjects={grade3Subjects}
           dataYear={gradeDataYear['3학년']}
           currentYear={currentYearStr}
           highlight
