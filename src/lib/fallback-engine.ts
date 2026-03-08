@@ -1,3 +1,14 @@
+/**
+ * AI API 실패 시 사용하는 폴백 추천 엔진
+ *
+ * 과목 매핑 출처:
+ * - 대교협 「2028 모집단위별 반영과목 및 대학별 권장과목 자료집」 (2025.12.31)
+ * - 대교협 「2028학년도 권역별 대학별 권장과목」 (2026.02.20)
+ * - 커리어넷(career.go.kr) 학과정보 관련과목 데이터
+ *
+ * 주의: 키워드→계열 매핑은 위 공식 자료를 기반으로 한 휴리스틱 분류이며,
+ * AI 추천 실패 시에만 사용됩니다. 정확한 추천은 AI 엔진을 통해 제공됩니다.
+ */
 import type { WizardState, RecommendationResult, SubjectRecommendation } from '@/types';
 
 interface CategoryConfig {

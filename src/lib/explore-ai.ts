@@ -1,3 +1,11 @@
+/**
+ * AI 기반 학과 탐색 엔진
+ *
+ * AI 추천 실패 시 폴백 키워드 매핑 출처:
+ * - 커리어넷(career.go.kr) 학과정보 관련 키워드
+ * - 대교협 2028 교과이수기준 계열 분류
+ * 폴백 결과는 'fallback' 출처로 표기되어 공식 데이터와 구분됩니다.
+ */
 import type { School, AIExploreResult, AIExploreRecommendation } from '@/types';
 import { popularMajors } from '@/data/majors';
 

@@ -220,6 +220,13 @@ export function UniversityDetailStep() {
         </div>
       )}
 
+      {/* 출처 표기 */}
+      {(info || stats || hasAcademyData) && (
+        <p className="text-[10px] text-slate-400 text-right mt-1 mb-2">
+          출처: 커리어넷 학과정보 API · 대학알리미(academyinfo.go.kr) · 공공데이터포털(data.go.kr)
+        </p>
+      )}
+
       {/* CTA */}
       <div className="mt-6">
         <button

@@ -1,0 +1,5195 @@
+{
+  "lastSync": "2026-03-07T14:09:15.717Z",
+  "source": "adiga.kr + university admission pages",
+  "totalUniversities": 48,
+  "totalEntries": 258,
+  "universities": [
+    {
+      "university": "가톨릭대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "물리학",
+        "수학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물리학: 과목 1과목 이상\r\n-수학: 과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.715Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "물리학",
+        "수학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물리학: 과목 1과목 이상\r\n-수학: 과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "인공지능학과",
+      "requiredSubjects": [
+        "물리학",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물리학: 과목 1과목 이상\r\n-수학: 과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "화학",
+        "생명과학",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-화학, 생명과학: 2과목 이상\r\n-수학: 과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "의류학과",
+      "requiredSubjects": [
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "예체능계열",
+      "requiredSubjects": [
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "미디어기술콘텐츠학과",
+      "requiredSubjects": [
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "가톨릭대",
+      "category": "데이터사이언스학과",
+      "requiredSubjects": [
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 위계를 고려하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "일반선택 과목을 먼저 이수하고, 진로 적성에 맞게 진로선택 과목 및 융합선택 과목 이수를 추천",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "사회",
+        "수학(대수",
+        "미적분Ⅰ",
+        "확률과 통계)"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대",
+      "category": "이학",
+      "requiredSubjects": [
+        "수학(대수",
+        "미적분Ⅰ",
+        "미적분Ⅱ",
+        "확률과 통계)",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과학은 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수 추천",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학(대수",
+        "미적분Ⅰ",
+        "미적분Ⅱ",
+        "확률과 통계)",
+        "과학",
+        "기하)",
+        "과학(물리학)"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과학은 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수 추천",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "수학(대수",
+        "미적분Ⅰ",
+        "미적분Ⅱ",
+        "확률과 통계)",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과학은 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수 추천",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대",
+      "category": "전체",
+      "requiredSubjects": [
+        "계열 상관없이 자신의 진로와 적성에 따라 과목 선택하여 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경희대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "기하",
+        "물리학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "화학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "생명과학",
+        "세포와 물질대사",
+        "생물과 유전",
+        "지구과학"
+      ],
+      "recommendedSubjects": [
+        "화학",
+        "물질과 에너지",
+        "기하",
+        "물리학",
+        "생명과학",
+        "[역학과 에너지",
+        "전자기와 양자 중 1과목]",
+        "미적분Ⅱ",
+        "화학 반응의 세계",
+        "[지구시스템과학",
+        "행성우주과학 중 1과목]"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경희대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "기하",
+        "물리학",
+        "화학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계"
+      ],
+      "recommendedSubjects": [
+        "인공지능 수학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "기하",
+        "미적분Ⅱ",
+        "물리학",
+        "전자기와 양자",
+        "역학과 에너지"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경희대",
+      "category": "산업",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경희대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "화학",
+        "생명과학",
+        "[물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전 중 3과목]",
+        "생물의 유전"
+      ],
+      "recommendedSubjects": [
+        "물리학",
+        "[물질과 에너지",
+        "화학 반응의 세계 중 1과목]",
+        "미적분Ⅱ",
+        "화학",
+        "물질과 에너지",
+        "화학 반응의 세계"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "자연계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "기하",
+        "역학과 에너지",
+        "전자기와 양자",
+        "지구시스템과학",
+        "행성우주과학"
+      ],
+      "notes": "과학 교과 권장 과목 중 2과목 이상 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "이공계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "기하"
+      ],
+      "notes": "과학 교과 권장 과목 중 2과목 이상 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "의약계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "과학 교과 권장 과목 중 2과목 이상 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "교육계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "정보대학",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "보건과학대학",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "과학 교과 권장 과목 중 2과목 이상 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "스마트보안학부",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "고려대",
+      "category": "스마트모빌리티학부",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "과학 교과 권장 과목 중 2과목 이상 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광운대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "정보",
+        "기술·가정",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "인공지능 수학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "도시의 미래탐구",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "융합선택 과목: 실용 통계, 수학과제 탐구, 융합과학 탐구",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광운대",
+      "category": "인공지능융합대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "정보"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "인공지능 수학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지"
+      ],
+      "notes": "융합선택 과목: 실용 통계, 수학과제 탐구, 융합과학 탐구",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광운대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "융합선택 과목: 실용통계, 수학과제 탐구, 융합과학 탐구",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광운대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "문학",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "한문",
+        "제2외국어 과목"
+      ],
+      "recommendedSubjects": [
+        "주제 탐구 독서",
+        "문학과 영상",
+        "영미 문학 읽기",
+        "영어 발표와 토론",
+        "윤리와 사상",
+        "인문학과 윤리"
+      ],
+      "notes": "융합선택 과목: 독서 토론과 글쓰기, 매체 의사소통, 실생활 영어 회화, 미디어 영어, 사회문제 탐구",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광운대",
+      "category": "인문·사회계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "문학",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "세계시민과 지리",
+        "사화와 문화",
+        "현대사회와 윤리",
+        "한문"
+      ],
+      "recommendedSubjects": [
+        "주제 탐구 독서",
+        "문학과 영상",
+        "영어 발표와 토론",
+        "정치",
+        "법과 사회",
+        "경제",
+        "윤리와 사상",
+        "현대사회와 윤리"
+      ],
+      "notes": "융합선택 과목: 독서 토론과 글쓰기, 매체 의사소통, 실생활 영어 회화, 사회문제 탐구",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광운대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "문학",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "세계시민과 지리",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "제2외국어 과목",
+        "제3외국어 과목"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "경제 수학",
+        "인공지능 수학",
+        "영어 발표와 토론",
+        "법과 사회",
+        "경제",
+        "윤리와 사상",
+        "국제 관계의 이해"
+      ],
+      "notes": "융합선택 과목: 수학과제 탐구, 실용 통계, 실생활 영어 회화, 사회문제 탐구, 금융과 경제생활",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "중국어",
+        "한국사",
+        "동아시아사"
+      ],
+      "recommendedSubjects": [
+        "중국어 회화",
+        "한문 고전 읽기",
+        "세계사",
+        "한국지리",
+        "한문"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "사회와 문화",
+        "화법과 언어"
+      ],
+      "recommendedSubjects": [
+        "정치",
+        "법과 사회",
+        "국제 관계의 이해",
+        "확률과 통계",
+        "문학과 영상",
+        "영어 발표와 토론",
+        "동아시아 역사 기행"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "경상대학",
+      "requiredSubjects": [
+        "미적분Ⅰ 또는 확률과 통계"
+      ],
+      "recommendedSubjects": [
+        "경제 수학 또는 경제"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [
+        "경제 수학",
+        "미적분Ⅰ"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "미적분Ⅰ",
+        "물리학",
+        "화학",
+        "대수",
+        "미적분Ⅱ",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "역학과 에너지",
+        "물질과 에너지",
+        "전자기와 양자",
+        "미적분Ⅱ",
+        "확률과 통계",
+        "화학"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "자동차융합대학",
+      "requiredSubjects": [
+        "미적분Ⅰ",
+        "물리학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국민대",
+      "category": "과학기술대학",
+      "requiredSubjects": [
+        "확률과 통계",
+        "미적분Ⅰ",
+        "화학",
+        "생명과학",
+        "대수",
+        "물리학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "세포와 물질대사",
+        "화학 반응의 세계",
+        "생물의 유전",
+        "역학과 에너지",
+        "전자기와 양자",
+        "인공지능 수학",
+        "물질과 에너지",
+        "기하"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "덕성여대",
+      "category": "글로벌융합대학",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회(역사/도덕 포함)",
+        "제2외국어/한문 교과 적극 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-모집단위와 관계없이 기초학습역량을 위해 국어, 영어, 수학의 일반 선택 과목을 성실하게 이수하는 것을 권장함.\r\n-교과별 과목의 학습위계를 고려하여 선택 과목을 이수하는 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "덕성여대",
+      "category": "과학기술대학",
+      "requiredSubjects": [
+        "수학",
+        "과학 교과 적극 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-모집단위와 관계없이 기초학습역량을 위해 국어, 영어, 수학의 일반 선택 과목을 성실하게 이수하는 것을 권장함.\r\n-교과별 과목의 학습위계를 고려하여 선택 과목을 이수하는 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "덕성여대",
+      "category": "미래인재대학",
+      "requiredSubjects": [
+        "수학",
+        "과학 교과 적극 이수",
+        "지식활용",
+        "집단지성 기반 학습 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-모집단위와 관계없이 기초학습역량을 위해 국어, 영어, 수학의 일반 선택 과목을 성실하게 이수하는 것을 권장함.\r\n-교과별 과목의 학습위계를 고려하여 선택 과목을 이수하는 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "덕성여대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "수학",
+        "과학(화학/생명과학 포함) 교과 적극 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-모집단위와 관계없이 기초학습역량을 위해 국어, 영어, 수학의 일반 선택 과목을 성실하게 이수하는 것을 권장함.\r\n-교과별 과목의 학습위계를 고려하여 선택 과목을 이수하는 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "불교",
+      "requiredSubjects": [
+        "역사",
+        "윤리"
+      ],
+      "recommendedSubjects": [
+        "지리",
+        "일반사회"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "역사",
+        "일반사회",
+        "국어",
+        "영어",
+        "일본어",
+        "중국어",
+        "윤리"
+      ],
+      "recommendedSubjects": [
+        "한문",
+        "역사",
+        "일반사회",
+        "교양",
+        "지리",
+        "윤리"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "인문·사회계열",
+      "requiredSubjects": [
+        "국어",
+        "일반사회"
+      ],
+      "recommendedSubjects": [
+        "윤리"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "일반사회"
+      ],
+      "recommendedSubjects": [
+        "역사",
+        "윤리",
+        "지리"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "경찰사법",
+      "requiredSubjects": [
+        "수학①",
+        "일반사회"
+      ],
+      "recommendedSubjects": [
+        "역사",
+        "윤리",
+        "지리"
+      ],
+      "notes": "-수학① 진로선택 과목: 미적분Ⅱ, 경제수학\r\n-수학①,② 일반선택 과목: 대수, 미적분Ⅰ, 확률과 통계\r\n-수학② 진로선택 과목: 미적분Ⅱ, 기하, 인공지능\r\n-수학①,② 융합선택 과목: 수학과 문화, 실용 통계, 수학과제 탐구\r\n-계열 특성에 따라 수학 및 과학 역량이 기초 학업 역량이자 전공 수학 역량임.\r\n-기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "수학①",
+        "영어"
+      ],
+      "recommendedSubjects": [
+        "일반사회"
+      ],
+      "notes": "-수학① 진로선택 과목: 미적분Ⅱ, 경제수학\r\n-수학①,② 일반선택 과목: 대수, 미적분Ⅰ, 확률과 통계\r\n-수학①,② 융합선택 과목: 수학과 문화, 실용 통계, 수학과제 탐구\r\n-계열 특성에 따라 수학 및 과학 역량이 기초 학업 역량이자 전공 수학 역량임.\r\n-기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "일반사회",
+        "국어",
+        "역사",
+        "지리",
+        "수학②",
+        "화학",
+        "기술·가정"
+      ],
+      "recommendedSubjects": [
+        "역사",
+        "윤리",
+        "지리",
+        "일반사회",
+        "생명과학",
+        "정보"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "예체능계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "일반사회",
+        "역사",
+        "윤리",
+        "지리"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학②",
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "일반사회",
+        "역사",
+        "윤리",
+        "지리",
+        "제2외국어",
+        "지구과학",
+        "생명과학",
+        "물리학",
+        "화학"
+      ],
+      "notes": "기초 학업 역량을 기반으로 한 전공 관련 역량 및 소양이 필요함에 따라 사회 교과의 관심 있는 과목이수를 추천함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "수학②",
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "생명과학"
+      ],
+      "notes": "-수학①,② 일반선택 과목: 대수, 미적분Ⅰ, 확률과 통계\r\n-수학② 진로선택 과목: 미적분Ⅱ, 기하, 인공지능\r\n-수학①,② 융합선택 과목: 수학과 문화, 실용 통계, 수학과제 탐구\r\n-계열 특성에 따라 수학 및 과학 역량이 기초 학업 역량이자 전공 수학 역량임.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "바이오시스템",
+      "requiredSubjects": [
+        "수학②",
+        "화학",
+        "생명과학",
+        "물리학"
+      ],
+      "recommendedSubjects": [
+        "지구과학",
+        "물리학",
+        "생명과학"
+      ],
+      "notes": "-수학①,② 일반선택 과목: 대수, 미적분Ⅰ, 확률과 통계\r\n-수학② 진로선택 과목: 미적분Ⅱ, 기하, 인공지능\r\n-수학①,② 융합선택 과목: 수학과 문화, 실용 통계, 수학과제 탐구\r\n-계열 특성에 따라 수학 및 과학 역량이 기초 학업 역량이자 전공 수학 역량임.\r\n-과학 교과의 역량영역은 동국대 기준 교과 영역별 일반 선택 과목 이수 후 진로 선택 1과목 이상 이수 권장.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "전체",
+      "requiredSubjects": [
+        "수학②",
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학①,② 일반선택 과목: 대수, 미적분Ⅰ, 확률과 통계\r\n-수학② 진로선택 과목: 미적분Ⅱ, 기하, 인공지능\r\n-수학①,② 융합선택 과목: 수학과 문화, 실용 통계, 수학과제 탐구\r\n-계열 특성에 따라 수학 및 과학 역량이 기초 학업 역량이자 전공 수학 역량임.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동국대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "수학②",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "물리학"
+      ],
+      "notes": "-수학①,② 일반선택 과목: 대수, 미적분Ⅰ, 확률과 통계\r\n-수학② 진로선택 과목: 미적분Ⅱ, 기하, 인공지능\r\n-수학①,② 융합선택 과목: 수학과 문화, 실용 통계, 수학과제 탐구\r\n-계열 특성에 따라 수학 및 과학 역량이 기초 학업 역량이자 전공 수학 역량임.\r\n-과학 교과의 역량영역은 동국대 기준 교과 영역별 일반 선택 과목 이수 후 진로 선택 1과목 이상 이수 권장.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울과기대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "미적분Ⅱ",
+        "기하",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울과기대",
+      "category": "에너지바이오대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "생명과학",
+        "미적분Ⅱ",
+        "기하",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "역학과 에너지",
+        "전자기와 양자"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울과기대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "물리학",
+        "기하",
+        "역학과 에너지",
+        "전자기와 양자"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울과기대",
+      "category": "창의융합대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "미적분Ⅱ",
+        "기하",
+        "역학과 에너지",
+        "전자기와 양자",
+        "화학",
+        "화학미적분Ⅱ",
+        "물질과 에너지",
+        "화학 반응의 세계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "제2외국어/한문"
+      ],
+      "recommendedSubjects": [],
+      "notes": "해당 교과(군)의 일반선택, 진로선택, 융합선택 과목 중 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "제2외국어/한문"
+      ],
+      "recommendedSubjects": [],
+      "notes": "해당 교과(군)의 일반선택, 진로선택, 융합선택 과목 중 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "제2외국어/한문"
+      ],
+      "recommendedSubjects": [],
+      "notes": "해당 교과(군)의 일반선택, 진로선택, 융합선택 과목 중 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "제2외국어/한문",
+        "물리학",
+        "지구과학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "notes": "해당 교과(군)의 일반선택, 진로선택, 융합선택 과목 중 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "제2외국어/한문",
+        "물리학",
+        "화학",
+        "생명과학",
+        "지구과학"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "notes": "해당 교과(군)의 일반선택, 진로선택, 융합선택 과목 중 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "생명과학",
+        "화학 또는 생명과학"
+      ],
+      "recommendedSubjects": [
+        "기하 또는 미적분Ⅱ",
+        "과학",
+        "기하",
+        "미적분Ⅱ"
+      ],
+      "notes": "과학 교과의 진로선택 과목 중 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "물리학"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "notes": "과학 교과의 진로선택 과목 중 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울대",
+      "category": "전체",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "notes": "과학 교과의 진로선택 과목 중 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "국제관계학과",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "수학",
+        "영어"
+      ],
+      "recommendedSubjects": [
+        "영어",
+        "사회"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "세무학과",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "영어",
+        "국어",
+        "역사",
+        "수학",
+        "사회"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "수학",
+        "사회",
+        "영어"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "수학",
+        "수학(미적분",
+        "기하)",
+        "물리",
+        "생명과학",
+        "과학(특히 생명과학",
+        "화학)",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "화학",
+        "수학(특히 미적분)"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학(특히 미적분)",
+        "물리",
+        "화학",
+        "미적분",
+        "수학(특히 미적분",
+        "기하)",
+        "영어",
+        "국어",
+        "수학(기하)",
+        "과학(지구과학",
+        "화학)",
+        "수학",
+        "물리학)",
+        "사회",
+        "과학"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "확률과 통계",
+        "물리",
+        "과학",
+        "화학",
+        "국어",
+        "영어"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "인공지능학과",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "물리"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "조경학과",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "과학",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "서울시립대",
+      "category": "전체",
+      "requiredSubjects": [
+        "수학(특히 미적분)",
+        "화학",
+        "생명과학",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "인문·사회계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "사회 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "수학: 대수, 미적분Ⅰ, 확률과 통계 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "사회 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "수학: 대수, 미적분Ⅰ, 확률과 통계 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "수학",
+        "과학 교과 영역 이수 권장",
+        "과학(물리학) 교과 영역 이수 권장",
+        "과학(화학) 교과 영역 이수 권장",
+        "과학(생명과학) 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 기하, 미적분Ⅱ 중 이수 권장\r\n-‘과학’으로 포괄적으로 제시된 경우 진로와 관심에 따라 교과목을 선택할 것을 권장하며, 권장 영역 외 과학 과목 이수도 의미 있게 평가에 반영함",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "과학(화학) 교과 영역 이수 권장",
+        "과학(물리학) 교과 영역 이수 권장",
+        "과학 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 기하, 미적분Ⅱ 중 이수 권장\r\n-‘과학’으로 포괄적으로 제시된 경우 진로와 관심에 따라 교과목을 선택할 것을 권장하며, 권장 영역 외 과학 과목 이수도 의미 있게 평가에 반영함",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "IT대학",
+      "requiredSubjects": [
+        "수학",
+        "과학 교과 영역 이수 권장",
+        "과학(물리학) 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 기하, 미적분Ⅱ 중 이수 권장\r\n-‘과학’으로 포괄적으로 제시된 경우 진로와 관심에 따라 교과목을 선택할 것을 권장하며, 권장 영역 외 과학 과목 이수도 의미 있게 평가에 반영함",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "AI대학",
+      "requiredSubjects": [
+        "수학",
+        "과학 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 기하, 미적분Ⅱ 중 이수 권장\r\n-‘과학’으로 포괄적으로 제시된 경우 진로와 관심에 따라 교과목을 선택할 것을 권장하며, 권장 영역 외 과학 과목 이수도 의미 있게 평가에 반영함",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "숭실대",
+      "category": "베어드학부대학",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회 교과 영역 이수 권장",
+        "수학",
+        "과학 교과 영역 이수 권장"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 기하, 미적분Ⅱ 중 이수 권장\r\n-‘과학’으로 포괄적으로 제시된 경우 진로와 관심에 따라 교과목을 선택할 것을 권장하며, 권장 영역 외 과학 과목 이수도 의미 있게 평가에 반영함",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "중앙대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "물리학",
+        "화학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "[물리학 또는 생명과학]",
+        "[미적분Ⅱ 또는 기하]",
+        "생명과학",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "중앙대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "물리학",
+        "화학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "생명과학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "[물리학 또는 생명과학]"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "중앙대",
+      "category": "AI학부",
+      "requiredSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "중앙대",
+      "category": "산업보안학과(자연)",
+      "requiredSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "중앙대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "생명과학",
+        "화학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "recommendedSubjects": [],
+      "notes": "*물질과 에너지, 화학 반응의 세계, 세포와 물질대사, 생물의 유전: 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국체대",
+      "category": "스포츠과학대학",
+      "requiredSubjects": [
+        "체육1",
+        "체육2",
+        "스포츠과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "융합선택 과목: 스포츠 생활1",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국체대",
+      "category": "예체능계열",
+      "requiredSubjects": [
+        "체육1",
+        "체육2",
+        "스포츠과학",
+        "스포츠문화",
+        "운동과 건강"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한양대",
+      "category": "자연",
+      "requiredSubjects": [
+        "미적분Ⅱ 또는 기하",
+        "물리학/화학/생명과학 중 1과목 이상",
+        "과학 진로선택 과목 2과목 이상"
+      ],
+      "recommendedSubjects": [],
+      "notes": "진로선택 과목은 계열과 교과 위계에 맞게 선택하는 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "인하대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "화학",
+        "지구과학",
+        "물리학",
+        "생명과학",
+        "물리"
+      ],
+      "notes": "*교과 영역은 내용 상위계가 뚜렷한 특성을 지닌 과학 교과 영역을 중심으로 안내함.\r\n -수학 교과: 대수, 미적분Ⅰ, 확률과 통계 교과목 이수를 권장하며, 공과대학의 경우 기하 교과목도 포함하여 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "인하대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "물리학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "화학",
+        "생명과학",
+        "지구과학"
+      ],
+      "notes": "*교과 영역은 내용 상위계가 뚜렷한 특성을 지닌 과학 교과 영역을 중심으로 안내함.\r\n -수학 교과: 대수, 미적분Ⅰ, 확률과 통계 교과목 이수를 권장하며, 공과대학의 경우 기하 교과목도 포함하여 이수할 것을 권장함. \r\n권장 교과 영역을 제시하지 않은 자연계열 일부 학과 및 인문·예체능계열의 경우는 학생 개개인의 진로와 적성을 고려하여 자유롭게 이수하기를 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "인하대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "화학"
+      ],
+      "notes": "*교과 영역은 내용 상위계가 뚜렷한 특성을 지닌 과학 교과 영역을 중심으로 안내함.\r\n -수학 교과: 대수, 미적분Ⅰ, 확률과 통계 교과목 이수를 권장하며, 공과대학의 경우 기하 교과목도 포함하여 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "인하대",
+      "category": "바이오시스템융합학부",
+      "requiredSubjects": [
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "화학"
+      ],
+      "notes": "*교과 영역은 내용 상위계가 뚜렷한 특성을 지닌 과학 교과 영역을 중심으로 안내함.\r\n -수학 교과: 대수, 미적분Ⅰ, 확률과 통계 교과목 이수를 권장하며, 공과대학의 경우 기하 교과목도 포함하여 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경기대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회(2과목)",
+        "과학",
+        "한국사"
+      ],
+      "recommendedSubjects": [],
+      "notes": "사회, 과학 이수 과목 수 지정 관심분야 일반선택 과목 우선 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경기대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회",
+        "과학(3과목)",
+        "한국사"
+      ],
+      "recommendedSubjects": [],
+      "notes": "사회, 과학 이수 과목 수 지정 관심분야 일반선택 과목 우선 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경기대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "과학",
+        "한국사"
+      ],
+      "recommendedSubjects": [
+        "기하",
+        "미적분Ⅱ 중 1과목 이수"
+      ],
+      "notes": "사회, 과학 이수 과목 수 지정 관심분야 일반선택 과목 우선 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "단국대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "일반선택 과목 이수 후 진로와 적성에 맞게 진로선택 과목, 융합선택 과목을 이수할 것.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "단국대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "일반선택 과목 이수 후 진로와 적성에 맞게 진로선택 과목, 융합선택 과목을 이수할 것.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목(미적분Ⅱ) 이수\r\n -과학: 과학 관련 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "첨단ICT융합대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목(미적분Ⅱ) 이수\r\n -과학: 과학 관련 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목(미적분Ⅱ) 이수\r\n -과학: 과학 관련 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목(미적분Ⅱ) 이수\r\n -과학: 과학 관련 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "첨단바이오융합대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목(미적분Ⅱ) 이수\r\n -과학: 과학 관련 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "과학/사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목 이수\r\n -과학/사회: 진로와 적성에 맞게 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "수학",
+        "과학/사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "진로와 적성에 맞게 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "아주대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "과학/사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 일반선택 과목(대수, 미적분Ⅰ, 확률과 통계) 이수 후, 진로와 적성에 맞게 진로선택 과목 이수\r\n -과학/사회: 진로와 적성에 맞게 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국항공대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과학은 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국항공대",
+      "category": "이학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과학은 일반선택 과목 먼저 이수 후, 진로와 적성에 맞게 진로선택 과목 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국항공대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한양대(ERICA)",
+      "category": "이공계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "대수",
+        "미적분",
+        "물리학",
+        "화학",
+        "지구과학",
+        "확률과 통계",
+        "기본수학",
+        "수학 전 과목"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한양대(ERICA)",
+      "category": "의약계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "화학",
+        "생명과학"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한양대(ERICA)",
+      "category": "전체",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "화학",
+        "생명과학",
+        "미적분",
+        "확률과 통계"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한양대(ERICA)",
+      "category": "LIONS칼리지",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "수학",
+        "과학 전 과목"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "협성대",
+      "category": "웨슬리대학",
+      "requiredSubjects": [
+        "인문사회계열 적성과 진로에 따라 선택 과목 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "협성대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "인문사회계열 적성과 진로에 따라 선택 과목 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "협성대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "인문사회계열 적성과 진로에 따라 선택 과목 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "협성대",
+      "category": "이공대학",
+      "requiredSubjects": [
+        "이공계열 적성과 진로에 따라 선택 과목 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "협성대",
+      "category": "미래창의융합학부",
+      "requiredSubjects": [
+        "자신의 적성과 진로에 기반하여 자율적으로 선택 과목 이수"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경성대학교",
+      "category": "전체",
+      "requiredSubjects": [
+        "전 과목"
+      ],
+      "recommendedSubjects": [],
+      "notes": "진로와 적성에 따라 과목 선택 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경성대학교",
+      "category": "자연",
+      "requiredSubjects": [
+        "화학 또는 생명과학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하"
+      ],
+      "notes": "과학 진로선택 3과목 이상 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "사회",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "수학",
+        "과학",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "영어",
+        "수학",
+        "사회",
+        "국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "영어",
+        "수학",
+        "과학",
+        "국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "예체능계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "건강과학대학",
+      "requiredSubjects": [
+        "영어",
+        "과학",
+        "수학",
+        "국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "국제대학",
+      "requiredSubjects": [
+        "영어",
+        "수학",
+        "사회",
+        "국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "석당인재학부",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "동아대",
+      "category": "융합대학",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "부산대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "확률과 통계",
+        "미적분Ⅰ",
+        "미적분Ⅱ"
+      ],
+      "recommendedSubjects": [],
+      "notes": "제시 과목 중, 1과목 이상 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "부산대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "확률과 통계",
+        "기하",
+        "미적분Ⅱ",
+        "화학",
+        "생명과학",
+        "물리학",
+        "지구과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "제시 과목 중, 2과목 이상 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "부산대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "확률과 통계",
+        "기하",
+        "미적분Ⅱ",
+        "물리학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "제시 과목 중 2과목 이상 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "부산대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "화학",
+        "생명과학",
+        "확률과 통계",
+        "기하",
+        "미적분Ⅱ",
+        "물리학",
+        "지구과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "제시 과목 관련 일반선택 과목 및 진로선택 과목 중 3과목 이상 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "부산대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "제시 과목 관련 일반선택 과목 및 진로선택 과목 중 3과목 이상 이수",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "부산대",
+      "category": "학부대학",
+      "requiredSubjects": [
+        "물리학",
+        "화학",
+        "생명과학",
+        "기하",
+        "미적분Ⅱ"
+      ],
+      "recommendedSubjects": [],
+      "notes": "제시 과목 관련 일반선택 과목 및 진로선택 과목 중 1과목 이상 이수\r\n-물리학 관련 과목: 물리학, 역학과 에너지, 전자기와 양자\r\n-화학 관련 과목: 화학, 물질과 에너지, 화학 반응의 세계\r\n-생명과학 관련 과목: 생명과학, 세포와 물질대사, 생물의 유전",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "전공 관련 제2외국어/한문 교과(군)",
+        "세계사",
+        "사회와 문화"
+      ],
+      "recommendedSubjects": [
+        "동아시아 역사기행"
+      ],
+      "notes": "1과목 이상 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "사회와 문화",
+        "세계시민과 지리",
+        "현대사회와 윤리",
+        "정치",
+        "인간과 심리"
+      ],
+      "recommendedSubjects": [
+        "국제관계의 이해",
+        "한국지리 탐구",
+        "도시의 미래 탐구",
+        "인문학과 윤리"
+      ],
+      "notes": "3과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "인공지능 수학",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "물질과 에너지",
+        "경제수학"
+      ],
+      "notes": "3과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "인공지능 수학",
+        "전자기와 양자",
+        "화학 반응의 세계",
+        "역학과 에너지",
+        "물질과 에너지"
+      ],
+      "notes": "3과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "IT대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "역학과 에너지",
+        "전자기와 양자"
+      ],
+      "notes": "3과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "학과별 특성에 맞는 교과목(예-국어교육과: 국어 교과[군] 일반선택 과목",
+        "진로선택 과목)"
+      ],
+      "recommendedSubjects": [],
+      "notes": "3과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "화학 반응의 세계",
+        "물질과 에너지",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "3과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "경북대",
+      "category": "과학기술대학",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [
+        "미적분Ⅱ",
+        "기하",
+        "인공지능 수학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "notes": "2과목 이상(위계에 맞게) 이수 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "언어·문학",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "문학",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "세계시민과 지리",
+        "세계사",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "제2외국어 관련 과목",
+        "한문",
+        "진로와 직업",
+        "-진로선택: 주제 탐구 독서",
+        "문학과 영상",
+        "직무 의사소통",
+        "영미 문학 읽기",
+        "영어 발표와 토론",
+        "심화 영어",
+        "심화 영어 독해와 작문",
+        "직무 영어",
+        "도시의 미래 탐구",
+        "동아시아 역사 기행",
+        "정치",
+        "법과 사회",
+        "윤리와 사상",
+        "인문학과 윤리",
+        "국제 관계의 이해",
+        "생활과학 탐구",
+        "인공지능 기초",
+        "제2외국어 관련 과목: 한문 고전 읽기",
+        "인간과 철학",
+        "논리와 사고"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 국어 / 2순위 사회 / 3순위 기타(한문, 논리 등)",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "문학",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "세계시민과 지리",
+        "세계사",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "-진로선택: 주제 탐구 독서",
+        "문학과 영상",
+        "직무 의사소통",
+        "영어 발표와 토론",
+        "심화 영어",
+        "심화 영어 독해와 작문",
+        "직무 영어",
+        "한국지리 탐구",
+        "도시의 미래 탐구",
+        "동아시아 역사 기행",
+        "정치",
+        "법과 사회",
+        "경제",
+        "윤리와 사상",
+        "인문학과 윤리",
+        "국제 관계의 이해",
+        "인공지능 기초",
+        "인간과 철학",
+        "논리와 사고",
+        "삶과 종교"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 국어 / 2순위 영어, 사회 / 3순위 수학",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "문학",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "세계시민과 지리",
+        "세계사",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "-진로선택: 주제 탐구 독서",
+        "문학과 영상",
+        "직무 의사소통",
+        "영어 발표와 토론",
+        "심화 영어",
+        "심화 영어 독해와 작문",
+        "직무 영어",
+        "한국지리 탐구",
+        "도시의 미래 탐구",
+        "동아시아 역사 기행",
+        "정치",
+        "법과 사회",
+        "경제",
+        "윤리와 사상",
+        "인문학과 윤리",
+        "국제 관계의 이해",
+        "인공지능 기초",
+        "인간과 철학",
+        "논리와 사고",
+        "삶과 종교",
+        "대수",
+        "확률과 통계",
+        "미적분Ⅰ",
+        "생명과학",
+        "체육1",
+        "체육2",
+        "기술가정",
+        "정보",
+        "한문",
+        "진로와 직업",
+        "생태환경",
+        "-진로선택: 주제탐구 독서",
+        "경제 수학",
+        "인공지능 수학",
+        "세포와 물질대사",
+        "생물의 유전",
+        "운동과 건강",
+        "생활과학 탐구",
+        "데이터 과학",
+        "인간과 심리",
+        "교육의 이해",
+        "보건"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 국어, 사회 / 2순위, 영어 / 3순위 수학",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "세계시민과 지리",
+        "세계사",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "생명과학",
+        "정보",
+        "중국어",
+        "진로와 직업",
+        "-진로선택: 주제 탐구 독서",
+        "직무 의사소통",
+        "경제 수학",
+        "영어 발표와 토론",
+        "심화 영어",
+        "직무 영어",
+        "정치",
+        "법과 사회",
+        "경제",
+        "윤리와 사상",
+        "인문학과 윤리",
+        "국제 관계의 이해",
+        "인공지능 기초",
+        "데이터 과학",
+        "중국어 회화",
+        "논리와 사고",
+        "인간과 심리"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 영어 / 2순위 수학 / 3순위 국어, 사회",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "문학",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어독해와 작문",
+        "세계시민과 지리",
+        "세계사",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "중국어",
+        "일본어",
+        "한문",
+        "진로와 직업",
+        "-진로선택: 주제 탐구 독서",
+        "문학과 영상",
+        "직무 의사소통",
+        "영미 문학 읽기",
+        "영어 발표와 토론",
+        "심화 영어",
+        "심화 영어 독해와 작문",
+        "직무 영어",
+        "동아시아 역사 기행",
+        "정치",
+        "법과 사회",
+        "경제",
+        "윤리와 사상",
+        "인문학과 윤리",
+        "인공지능 기초",
+        "데이터 과학",
+        "한문 고전 읽기",
+        "인간과 철학",
+        "논리와 사고",
+        "인간과 심리",
+        "교육의 이해",
+        "삶과 종교",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "-진로선택: 기하",
+        "미적분Ⅱ",
+        "인공지능 수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 국어, 사회, 기타(교육학 등) / 2순위 영어, 수학 / 3순위 과학",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "-일반선택: 대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "물리학",
+        "화학",
+        "정보",
+        "-진로선택: 기하",
+        "미적분Ⅱ",
+        "경제 수학",
+        "인공지능 수학",
+        "직무 수학",
+        "심화 영어",
+        "직무 영어",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "인공지능 기초",
+        "데이터 과학",
+        "영어 독해와 작문",
+        "생명과학",
+        "영미 문학 읽기",
+        "영어 발표와 토론",
+        "심화 영어 독해와 작문",
+        "세포와 물질대사",
+        "생물의 유전",
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "미술",
+        "기술가정",
+        "생태와 환경",
+        "-진로선택: 주제 탐구 독서",
+        "미술 창작",
+        "미술 감상과 비평",
+        "생활과학 탐구",
+        "인간과 심리",
+        "-일반 선택: 화법과 언어",
+        "독서와 작문",
+        "확률과 통계",
+        "영어 독해와 작문",
+        "사회와 문화",
+        "현대사회와 윤리",
+        "생태와 환경",
+        "-진로 선택: 주제 탐구 독서",
+        "인공지능 수학",
+        "영어 발표와 토론",
+        "세포와 물질대사",
+        "생물의 유전",
+        "미술 창작",
+        "미술 감상과 비평",
+        "생활과학 탐구",
+        "인공지능 기초",
+        "데이터 과학",
+        "인간과 심리"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 수학 / 2순위 과학 / 3순위 영어",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "농림·수산",
+      "requiredSubjects": [
+        "-일반선택: 대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "물리학",
+        "화학",
+        "생명과학",
+        "정보",
+        "-진로 선택: 미적분Ⅱ",
+        "인공지능 수학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "생활과학 탐구",
+        "인공지능 기초",
+        "데이터 과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 과학 / 2순위 영어 / 3순위 국어",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "-일반선택: 대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "물리학",
+        "화학",
+        "생명과학",
+        "현대사회와 윤리",
+        "-진로선택: 기하",
+        "미적분Ⅱ",
+        "심화 영어",
+        "영어 발표와 토론",
+        "심화 영어 독해와 작문",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "윤리와 사상",
+        "인문학과 윤리"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 과학 / 2순위 수학 / 3순위 영어",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "N.C.E",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "대수",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "사회와 문화",
+        "-진로선택: 직무 의사소통",
+        "직무 수학",
+        "직무 영어",
+        "국제 관계의 이해",
+        "생활과학 탐구"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 영어 / 2순위 사회, 과학 / 3순위 국어, 수학",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "건설",
+      "requiredSubjects": [
+        "-일반선택: 화법과 언어",
+        "독서와 작문",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "물리학",
+        "화학",
+        "생명과학",
+        "지구과학",
+        "세계시민과 지리",
+        "세계사",
+        "사회와 문화",
+        "미술",
+        "정보",
+        "생태와 환경",
+        "-진로선택: 직무 의사소통",
+        "기하",
+        "미적분Ⅱ",
+        "직무 수학",
+        "영어 발표와 토론",
+        "역학과 에너지",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "지구시스템과학",
+        "한국지리 탐구",
+        "도시의 미래 탐구",
+        "동아시아 역사기행",
+        "인공지능 기초",
+        "미술 창작",
+        "미술 감상과 비평",
+        "인간과 철학",
+        "논리와 사고",
+        "인간과 심리"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 수학 / 2순위 과학 / 3순위 영어",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "-일반선택: 대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "물리학",
+        "화학",
+        "정보",
+        "-진로선택: 기하",
+        "미적분Ⅱ",
+        "인공지능 수학",
+        "영어 발표와 토론",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "로봇과 공학세계",
+        "인공지능 기초",
+        "데이터 과학",
+        "-일반선택: 화법과 언어",
+        "대수",
+        "-진로선택: 직무 의사소통",
+        "기하",
+        "경제 수학",
+        "직무 수학",
+        "심화 영어",
+        "직무 영어",
+        "생활과학 탐구",
+        "논리와 사고",
+        "생명과학",
+        "심화 영어 독해와 작문",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 수학 / 2순위 과학 / 3순위 영어",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "영남대",
+      "category": "재료",
+      "requiredSubjects": [
+        "-일반선택: 대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "물리학",
+        "화학",
+        "생명과학",
+        "지구과학",
+        "정보",
+        "-진로선택: 기하",
+        "미적분Ⅱ",
+        "경제 수학",
+        "인공지능 수학",
+        "직무 수학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "생활과학 탐구"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1순위 수학, 과학 / 2순위 영어, 국어",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "POSTECH",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "과학 전 과목"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "진주교육대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "전 과목"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국립한밭대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "*관련 교과(군)을 제시하지 않은 모집단위(융합자율대학, 야간학과)는 계열 상관없이 학생의 진로와 적성에 따라 과목 선택하여 이수하도록 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국립한밭대",
+      "category": "정보기술대학",
+      "requiredSubjects": [
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "*관련 교과(군)을 제시하지 않은 모집단위(융합자율대학, 야간학과)는 계열 상관없이 학생의 진로와 적성에 따라 과목 선택하여 이수하도록 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국립한밭대",
+      "category": "예체능계열",
+      "requiredSubjects": [
+        "수학",
+        "과학",
+        "국어",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "*관련 교과(군)을 제시하지 않은 모집단위(융합자율대학, 야간학과)는 계열 상관없이 학생의 진로와 적성에 따라 과목 선택하여 이수하도록 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국립한밭대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "영어",
+        "사회(역사/도덕 포함)"
+      ],
+      "recommendedSubjects": [],
+      "notes": "*관련 교과(군)을 제시하지 않은 모집단위(융합자율대학, 야간학과)는 계열 상관없이 학생의 진로와 적성에 따라 과목 선택하여 이수하도록 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "국립한밭대",
+      "category": "경상대학",
+      "requiredSubjects": [
+        "수학",
+        "사회(역사/도덕 포함)",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "*관련 교과(군)을 제시하지 않은 모집단위(융합자율대학, 야간학과)는 계열 상관없이 학생의 진로와 적성에 따라 과목 선택하여 이수하도록 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "대전가톨릭대",
+      "category": "신학과",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "사회",
+        "과학",
+        "한국사"
+      ],
+      "recommendedSubjects": [],
+      "notes": "공통과목, 일반선택, 진로선택, 전문교과",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "제2외국어/한문",
+        "사회(역사/도덕 포함)",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-국어, 영어: 2",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "제2외국어/한문",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "기하",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-국어, 영어: 2",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "국가안보융합학부",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-국어, 영어, 사회: 2",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-국어, 영어, 사회: 2",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "과학",
+        "기하",
+        "미적분Ⅱ",
+        "영어",
+        "화학",
+        "생명과학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전",
+        "사회(역사/도덕 포함)"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-과학: 일반선택 과목 이수 후 진로선택 과목 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "경상대학",
+      "requiredSubjects": [
+        "확률과 통계",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-영어: 2",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "미적분Ⅱ",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-과학: 일반선택 과목 이수 후 진로선택 과목 1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "기하",
+        "미적분Ⅱ",
+        "화학",
+        "생명과학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물질과 에너지, 화학 반응의 세계, 세포와 물질대사, 생물의 유전 중 2과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "지식융합학부",
+      "requiredSubjects": [
+        "영어",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-영어: 2",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충남대",
+      "category": "국제학부",
+      "requiredSubjects": [
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "생명과학",
+        "영어 독해와 작문",
+        "영어 발표와 토론",
+        "확률과 통계",
+        "미적분",
+        "화학"
+      ],
+      "recommendedSubjects": [
+        "영어",
+        "수학",
+        "과학",
+        "국어"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어독해와 작문",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "사회와 문화",
+        "경제",
+        "세계사",
+        "세계시민과 지리",
+        "한국지리",
+        "정치",
+        "법과 사회"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회",
+        "제2외국어"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "생명과학",
+        "화학",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어독해와 작문",
+        "미적분Ⅰ",
+        "물리학",
+        "확률과 통계",
+        "사회와 문화",
+        "지구과학",
+        "영어 독해와 작문",
+        "영어 발표와 토론",
+        "화법과 언어",
+        "독서와 작문",
+        "한국지리 탐구",
+        "도시의 미래 탐구",
+        "미적분",
+        "기하"
+      ],
+      "recommendedSubjects": [
+        "과학",
+        "영어",
+        "수학",
+        "국어",
+        "사회"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "미적분",
+        "기하",
+        "물리학",
+        "정보",
+        "인공지능 기초",
+        "영어 독해와 작문",
+        "영어 발표와 토론",
+        "화학",
+        "확률과 통계",
+        "지구과학",
+        "생명과학",
+        "융합과학 탐구",
+        "화법과 언어",
+        "문학",
+        "독서와 작문",
+        "사회와 문화"
+      ],
+      "recommendedSubjects": [
+        "수학",
+        "과학",
+        "기술·가정/정보",
+        "영어",
+        "국어",
+        "사회"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "사회와 문화",
+        "진로와 직업",
+        "교육의 이해",
+        "논술",
+        "문학",
+        "한국사(Ⅰ",
+        "Ⅱ)",
+        "한문",
+        "한문 고전 읽기",
+        "세계시민과 지리",
+        "세계사",
+        "한국지리 탐구",
+        "동아시아 역사 기행",
+        "영어Ⅰ",
+        "영어Ⅱ",
+        "영어 독해와 작문",
+        "영미 문학 읽기",
+        "영어 발표와 토론",
+        "현대사회와 윤리",
+        "윤리와 사상",
+        "인문학과 윤리",
+        "정치",
+        "경제",
+        "법과 사회",
+        "여행지리",
+        "기술·가정",
+        "생활과학 탐구",
+        "물리학",
+        "화학",
+        "생명과학",
+        "지구과학",
+        "미적분",
+        "기하",
+        "확률과 통계",
+        "체육1",
+        "체육2",
+        "운동과 건강",
+        "스포츠 문화",
+        "스포츠과학"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "교양",
+        "한문",
+        "과학",
+        "기술·가정",
+        "수학",
+        "체육"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "세계시민과 지리",
+        "세계사",
+        "여행지리",
+        "한국지리 탐구",
+        "화법과 언어",
+        "독서와 작문",
+        "영어 독해와 작문",
+        "영어 발표와 토론",
+        "사회와 문화",
+        "사회문제 탐구",
+        "확률과 통계",
+        "정치",
+        "법과 사회",
+        "도시의 미래 탐구",
+        "현대사회와 윤리",
+        "윤리와 사상"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "수학"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "문학",
+        "세계사",
+        "동아시아 역사기행",
+        "한문",
+        "한문 고전 읽기",
+        "사회와 문화",
+        "독일어",
+        "심화 독일어",
+        "독일어 회화",
+        "여행지리",
+        "프랑스어",
+        "심화 프랑스어",
+        "프랑스 회화",
+        "영어 독해와 작문",
+        "영미 문학 읽기",
+        "영어 발표와 토론",
+        "세계 문화와 영어",
+        "일본어",
+        "심화 일본어",
+        "일본어 회화",
+        "중국어",
+        "심화중국어",
+        "현대사회와 윤리",
+        "윤리와 사상",
+        "윤리문제 탐구",
+        "인간과 철학",
+        "논리와 사고"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "사회",
+        "한문",
+        "영어",
+        "제2외국어",
+        "교양"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "IT대학",
+      "requiredSubjects": [
+        "확률과 통계",
+        "미적분",
+        "생명과학",
+        "화학",
+        "영어 독해와 작문",
+        "물리학",
+        "영어 발표와 토론",
+        "인공지능 수학",
+        "융합과학 탐구"
+      ],
+      "recommendedSubjects": [
+        "영어",
+        "수학",
+        "체육",
+        "과학"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(춘천)",
+      "category": "독립학부",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "그 외는 희망 진로에 따른 과목 이수(영어",
+        "사회와 문화",
+        "정치",
+        "법과 사회 등)",
+        "확률과 통계 또는 미적분",
+        "그 외는 희망 진로에 따라 상이(물리학",
+        "생명과학",
+        "화학",
+        "지구과학 등)"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회",
+        "과학"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(삼척·도계)",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "미적분",
+        "물리학",
+        "화학",
+        "영어 독해와 작문",
+        "영어 발표와 토론",
+        "화법과 언어",
+        "독서와 작문",
+        "사회와 문화",
+        "기술․ 가정",
+        "인간과 철학",
+        "생태와 환경",
+        "확률과 통계"
+      ],
+      "recommendedSubjects": [
+        "영어",
+        "수학",
+        "과학",
+        "국어",
+        "사회",
+        "기술·가정/교양"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(삼척·도계)",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "확률과 통계",
+        "미적분",
+        "사회와 문화",
+        "경제",
+        "법과 사회 정치",
+        "화법과 언어",
+        "독서와 작문",
+        "여행지리",
+        "영어 독해와 작문",
+        "영어 발표와 토론",
+        "영미 문학 읽기",
+        "세계 문화와 영어",
+        "정치",
+        "법과 사회",
+        "윤리와 사상",
+        "인간과 철학",
+        "인간과 심리",
+        "문학",
+        "교육학",
+        "동아시아 역사 기행",
+        "일본어",
+        "심화일본어",
+        "일본어 회화"
+      ],
+      "recommendedSubjects": [
+        "영어",
+        "수학",
+        "사회",
+        "국어",
+        "교양",
+        "제2외국어/한문"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(삼척·도계)",
+      "category": "예체능계열",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "문학",
+        "영어 발표와 토론",
+        "미술",
+        "미술 창작",
+        "미술 감상과 비평",
+        "영어 독해와 작문",
+        "체육1",
+        "체육2",
+        "운동과 건강"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "영어",
+        "예술",
+        "체육"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(삼척·도계)",
+      "category": "보건과학대학",
+      "requiredSubjects": [
+        "생명과학",
+        "화학",
+        "생활과학 탐구",
+        "보건",
+        "영어 독해와 작문",
+        "확률과 통계",
+        "영어 발표와 토론",
+        "인문학과 윤리",
+        "물리학",
+        "기하"
+      ],
+      "recommendedSubjects": [
+        "과학",
+        "기술·가정/교양",
+        "영어",
+        "수학",
+        "사회",
+        "기술․가정"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "강원대\r\n(삼척·도계)",
+      "category": "독립학부",
+      "requiredSubjects": [
+        "화법과 언어",
+        "독서와 작문",
+        "그 외는 희망 진로에 따라 사회와 문화",
+        "정치",
+        "경제",
+        "법과 사회",
+        "윤리와 사상 등",
+        "확률과 통계 또는 미적분",
+        "그 외는 희망 진로에 따라 물리학",
+        "화학",
+        "생명과학",
+        "지구과학 등"
+      ],
+      "recommendedSubjects": [
+        "국어",
+        "사회",
+        "과학"
+      ],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한라대",
+      "category": "스마트모빌리티융합대학",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회(역사/도덕 포함)",
+        "과학 교과"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한라대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회(역사/도덕 포함)",
+        "과학 교과"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한라대",
+      "category": "미래라이프융합대학",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회(역사/도덕 포함)",
+        "과학 교과"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한라대",
+      "category": "운곡프론티어교양대학",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "사회(역사/도덕 포함)",
+        "과학 교과"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "건국대\r\n(글로컬)",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-수학: 대수, 미적분Ⅰ, 확률과 통계, 미적분Ⅱ, 기하 중 4과목 이상\r\n -과학: 생명과학, 세포와 물질대사, 생물의 유전 포함하여 3과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "사회(역사/도덕 포함)",
+        "사회",
+        "영어",
+        "제2외국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "국어",
+        "사회(역사/도덕 포함)",
+        "영어",
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "국어",
+        "사회(역사/도덕 포함)",
+        "수학",
+        "과학",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "영어",
+        "사회(역사/도덕 포함)",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "영어",
+        "사회(역사/도덕 포함)"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "충북대",
+      "category": "창의융합대학",
+      "requiredSubjects": [
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "단국대\r\n(천안)",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "일반선택 과목 이수 후 진로와 적성에 맞게 진로선택 과목, 융합선택 과목을 이수할 것.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "단국대\r\n(천안)",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "일반선택 과목 이수 후 진로와 적성에 맞게 진로선택 과목, 융합선택 과목을 이수할 것.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국기술교육대",
+      "category": "공합융합계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국기술교육대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국기술교육대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "한국기술교육대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "광주교육대",
+      "category": "전 모집단위",
+      "requiredSubjects": [
+        "전 과목"
+      ],
+      "recommendedSubjects": [],
+      "notes": "초등교과교육에 필요한 균형 있는 교과(군) 이수 및 성취",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "영어",
+        "수학",
+        "과학",
+        "화학",
+        "생명과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물리학: 물리학, 역학과 에너지, 전자기와 양자\r\n -화학: 화학, 물질과 에너지, 화학 반응의 세계\r\n -생명과학: 생명과학, 세포와 물질대사, 생물의 유전\r\n -지구과학: 지구과학, 지구시스템과학, 행성우주과학\r\n - 과학: 상기 물리학, 화학, 생명과학, 지구과학 전 과목\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목 군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "수학",
+        "사회",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-지리: 세계시민과 지리, 한국지리 탐구, 도시의 미래 탐구\r\n -역사: 세계사, 동아시아 역사기행\r\n -일반사회: 사회와 문화, 정치, 법과 사회, 경제, 국제관계의 이해\r\n -윤리: 현대사회와 윤리, 윤리와 사상, 인문학과 윤리\r\n -사회: 상기 지리, 역사, 일반사회, 윤리 전 과목\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목 군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "영어",
+        "사회",
+        "물리학",
+        "화학",
+        "생명과학",
+        "국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-지리: 세계시민과 지리, 한국지리 탐구, 도시의 미래 탐구\r\n -역사: 세계사, 동아시아 역사기행\r\n -일반사회: 사회와 문화, 정치, 법과 사회, 경제, 국제관계의 이해\r\n -윤리: 현대사회와 윤리, 윤리와 사상, 인문학과 윤리\r\n -사회: 상기 지리, 역사, 일반사회, 윤리 전 과목\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목 군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "영어",
+        "화학",
+        "생명과학",
+        "수학",
+        "지구과학(행성우주과학 불요)",
+        "물리학",
+        "사회",
+        "국어",
+        "기술·가정/정보",
+        "지구과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-화학: 화학, 물질과 에너지, 화학 반응의 세계\r\n -생명과학: 생명과학, 세포와 물질대사, 생물의 유전\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목 군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "지리",
+        "역사",
+        "윤리",
+        "수학",
+        "물리학",
+        "화학",
+        "생명과학",
+        "지구과학",
+        "기술·가정/정보"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "영어",
+        "사회",
+        "국어",
+        "지리",
+        "역사"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-지리: 세계시민과 지리, 한국지리 탐구, 도시의 미래 탐구\r\n -역사: 세계사, 동아시아 역사기행\r\n -일반사회: 사회와 문화, 정치, 법과 사회, 경제, 국제관계의 이해\r\n -윤리: 현대사회와 윤리, 윤리와 사상, 인문학과 윤리\r\n -사회: 상기 지리, 역사, 일반사회, 윤리 전 과목\r\n -화학: 화학, 물질과 에너지, 화학 반응의 세계\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목 군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "독일어",
+        "프랑스어",
+        "중국어",
+        "한문",
+        "일본어",
+        "역사",
+        "윤리"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(광주)",
+      "category": "AI융합대학",
+      "requiredSubjects": [
+        "수학",
+        "영어",
+        "물리학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "사회",
+        "영어",
+        "한국사"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "과학",
+        "영어",
+        "사회",
+        "국어",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "국어",
+        "사회",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "경상대학",
+      "requiredSubjects": [
+        "영어",
+        "수학",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "사회",
+        "과학",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "IT융합대학",
+      "requiredSubjects": [
+        "수학",
+        "과학",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "수학",
+        "과학",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "조선대",
+      "category": "예체능계열",
+      "requiredSubjects": [
+        "국어",
+        "사회",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "과목 선택 시 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "원광대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "대수",
+        "미적분Ⅰ",
+        "미적분Ⅱ",
+        "기하",
+        "확률과 통계",
+        "화학",
+        "생명과학",
+        "물질과 에너지",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "생물의 유전"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "본부",
+      "requiredSubjects": [
+        "수학",
+        "영어",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "영어",
+        "과학",
+        "수학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "경상대학",
+      "requiredSubjects": [
+        "수학",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "영어",
+        "과학",
+        "수학",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "독일어",
+        "사회",
+        "과학",
+        "수학",
+        "체육"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전북대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "사회",
+        "국어",
+        "영어",
+        "독일어",
+        "스페인어",
+        "일본어",
+        "중국어",
+        "프랑스어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "인문계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "사회",
+        "예술",
+        "제2외국어",
+        "교양"
+      ],
+      "recommendedSubjects": [],
+      "notes": "일반선택 과목 2과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "사회와 문화",
+        "현대사회와 윤리",
+        "도시와 미래탐구",
+        "법과 사회",
+        "윤리와 사상",
+        "정치",
+        "경제",
+        "인문학과 윤리",
+        "화법과 언어",
+        "독서와 작문",
+        "문학",
+        "주제 탐구 독서",
+        "문학과 영상",
+        "직무 의사소통",
+        "영어Ⅰ",
+        "영미 문학 읽기",
+        "독해와 작문",
+        "국제관계의 이해",
+        "생태와 환경",
+        "인간과 심리",
+        "사회와 문학",
+        "확률과 통계",
+        "직무 수학",
+        "직무 영어",
+        "진로와 직업",
+        "인간과 철학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "상경계열",
+      "requiredSubjects": [
+        "국어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "2과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "영어",
+        "과학",
+        "대수",
+        "미적분Ⅰ",
+        "확률과 통계",
+        "기하",
+        "미적분Ⅱ",
+        "인공지능 수학",
+        "물리학",
+        "화학",
+        "생명과학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "화학 반응의 세계",
+        "세포와 물질대사",
+        "과학과제 탐구",
+        "사회",
+        "교양",
+        "체육"
+      ],
+      "recommendedSubjects": [],
+      "notes": "2과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "대수",
+        "미적분Ⅰ",
+        "기하",
+        "미적분Ⅱ",
+        "사회",
+        "과학",
+        "수학",
+        "물리학",
+        "화학",
+        "기술·가정",
+        "정보",
+        "로봇과 공학세계",
+        "인공지능 기초",
+        "데이터과학",
+        "과학(진로",
+        "융합)",
+        "확률과 통계",
+        "인공지능 수학",
+        "인공지능기초",
+        "데이터 과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-국어, 영어: 1과목 이상\r\n-사회: 일반선택 과목, 진로선택 과목 1과목 이상\r\n-과학: 일반선택 과목, 진로선택 과목 2과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "문화융합대학",
+      "requiredSubjects": [
+        "국어",
+        "수학",
+        "예술",
+        "미술",
+        "기술·가정",
+        "로봇과 공학세계",
+        "생활과학 탐구",
+        "진로와 직업",
+        "생태와 환경",
+        "인간과 철학",
+        "인간과 심리",
+        "논리와 사고",
+        "사회",
+        "체육1",
+        "체육2",
+        "운동과 건강",
+        "스포츠 문화",
+        "스포츠과학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "6과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "문화관광대학",
+      "requiredSubjects": [
+        "영어",
+        "사회",
+        "생활과학 탐구"
+      ],
+      "recommendedSubjects": [],
+      "notes": "2과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "교육계열",
+      "requiredSubjects": [
+        "국어",
+        "영어",
+        "문학",
+        "주제 탐구 독서",
+        "한문",
+        "한문 고전 읽기",
+        "기술·가정",
+        "생활과학 탐구",
+        "물리학",
+        "화학",
+        "생명과학",
+        "지구과학",
+        "역학과 에너지",
+        "전자기와 양자",
+        "물리과 에너지",
+        "화학 반응의 세계",
+        "행성우주과학",
+        "수학",
+        "인간과 철학",
+        "인간과 심리",
+        "교육의 이해"
+      ],
+      "recommendedSubjects": [],
+      "notes": "1과목 이상",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전주대",
+      "category": "반려동물산업학부",
+      "requiredSubjects": [
+        "영어1",
+        "영어2"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(여수)",
+      "category": "이공계열",
+      "requiredSubjects": [
+        "수학",
+        "물리학",
+        "화학",
+        "국어",
+        "사회",
+        "영어"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물리학: 물리학, 역학과 에너지, 전자기와 양자\r\n -화학: 화학, 물질과 에너지, 화학 반응의 세계\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(여수)",
+      "category": "사회계열",
+      "requiredSubjects": [
+        "영어",
+        "일본어",
+        "중국어",
+        "국어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.716Z"
+    },
+    {
+      "university": "전남대\r\n(여수)",
+      "category": "수산해양대학",
+      "requiredSubjects": [
+        "영어",
+        "생명과학",
+        "지구과학(행성우주과학 불요)",
+        "수학",
+        "물리학",
+        "화학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-생명과학: 생명과학, 세포와 물질대사, 생물의 유전\r\n -지구과학: 지구과학, 지구시스템과학, 행성우주과학\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.717Z"
+    },
+    {
+      "university": "전남대\r\n(여수)",
+      "category": "창의융합학부",
+      "requiredSubjects": [
+        "수학",
+        "영어",
+        "사회"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-지리: 세계시민과 지리, 한국지리 탐구, 도시의 미래 탐구\r\n -역사: 세계사, 동아시아 역사 기행\r\n -일반사회: 사회와 문화, 정치, 법과 사회, 경제, 국제관계의 이해\r\n -윤리: 현대사회와 윤리, 윤리와 사상, 인문학과 윤리\r\n -사회: 상기 지리, 역사, 일반 사회, 윤리 전 과목\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.717Z"
+    },
+    {
+      "university": "전남대\r\n(여수)",
+      "category": "의약계열",
+      "requiredSubjects": [
+        "수학",
+        "물리학"
+      ],
+      "recommendedSubjects": [],
+      "notes": "-물리학: 물리학, 역학과 에너지, 전자기와 양자\r\n*평가활용: 일반 및 진로선택 과목을 위주로 평가에 활용, 모집단위별 관련 교과(군)이나 과목군의 일반선택 과목을 먼저 이수할 것을 권장함.",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.717Z"
+    },
+    {
+      "university": "딘국대, 한국기술교육대, 한라대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "단국대",
+        "동국대(일반사회)",
+        "한국기술교육대",
+        "한라대"
+      ],
+      "recommendedSubjects": [
+        "한라대"
+      ],
+      "notes": "",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.717Z"
+    },
+    {
+      "university": "한국기술교육대",
+      "category": "자연계열",
+      "requiredSubjects": [],
+      "recommendedSubjects": [
+        "한국기술교육대"
+      ],
+      "notes": "",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.717Z"
+    },
+    {
+      "university": "한국기술교육대, 한라대",
+      "category": "자연계열",
+      "requiredSubjects": [
+        "한라대"
+      ],
+      "recommendedSubjects": [
+        "한국기술교육대",
+        "한라대"
+      ],
+      "notes": "",
+      "source": "adiga-excel-2028",
+      "sourceUrl": "https://www.adiga.kr/uct/ces/archiveView.do?menuId=PCUCTCES1000&prtlBbsId=26239",
+      "sourceDate": "2026-02-20",
+      "updatedAt": "2026-03-07T14:09:15.717Z"
+    }
+  ],
+  "notices": [
+    {
+      "university": "서울대학교",
+      "url": "https://admission.snu.ac.kr/undergraduate/notice",
+      "foundKeywords": [
+        "전공 연계",
+        "과목 선택",
+        "교과이수"
+      ],
+      "checkedAt": "2026-03-07T14:09:15.014Z"
+    }
+  ]
+}

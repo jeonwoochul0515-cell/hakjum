@@ -93,6 +93,10 @@ export function UniversityGrid({ universities, enrollment = [], universityStats 
         </div>
       )}
 
+      <p className="text-[10px] text-slate-400 mb-3">
+        출처: 커리어넷 학과정보 API · 대학알리미(academyinfo.go.kr) · 공공데이터포털(data.go.kr)
+      </p>
+
       {areaOrder.map((area) => (
         <div key={area} className="mb-5">
           <div className="flex items-center gap-2 mb-2">

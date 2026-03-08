@@ -167,6 +167,11 @@ export function CareerOutcomeSection({ major }: Props) {
           <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{major.enterField}</p>
         </div>
       )}
+
+      {/* 출처 표기 */}
+      <p className="text-[10px] text-slate-400 text-right mt-1">
+        출처: 한국직업능력연구원 커리어넷(career.go.kr) 학과정보 API
+      </p>
     </div>
   );
 }

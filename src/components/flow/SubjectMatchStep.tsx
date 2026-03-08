@@ -42,7 +42,7 @@ function MatchRateCounter({ target }: { target: number }) {
 }
 
 export function SubjectMatchStep() {
-  const { state, reset, go } = useFlow();
+  const { state, go } = useFlow();
   const { dispatch: wizardDispatch } = useWizard();
   const { school, grade, interest, tags, selectedMajor, recommendationResult: result } = state;
   const [showShare, setShowShare] = useState(false);
@@ -182,19 +182,11 @@ export function SubjectMatchStep() {
         </div>
       )}
 
-      {/* Bottom CTAs */}
+      {/* Bottom CTAs - 하나로 통합 */}
       <div className="space-y-2 pt-2">
         <Button size="lg" className="w-full" onClick={() => go('interest-input')}>
-          다른 관심사로 다시 추천받기
-        </Button>
-        <Button
-          variant="secondary"
-          size="lg"
-          className="w-full"
-          onClick={() => reset()}
-        >
           <RotateCcw size={16} className="mr-2" />
-          처음부터 다시 하기
+          다른 진로로 다시 탐색하기
         </Button>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import { MajorOverviewCard } from '@/components/explore/MajorOverviewCard';
 import { CareerOutcomeSection } from '@/components/explore/CareerOutcomeSection';
 import { RequiredSubjectsView } from '@/components/explore/RequiredSubjectsView';
+import { AdmissionRequirementSection } from '@/components/explore/AdmissionRequirementSection';
 import { FavoriteButton } from '@/components/explore/FavoriteButton';
 import { ShareButton } from '@/components/explore/ShareButton';
 import { Badge } from '@/components/ui/Badge';
@@ -44,27 +45,34 @@ export function MajorDetailStep() {
         <CareerOutcomeSection major={selectedMajor} />
       </div>
 
+      {/* 진학필수 교과목 (2028 대입기준) */}
+      <div className="mt-5">
+        <AdmissionRequirementSection
+          majorName={selectedMajor.name}
+          schoolSubjects={school?.allSubjects || []}
+        />
+      </div>
+
       {/* 권장과목 */}
       <div className="mt-5">
         <h2 className="text-base font-bold text-slate-800 mb-3">권장 과목</h2>
         <RequiredSubjectsView major={selectedMajor} onCTAClick={handleGoToSubjectMatch} />
       </div>
 
-      {/* 하단 CTA */}
-      <div className="mt-6 space-y-2">
-        <button
-          onClick={handleGoToUniversities}
-          className="w-full py-3.5 bg-white border-2 border-sky-primary text-sky-primary rounded-xl font-semibold text-sm hover:bg-sky-50 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
-        >
-          이 학과가 있는 대학교 보기
-          <ArrowRight size={16} />
-        </button>
+      {/* 하단 CTA - 주 액션 하나 + 보조 링크 */}
+      <div className="mt-6">
         <button
           onClick={handleGoToSubjectMatch}
           className="w-full py-3.5 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
         >
           내 학교 맞춤 과목 추천받기
           <ArrowRight size={16} />
+        </button>
+        <button
+          onClick={handleGoToUniversities}
+          className="w-full mt-2 py-2.5 text-sm text-slate-500 hover:text-sky-primary transition-colors cursor-pointer flex items-center justify-center gap-1"
+        >
+          이 학과가 있는 대학교 먼저 보기 →
         </button>
       </div>
     </div>

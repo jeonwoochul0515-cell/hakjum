@@ -3,6 +3,13 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const FlowPage = lazy(() => import('@/pages/FlowPage'));
+const SubscriptionPage = lazy(() => import('@/pages/SubscriptionPage'));
+const SubscriptionSuccessPage = lazy(() => import('@/pages/SubscriptionSuccessPage'));
+const SubscriptionFailPage = lazy(() => import('@/pages/SubscriptionFailPage'));
+const TeacherSubscriptionPage = lazy(() => import('@/pages/TeacherSubscriptionPage'));
+const LoginPage = lazy(() => import('@/pages/LoginPage'));
+const SignupPage = lazy(() => import('@/pages/SignupPage'));
+const ProfilePage = lazy(() => import('@/pages/ProfilePage'));
 
 function PageLoader() {
   return (
@@ -21,6 +28,13 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/flow" element={<FlowPage />} />
+        <Route path="/subscription" element={<SubscriptionPage />} />
+        <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
+        <Route path="/subscription/fail" element={<SubscriptionFailPage />} />
+        <Route path="/subscription/teacher" element={<TeacherSubscriptionPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         {/* Legacy redirects */}
         <Route path="/explore" element={<Navigate to="/flow" replace />} />
         <Route path="/school" element={<Navigate to="/flow" replace />} />
