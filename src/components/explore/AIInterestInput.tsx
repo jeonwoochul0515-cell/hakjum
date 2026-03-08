@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Search, X, School as SchoolIcon, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, X, School as SchoolIcon, Sparkles, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { useSchoolSearch } from '@/hooks/useSchoolSearch';
 import type { School } from '@/types';
+import type { NEISSchool } from '@/lib/neis-api';
 
 interface Props {
   school: School | null;
@@ -13,12 +14,19 @@ interface Props {
 
 export function AIInterestInput({ school, interest, onSchoolChange, onInterestChange, onSubmit }: Props) {
   const [showSchoolSearch, setShowSchoolSearch] = useState(false);
-  const { query, setQuery, filtered } = useSchoolSearch();
+  const [loadingSchool, setLoadingSchool] = useState(false);
+  const { query, setQuery, neisResults, neisLoading, loadNeisSchoolSubjects } = useSchoolSearch();
 
-  const handleSelectSchool = (s: School) => {
-    onSchoolChange(s);
-    setShowSchoolSearch(false);
-    setQuery('');
+  const handleSelectSchool = async (ns: NEISSchool) => {
+    setLoadingSchool(true);
+    try {
+      const s = await loadNeisSchoolSubjects(ns);
+      onSchoolChange(s);
+      setShowSchoolSearch(false);
+      setQuery('');
+    } finally {
+      setLoadingSchool(false);
+    }
   };
 
   const handleSubmit = () => {
@@ -72,18 +80,27 @@ export function AIInterestInput({ school, interest, onSchoolChange, onInterestCh
               />
             </div>
             <div className="max-h-48 overflow-y-auto">
-              {filtered.slice(0, 20).map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => handleSelectSchool(s)}
-                  className="w-full text-left px-4 py-2.5 hover:bg-sky-50 transition-colors text-sm border-b border-slate-50 last:border-b-0 cursor-pointer"
-                >
-                  <span className="font-medium text-slate-700">{s.name}</span>
-                  <span className="text-xs text-slate-400 ml-2">{s.type}</span>
-                </button>
-              ))}
-              {query && filtered.length === 0 && (
-                <p className="px-4 py-3 text-sm text-slate-400 text-center">검색 결과가 없어요</p>
+              {neisLoading || loadingSchool ? (
+                <div className="flex items-center justify-center gap-2 py-4 text-slate-400">
+                  <Loader2 size={16} className="animate-spin" />
+                  <span className="text-sm">{loadingSchool ? '과목 불러오는 중...' : '검색 중...'}</span>
+                </div>
+              ) : (
+                <>
+                  {neisResults.slice(0, 20).map((ns) => (
+                    <button
+                      key={`${ns.regionCode}_${ns.code}`}
+                      onClick={() => handleSelectSchool(ns)}
+                      className="w-full text-left px-4 py-2.5 hover:bg-sky-50 transition-colors text-sm border-b border-slate-50 last:border-b-0 cursor-pointer"
+                    >
+                      <span className="font-medium text-slate-700">{ns.name}</span>
+                      <span className="text-xs text-slate-400 ml-2">{ns.type || '일반고'} · {ns.region}</span>
+                    </button>
+                  ))}
+                  {query && neisResults.length === 0 && (
+                    <p className="px-4 py-3 text-sm text-slate-400 text-center">검색 결과가 없어요</p>
+                  )}
+                </>
               )}
             </div>
           </div>

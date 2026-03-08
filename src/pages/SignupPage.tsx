@@ -48,8 +48,8 @@ export default function SignupPage() {
     setLoading(true);
     try {
       await signup(email, password, displayName);
-      const uid = firebaseAuth.currentUser?.uid;
-      if (uid) {
+      const uid = firebaseAuth?.currentUser?.uid;
+      if (uid && db) {
         await setDoc(doc(db, 'users', uid), { userType, grade, schoolName });
       }
       navigate('/');

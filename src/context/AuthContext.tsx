@@ -7,9 +7,10 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import type { User } from 'firebase/auth';
+import type { User, Auth } from 'firebase/auth';
+import type { Firestore } from 'firebase/firestore';
 import { doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
-import { auth, db, googleProvider } from '@/lib/firebase';
+import { auth, db, googleProvider, firebaseEnabled } from '@/lib/firebase';
 
 export interface ProfileExtra {
   userType?: string;
@@ -49,12 +50,12 @@ export function useAuth(): AuthContextType {
   return context;
 }
 
-async function migrateLocalStorage(uid: string) {
+async function migrateLocalStorage(firestore: Firestore, uid: string) {
   const profileRaw = localStorage.getItem('hakjum-profile');
   if (profileRaw) {
     try {
       const data = JSON.parse(profileRaw) as ProfileExtra;
-      const userRef = doc(db, 'users', uid);
+      const userRef = doc(firestore, 'users', uid);
       const snap = await getDoc(userRef);
       if (!snap.exists()) {
         await setDoc(userRef, data);
@@ -67,7 +68,7 @@ async function migrateLocalStorage(uid: string) {
   if (resultsRaw) {
     try {
       const results = JSON.parse(resultsRaw) as SavedResult[];
-      const colRef = collection(db, 'users', uid, 'savedResults');
+      const colRef = collection(firestore, 'users', uid, 'savedResults');
       const existing = await getDocs(colRef);
       if (existing.empty && results.length > 0) {
         for (const r of results) {
@@ -87,10 +88,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [savedResults, setSavedResults] = useState<SavedResult[]>([]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (!firebaseEnabled || !auth) {
+      setLoading(false);
+      return;
+    }
+    const unsubscribe = onAuthStateChanged(auth as Auth, async (user) => {
       setCurrentUser(user);
-      if (user) {
-        await migrateLocalStorage(user.uid);
+      if (user && db) {
+        await migrateLocalStorage(db, user.uid);
         await loadUserData(user.uid);
       } else {
         setProfileExtra({});
@@ -102,6 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function loadUserData(uid: string) {
+    if (!db) return;
     try {
       const userSnap = await getDoc(doc(db, 'users', uid));
       if (userSnap.exists()) {
@@ -121,28 +127,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function login(email: string, password: string) {
+    if (!auth) throw new Error('Firebase not configured');
     await signInWithEmailAndPassword(auth, email, password);
   }
 
   async function signup(email: string, password: string, displayName: string) {
+    if (!auth) throw new Error('Firebase not configured');
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(credential.user, { displayName });
   }
 
   async function loginWithGoogle() {
+    if (!auth) throw new Error('Firebase not configured');
     await signInWithPopup(auth, googleProvider);
   }
 
   async function logout() {
+    if (!auth) throw new Error('Firebase not configured');
     await signOut(auth);
   }
 
   async function updateProfileExtra(data: ProfileExtra) {
-    if (!currentUser) return;
+    if (!currentUser || !db) return;
     const userRef = doc(db, 'users', currentUser.uid);
     const snap = await getDoc(userRef);
     if (snap.exists()) {
-      await updateDoc(userRef, data);
+      await updateDoc(userRef, data as Record<string, unknown>);
     } else {
       await setDoc(userRef, data);
     }
@@ -150,14 +160,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function addSavedResult(result: Omit<SavedResult, 'id'>) {
-    if (!currentUser) return;
+    if (!currentUser || !db) return;
     const colRef = collection(db, 'users', currentUser.uid, 'savedResults');
     const docRef = await addDoc(colRef, result);
     setSavedResults((prev) => [...prev, { id: docRef.id, ...result }]);
   }
 
   async function deleteSavedResult(id: string) {
-    if (!currentUser) return;
+    if (!currentUser || !db) return;
     await deleteDoc(doc(db, 'users', currentUser.uid, 'savedResults', id));
     setSavedResults((prev) => prev.filter((r) => r.id !== id));
   }
