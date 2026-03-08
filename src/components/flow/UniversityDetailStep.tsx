@@ -1,6 +1,7 @@
 import { ExternalLink, Users, GraduationCap, Wallet, BookOpen, Briefcase, MapPin, ArrowRight, BarChart3 } from 'lucide-react';
 import { useFlow } from '@/hooks/useFlow';
 import type { EnrollmentInfo, UniversityStats, AcademyInfo } from '@/lib/university-api';
+import { UniversityRecommendations } from './UniversityRecommendations';
 
 export function UniversityDetailStep() {
   const { state, runRecommendation } = useFlow();
@@ -178,6 +179,12 @@ export function UniversityDetailStep() {
           </div>
         </div>
       )}
+
+      {/* 대학별 권장과목 (2028학년도 대교협 자료) */}
+      <UniversityRecommendations
+        universityName={selectedUniversity.name}
+        majorName={selectedMajor.name}
+      />
 
       {/* 주요 교과목 */}
       {info?.mainCourses && (
