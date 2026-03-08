@@ -37,6 +37,16 @@ function isValidSubject(name: string): boolean {
   return true;
 }
 
+// NEIS 분반 기호 정규화: "지구과학A 지구과학" → "지구과학", "사회·문화B 사회 문화" → "사회·문화"
+function normalizeSubjectName(raw: string): string {
+  let name = raw.replace(/^\d+\.\s*/, '').trim();
+  // 분반 패턴: 한글/로마숫자 뒤에 영대문자 + 공백 + 기본 과목명 → 분반 이전 이름 사용
+  name = name.replace(/([가-힣\u2160-\u217F])[A-Z]\s+.+$/, '$1').trim();
+  // 단독 분반 기호 (뒤에 기본명 없는 경우): "미적분A" → "미적분"
+  name = name.replace(/([가-힣\u2160-\u217F])[A-H]$/, '$1').trim();
+  return name;
+}
+
 // 특정 학년+학기의 고유 과목명만 추출 (GRADE 파라미터로 학년별 개별 조회)
 async function fetchGradeSubjects(
   regionCode: string,
@@ -82,22 +92,17 @@ async function fetchGradeSubjects(
     const rows = timetable[1]?.row || [];
     if (rows.length === 0) break;
 
-    const prevSize = subjects.size;
-
     for (const row of rows) {
       if (!schoolName) schoolName = row.SCHUL_NM || '';
 
       const raw = (row.ITRT_CNTNT || '').trim();
       if (!raw) continue;
 
-      const normalized = raw.replace(/^\d+\.\s*/, '').trim();
+      const normalized = normalizeSubjectName(raw);
       if (normalized && isValidSubject(normalized)) {
         subjects.add(normalized);
       }
     }
-
-    // 새 과목이 없으면 더 읽을 필요 없음 (과목명 추출이 목적)
-    if (subjects.size === prevSize && page >= 2) break;
 
     if (page * pageSize >= totalRecords) break;
     page++;
@@ -189,7 +194,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     );
 
     // 부족한 학년은 이전 연도 조회
-    const needsPrevYear = grades.filter((_, i) => currentResults[i].subjects.length < 3);
+    // 10과목 미만이면 불충분 (학기 초 일부 데이터만 있는 경우 이전 연도 보강)
+    const needsPrevYear = grades.filter((_, i) => currentResults[i].subjects.length < 10);
     let prevResults: Map<string, Awaited<ReturnType<typeof fetchGradeYearSubjects>>> | null = null;
 
     if (needsPrevYear.length > 0) {
@@ -215,7 +221,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       if (!schoolName) schoolName = current.schoolName;
       totalRecords += current.totalRecords;
 
-      if (current.subjects.length >= 3) {
+      if (current.subjects.length >= 10) {
         // 현재 연도 데이터 충분
         finalByGrade[gradeKey] = current.subjects;
         gradeDataYear[gradeKey] = currentYearStr;
