@@ -11,6 +11,7 @@ const initialState: WizardState = {
   targetMajor: null,
   checkedSubjects: [],
   lastResult: null,
+  aptitudeResult: null,
 };
 
 function loadFromStorage(): Partial<WizardState> | null {
