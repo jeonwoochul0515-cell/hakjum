@@ -1,9 +1,7 @@
-import { BookMarked } from 'lucide-react';
 import type { MajorFull } from '@/types';
 
 interface Props {
   major: MajorFull;
-  onCTAClick: () => void;
 }
 
 const SUBJECT_CATEGORIES = [
@@ -13,7 +11,7 @@ const SUBJECT_CATEGORIES = [
   { key: 'professional' as const, label: '전문교과', color: 'bg-green-100 text-green-700', dotColor: 'bg-green-500' },
 ];
 
-export function RequiredSubjectsView({ major, onCTAClick }: Props) {
+export function RequiredSubjectsView({ major }: Props) {
   const hasAny = Object.values(major.relateSubject).some((v) => v.trim());
 
   if (!hasAny) {
@@ -56,15 +54,6 @@ export function RequiredSubjectsView({ major, onCTAClick }: Props) {
           </div>
         );
       })}
-
-      {/* CTA */}
-      <button
-        onClick={onCTAClick}
-        className="w-full mt-4 py-3.5 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
-      >
-        <BookMarked size={16} />
-        내 학교에 이 과목이 있는지 확인하기 →
-      </button>
     </div>
   );
 }

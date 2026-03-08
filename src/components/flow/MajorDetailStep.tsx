@@ -56,7 +56,7 @@ export function MajorDetailStep() {
       {/* 권장과목 */}
       <div className="mt-5">
         <h2 className="text-base font-bold text-slate-800 mb-3">권장 과목</h2>
-        <RequiredSubjectsView major={selectedMajor} onCTAClick={handleGoToSubjectMatch} />
+        <RequiredSubjectsView major={selectedMajor} />
       </div>
 
       {/* 하단 CTA - 주 액션 하나 + 보조 링크 */}
