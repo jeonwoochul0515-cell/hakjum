@@ -9,7 +9,7 @@
 import type { School, AIExploreResult, AIExploreRecommendation } from '@/types';
 import { popularMajors } from '@/data/majors';
 
-function buildExplorePrompt(interest: string, school?: School | null): string {
+function buildExplorePrompt(interest: string, school?: School | null, regionName?: string): string {
   let prompt = `당신은 한국 대학 학과 추천 전문가입니다. 고등학생의 관심사와 희망 진로를 분석하여 적합한 대학교 학과를 추천해주세요.
 
 ## 학생 정보
@@ -45,8 +45,8 @@ function buildExplorePrompt(interest: string, school?: School | null): string {
 ## 규칙
 1. 3~5개의 학과를 추천하세요
 2. matchScore는 학생의 관심사와의 적합도를 0-100 점수로 표현하세요
-3. 각 학과마다 부산 지역 대학 2-3개, 서울 지역 대학 2-3개를 포함하세요
-4. universities는 부산 대학을 먼저 나열하세요
+3. 각 학과마다 ${regionName && regionName !== '전체' ? `${regionName} 지역 대학 2-3개, ` : ''}서울 지역 대학 2-3개, 기타 지역 대학 1-2개를 포함하세요
+4. ${regionName && regionName !== '전체' ? `universities는 ${regionName} 대학을 먼저 나열하세요` : 'universities는 서울 수도권 대학을 먼저, 그 외 지역을 이후에 나열하세요'}
 5. relatedJobs는 현실적이고 구체적인 직업 3-5개를 나열하세요
 6. reason은 학생이 입력한 관심사와 구체적으로 연결하여 설명하세요
 7. 추천 학과는 matchScore가 높은 순서로 정렬하세요
@@ -212,10 +212,11 @@ function fallbackExploreRecommend(interest: string): AIExploreResult {
 
 export async function getExploreRecommendations(
   interest: string,
-  school?: School | null
+  school?: School | null,
+  regionName?: string,
 ): Promise<AIExploreResult> {
   try {
-    const prompt = buildExplorePrompt(interest, school);
+    const prompt = buildExplorePrompt(interest, school, regionName);
     return await callExploreAI(prompt);
   } catch {
     return fallbackExploreRecommend(interest);

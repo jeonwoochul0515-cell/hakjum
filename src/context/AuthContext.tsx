@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import type { User, Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
@@ -34,6 +35,7 @@ interface AuthContextType {
   signup: (email: string, password: string, displayName: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfileExtra: (data: ProfileExtra) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   addSavedResult: (result: Omit<SavedResult, 'id'>) => Promise<void>;
   deleteSavedResult: (id: string) => Promise<void>;
 }
@@ -140,6 +142,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await signOut(auth);
   }
 
+  async function resetPassword(email: string) {
+    if (!auth) throw new Error('Firebase not configured');
+    await sendPasswordResetEmail(auth, email);
+  }
+
   async function updateProfileExtra(data: ProfileExtra) {
     if (!currentUser || !db) return;
     const userRef = doc(db, 'users', currentUser.uid);
@@ -149,7 +156,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       await setDoc(userRef, data);
     }
-    setProfileExtra(data);
+    setProfileExtra((prev) => ({ ...prev, ...data }));
   }
 
   async function addSavedResult(result: Omit<SavedResult, 'id'>) {
@@ -173,6 +180,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     login,
     signup,
     logout,
+    resetPassword,
     updateProfileExtra,
     addSavedResult,
     deleteSavedResult,

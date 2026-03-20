@@ -11,3 +11,14 @@ pages_build_output_dir = "dist"
 
 [vars]
 CAREER_API_KEY = "e8dca18e77b1552efadc7ea6287963e0"
+
+# KV 네임스페이스 (Cloudflare 대시보드에서 생성 후 id 입력)
+# wrangler kv:namespace create NEIS_CACHE
+# wrangler kv:namespace create CAREER_CACHE
+# [[kv_namespaces]]
+# binding = "NEIS_CACHE"
+# id = "your-neis-kv-namespace-id"
+#
+# [[kv_namespaces]]
+# binding = "CAREER_CACHE"
+# id = "your-career-kv-namespace-id"

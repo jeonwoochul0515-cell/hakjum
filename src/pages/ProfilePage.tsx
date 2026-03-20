@@ -1,15 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, Mail, Clock, Crown, ChevronRight, BookOpen, History, Settings } from 'lucide-react';
+import { LogOut, User, Mail, Clock, Crown, ChevronRight, BookOpen, History, Settings, Pencil, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { useAuth } from '@/context/AuthContext';
 
 export default function ProfilePage() {
-  const { currentUser, logout, profileExtra, savedResults } = useAuth();
+  const { currentUser, logout, profileExtra, savedResults, updateProfileExtra } = useAuth();
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editGrade, setEditGrade] = useState(profileExtra.grade || '');
+  const [editSchool, setEditSchool] = useState(profileExtra.schoolName || '');
+  const [editUserType, setEditUserType] = useState(profileExtra.userType || '');
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+
+  useEffect(() => {
+    setEditGrade(profileExtra.grade || '');
+    setEditSchool(profileExtra.schoolName || '');
+    setEditUserType(profileExtra.userType || '');
+  }, [profileExtra]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -90,13 +102,114 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
+            {!editing && (
+              <button
+                onClick={() => setEditing(true)}
+                className="p-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer text-slate-400 hover:text-slate-600"
+              >
+                <Pencil className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
-          {profileExtra.schoolName && (
-            <div className="mt-4 flex items-center gap-2 text-sm text-slate-600 bg-slate-50 rounded-xl px-3 py-2">
-              <BookOpen className="w-4 h-4 text-slate-400" />
-              {profileExtra.schoolName}
+          {editing ? (
+            <div className="mt-4 space-y-3 animate-fade-in-up">
+              <div>
+                <label className="text-xs font-medium text-slate-500 mb-1 block">유형</label>
+                <div className="flex gap-2">
+                  {['학생', '학부모', '교사/상담사'].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setEditUserType(t)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+                        editUserType === t
+                          ? 'bg-sky-primary text-white'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-500 mb-1 block">학년</label>
+                <div className="flex gap-2">
+                  {['고1', '고2', '고3'].map((g) => (
+                    <button
+                      key={g}
+                      onClick={() => setEditGrade(g)}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+                        editGrade === g
+                          ? 'bg-indigo-primary text-white'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }`}
+                    >
+                      {g}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-500 mb-1 block">학교명</label>
+                <input
+                  type="text"
+                  value={editSchool}
+                  onChange={(e) => setEditSchool(e.target.value)}
+                  placeholder="학교 이름을 입력하세요"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-primary/20"
+                />
+              </div>
+              {saveError && (
+                <div className="p-2 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm">
+                  {saveError}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <button
+                  onClick={async () => {
+                    setSaving(true);
+                    setSaveError('');
+                    try {
+                      await updateProfileExtra({
+                        userType: editUserType,
+                        grade: editGrade,
+                        schoolName: editSchool,
+                      });
+                      setEditing(false);
+                    } catch {
+                      setSaveError('프로필 저장에 실패했습니다. 다시 시도해주세요.');
+                    } finally { setSaving(false); }
+                  }}
+                  disabled={saving}
+                  className="flex items-center gap-1 px-4 py-2 bg-sky-primary text-white text-sm font-medium rounded-lg hover:bg-sky-600 transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  <Check className="w-4 h-4" />
+                  {saving ? '저장 중...' : '저장'}
+                </button>
+                <button
+                  onClick={() => {
+                    setEditing(false);
+                    setEditGrade(profileExtra.grade || '');
+                    setEditSchool(profileExtra.schoolName || '');
+                    setEditUserType(profileExtra.userType || '');
+                  }}
+                  className="flex items-center gap-1 px-4 py-2 bg-slate-100 text-slate-600 text-sm font-medium rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                  취소
+                </button>
+              </div>
             </div>
+          ) : (
+            <>
+              {profileExtra.schoolName && (
+                <div className="mt-4 flex items-center gap-2 text-sm text-slate-600 bg-slate-50 rounded-xl px-3 py-2">
+                  <BookOpen className="w-4 h-4 text-slate-400" />
+                  {profileExtra.schoolName}
+                </div>
+              )}
+            </>
           )}
 
           {createdAt && (

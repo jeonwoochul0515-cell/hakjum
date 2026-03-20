@@ -46,7 +46,7 @@ const plans: PlanTier[] = [
     icon: <BookOpen className="w-6 h-6 text-sky-500" />,
     features: [
       { icon: <Sparkles className="w-4 h-4 text-sky-400" />, text: 'AI 맞춤 과목 추천 1회' },
-      { icon: <School className="w-4 h-4 text-sky-400" />, text: '부산 지역 학교 검색' },
+      { icon: <School className="w-4 h-4 text-sky-400" />, text: '전국 학교 검색 (1일 1회)' },
       { icon: <BarChart3 className="w-4 h-4 text-sky-400" />, text: '기본 학과 정보 열람' },
     ],
     cta: '현재 이용 중',

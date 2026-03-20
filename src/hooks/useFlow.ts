@@ -7,6 +7,7 @@ import { buildPrompt } from '@/lib/recommendation-prompt';
 import { callClaudeAPI } from '@/lib/claude-api';
 import { fallbackRecommend } from '@/lib/fallback-engine';
 import { addSearchHistory } from '@/lib/history';
+import { REGION_CODES } from '@/lib/neis-api';
 import type { WizardState } from '@/types';
 
 interface CacheEntry {
@@ -44,7 +45,14 @@ export function useFlow() {
     addSearchHistory(interestText, state.school?.name);
 
     try {
-      const result = await getExploreRecommendations(interestText, state.school);
+      const regionName = (() => {
+        try {
+          const code = localStorage.getItem('hakjum_selected_region') || '';
+          const match = REGION_CODES.find((r) => r.code === code);
+          return match?.name || '';
+        } catch { return ''; }
+      })();
+      const result = await getExploreRecommendations(interestText, state.school, regionName || undefined);
       dispatch({ type: 'SET_EXPLORE_RESULT', payload: result });
       cacheRef.current.set(cacheKey, { result, timestamp: Date.now() });
       // Replace ai-loading with major-results (pop loading, then push results)

@@ -11,8 +11,12 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, resetPassword } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -117,11 +121,96 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Forgot password */}
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => { setShowResetForm(true); setResetEmail(email); }}
+                className="text-xs text-slate-400 hover:text-sky-primary transition-colors cursor-pointer"
+              >
+                비밀번호를 잊으셨나요?
+              </button>
+            </div>
+
             {/* Submit */}
             <Button type="submit" size="lg" className="w-full" disabled={loading}>
               {loading ? '로그인 중...' : '로그인'}
             </Button>
           </form>
+
+          {/* Password Reset Form */}
+          {showResetForm && (
+            <div className="mt-4 p-4 bg-sky-50 rounded-xl border border-sky-100 animate-fade-in-up">
+              {resetSent ? (
+                <div className="text-center">
+                  <p className="text-sm text-green-600 font-medium">비밀번호 재설정 이메일을 보냈습니다!</p>
+                  <p className="text-xs text-slate-500 mt-1">이메일을 확인해주세요.</p>
+                  <button
+                    onClick={() => { setShowResetForm(false); setResetSent(false); }}
+                    className="text-xs text-sky-primary mt-2 cursor-pointer hover:underline"
+                  >
+                    닫기
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm font-medium text-slate-700 mb-2">비밀번호 재설정</p>
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      placeholder="가입한 이메일 주소"
+                      className="flex-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-primary/20"
+                    />
+                    <button
+                      onClick={async () => {
+                        if (!resetEmail) return;
+                        setResetLoading(true);
+                        try {
+                          await resetPassword(resetEmail);
+                        } catch {
+                          // 이메일 존재 여부 노출 방지: 에러 시에도 동일 메시지 표시
+                        } finally {
+                          setResetSent(true);
+                          setResetLoading(false);
+                        }
+                      }}
+                      disabled={resetLoading}
+                      className="px-4 py-2 bg-sky-primary text-white text-sm font-medium rounded-lg hover:bg-sky-600 transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                      {resetLoading ? '전송 중...' : '전송'}
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => setShowResetForm(false)}
+                    className="text-xs text-slate-400 mt-2 cursor-pointer hover:text-slate-600"
+                  >
+                    취소
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 mt-5">
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-xs text-slate-400">또는</span>
+            <div className="flex-1 h-px bg-slate-200" />
+          </div>
+
+          {/* Kakao Login */}
+          <button
+            onClick={() => { /* 카카오 로그인은 추후 API 키 설정 후 활성화 */ alert('카카오 로그인은 준비 중입니다.'); }}
+            className="w-full mt-4 flex items-center justify-center gap-2 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer"
+            style={{ backgroundColor: '#FEE500', color: '#191919' }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 1C4.58 1 1 3.79 1 7.21c0 2.17 1.45 4.08 3.64 5.18l-.93 3.43c-.08.3.26.54.52.37l4.1-2.72c.22.02.44.03.67.03 4.42 0 8-2.79 8-6.29S13.42 1 9 1z" fill="#191919"/>
+            </svg>
+            카카오로 시작하기
+          </button>
 
           {/* Signup link */}
           <p className="text-center text-sm text-slate-500 mt-5">

@@ -1,0 +1,47 @@
+name: NEIS 데이터 동기화
+
+on:
+  schedule:
+    # 매년 3월, 9월 둘째 월요일 오전 6시 (KST)
+    - cron: '0 21 8-14 3,9 1'  # UTC 21시 = KST 06시
+  workflow_dispatch:
+    inputs:
+      region:
+        description: '특정 지역만 동기화 (예: C10)'
+        required: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run NEIS bulk sync
+        run: |
+          if [ -n "$REGION" ]; then
+            npx tsx scripts/neis-bulk-sync.ts --region "$REGION"
+          else
+            npx tsx scripts/neis-bulk-sync.ts
+          fi
+        env:
+          NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
+          REGION: ${{ github.event.inputs.region }}
+
+      - name: Commit data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/regions/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto-sync NEIS data $(date +%Y-%m-%d)"
+            git push
+          fi

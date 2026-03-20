@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { PrivateRoute } from '@/components/auth/PrivateRoute';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const FlowPage = lazy(() => import('@/pages/FlowPage'));
@@ -34,7 +35,7 @@ export default function App() {
         <Route path="/subscription/teacher" element={<TeacherSubscriptionPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
         {/* Legacy redirects */}
         <Route path="/explore" element={<Navigate to="/flow" replace />} />
         <Route path="/school" element={<Navigate to="/flow" replace />} />
