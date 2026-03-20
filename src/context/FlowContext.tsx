@@ -113,7 +113,25 @@ const FlowContext = createContext<FlowContextType | null>(null);
 export function FlowProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(flowReducer, initialState, () => {
     const saved = loadFromStorage();
-    return saved ? { ...initialState, ...saved } : initialState;
+    if (!saved) return initialState;
+    const merged = { ...initialState, ...saved };
+
+    // API 결과가 필요한 step인데 데이터가 없으면 안전한 step으로 복원
+    const dataRequired: Partial<Record<FlowStep, keyof FlowState>> = {
+      'major-results': 'exploreResult',
+      'major-detail': 'selectedMajor',
+      'university-list': 'selectedMajor',
+      'university-detail': 'selectedUniversity',
+      'subject-match': 'recommendationResult',
+      'ai-loading': 'exploreResult',
+    };
+    const requiredField = dataRequired[merged.currentStep as FlowStep];
+    if (requiredField && !merged[requiredField]) {
+      const safeStep: FlowStep = merged.school ? 'interest-input' : 'school-select';
+      return { ...merged, currentStep: safeStep, stepHistory: [] };
+    }
+
+    return merged;
   });
 
   useEffect(() => {

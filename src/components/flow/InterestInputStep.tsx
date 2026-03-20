@@ -3,11 +3,14 @@ import { GradeSelector } from '@/components/career/GradeSelector';
 import { QuickTag } from '@/components/career/QuickTag';
 import { RecentSearches } from '@/components/explore/RecentSearches';
 import { useFlow } from '@/hooks/useFlow';
+import { getRemainingUsage, getDailyLimit, canUseAI } from '@/lib/usage';
 
 export function InterestInputStep() {
   const { state, dispatch, go, analyze, selectMajor } = useFlow();
 
-  const canProceed = state.interest.trim().length >= 2 || state.tags.length > 0;
+  const canProceed = (state.interest.trim().length >= 2 || state.tags.length > 0) && canUseAI();
+  const remaining = getRemainingUsage();
+  const limit = getDailyLimit();
 
   const handleRecentSelect = (q: string) => {
     dispatch({ type: 'SET_INTEREST', payload: q });
@@ -91,6 +94,13 @@ export function InterestInputStep() {
         <Sparkles size={16} />
         AI 학과 추천 받기
       </button>
+      {remaining < limit && (
+        <p className={`text-xs text-center ${remaining === 0 ? 'text-red-500' : 'text-slate-400'}`}>
+          {remaining === 0
+            ? '오늘 무료 추천 횟수를 모두 사용했어요'
+            : `오늘 남은 무료 추천: ${remaining}/${limit}회`}
+        </p>
+      )}
 
       {/* 최근 검색 */}
       <RecentSearches

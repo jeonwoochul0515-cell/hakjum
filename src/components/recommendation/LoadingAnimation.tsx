@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useWizard } from '@/context/WizardContext';
+import { useFlowContext } from '@/context/FlowContext';
 
 const tips = [
   '선택과목은 내신 등급뿐 아니라 학생부에도 기록돼요',
@@ -9,7 +9,7 @@ const tips = [
 ];
 
 export function LoadingAnimation() {
-  const { state } = useWizard();
+  const { state } = useFlowContext();
   const [phase, setPhase] = useState(0);
   const [tipIndex, setTipIndex] = useState(0);
 

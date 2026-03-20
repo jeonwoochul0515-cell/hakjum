@@ -6,7 +6,7 @@ import {
   ChevronDown, Shield, Zap, Target, Star, User, Crown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { useWizard } from '@/context/WizardContext';
+import { useFlowContext } from '@/context/FlowContext';
 import { useAuth } from '@/context/AuthContext';
 
 // ── 소비심리학 기반 데이터 ──
@@ -71,14 +71,14 @@ const comparisonData = {
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { state } = useWizard();
+  const { state } = useFlowContext();
   const { currentUser } = useAuth();
   const [currentWorry, setCurrentWorry] = useState(0);
   const [worryVisible, setWorryVisible] = useState(true);
   const [showComparison, setShowComparison] = useState(false);
   const comparisonRef = useRef<HTMLDivElement>(null);
 
-  const hasLastResult = !!state.lastResult;
+  const hasLastResult = !!state.recommendationResult;
 
   // [자이가르닉] 걱정 카드 로테이션
   useEffect(() => {

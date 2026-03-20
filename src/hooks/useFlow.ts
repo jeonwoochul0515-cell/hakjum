@@ -8,6 +8,7 @@ import { callClaudeAPI } from '@/lib/claude-api';
 import { fallbackRecommend } from '@/lib/fallback-engine';
 import { addSearchHistory } from '@/lib/history';
 import { REGION_CODES } from '@/lib/neis-api';
+import { canUseAI, recordAIUsage } from '@/lib/usage';
 import type { WizardState } from '@/types';
 
 interface CacheEntry {
@@ -32,7 +33,19 @@ export function useFlow() {
     // Use interest text, or fall back to tags joined as text
     const interestText = state.interest.trim() || state.tags.join(', ');
     if (!interestText) return;
-    const cacheKey = `${interestText}|${state.school?.name || ''}`;
+
+    // 과목이 아직 로딩 중이면 AI 호출하지 않음 (stub 상태)
+    if (state.school && state.school.allSubjects.length === 0) return;
+
+    const regionName = (() => {
+      try {
+        const code = localStorage.getItem('hakjum_selected_region') || '';
+        const match = REGION_CODES.find((r) => r.code === code);
+        return match?.name || '';
+      } catch { return ''; }
+    })();
+
+    const cacheKey = `${interestText}|${state.school?.name || ''}|${regionName}`;
 
     const cached = cacheRef.current.get(cacheKey);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -41,18 +54,15 @@ export function useFlow() {
       return;
     }
 
+    if (!canUseAI()) return;
+
     dispatch({ type: 'GO', payload: 'ai-loading' });
     addSearchHistory(interestText, state.school?.name);
 
     try {
-      const regionName = (() => {
-        try {
-          const code = localStorage.getItem('hakjum_selected_region') || '';
-          const match = REGION_CODES.find((r) => r.code === code);
-          return match?.name || '';
-        } catch { return ''; }
-      })();
-      const result = await getExploreRecommendations(interestText, state.school, regionName || undefined);
+      const aptitudeInfo = state.aptitudeResult ? '커리어넷 직업흥미검사 완료' : undefined;
+      const result = await getExploreRecommendations(interestText, state.school, regionName || undefined, aptitudeInfo);
+      recordAIUsage();
       dispatch({ type: 'SET_EXPLORE_RESULT', payload: result });
       cacheRef.current.set(cacheKey, { result, timestamp: Date.now() });
       // Replace ai-loading with major-results (pop loading, then push results)
@@ -105,8 +115,11 @@ export function useFlow() {
   // ── Subject Match (recommendation) ──
   const runRecommendation = useCallback(async () => {
     if (!state.school || !state.selectedMajor) return;
+    if (state.school.allSubjects.length === 0) return;
+    if (!canUseAI()) return;
 
     dispatch({ type: 'GO', payload: 'subject-match' });
+    recordAIUsage();
 
     // Build a WizardState-compatible object for the existing prompt builder
     const wizardCompat: WizardState = {
@@ -115,8 +128,6 @@ export function useFlow() {
       careerGoal: state.interest || state.selectedMajor.name,
       tags: state.tags,
       targetMajor: state.selectedMajor,
-      checkedSubjects: [],
-      lastResult: null,
       aptitudeResult: state.aptitudeResult,
     };
 

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { useWizard } from '@/context/WizardContext';
+import { useFlowContext } from '@/context/FlowContext';
 
 export function Header() {
   const navigate = useNavigate();
-  const { state } = useWizard();
+  const { state } = useFlowContext();
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">

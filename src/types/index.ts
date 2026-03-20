@@ -51,27 +51,15 @@ export interface MajorFull extends Major {
   relatedQualifiDetails: { name: string; desc: string }[];
 }
 
+/** Used by buildPrompt/fallbackRecommend as input shape */
 export interface WizardState {
   school: School | null;
   grade: string;
   careerGoal: string;
   tags: string[];
   targetMajor: Major | null;
-  checkedSubjects: string[];
-  lastResult: RecommendationResult | null;
   aptitudeResult: AptitudeResult | null;
 }
-
-export type WizardAction =
-  | { type: 'SET_SCHOOL'; payload: School }
-  | { type: 'SET_GRADE'; payload: string }
-  | { type: 'SET_CAREER_GOAL'; payload: string }
-  | { type: 'TOGGLE_TAG'; payload: string }
-  | { type: 'SET_TARGET_MAJOR'; payload: Major | null }
-  | { type: 'TOGGLE_CHECKED_SUBJECT'; payload: string }
-  | { type: 'SAVE_RESULT'; payload: RecommendationResult }
-  | { type: 'HYDRATE'; payload: Partial<WizardState> }
-  | { type: 'RESET' };
 
 export interface SubjectRecommendation {
   name: string;

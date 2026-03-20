@@ -64,6 +64,26 @@ async function migrateLocalStorage(firestore: Firestore, uid: string) {
     } catch { /* ignore */ }
   }
 
+  const favoritesRaw = localStorage.getItem('hakjum_favorites');
+  if (favoritesRaw) {
+    try {
+      const favorites = JSON.parse(favoritesRaw) as { majorName: string; category: string; interest: string; timestamp: number }[];
+      if (favorites.length > 0) {
+        const userRef = doc(firestore, 'users', uid);
+        const snap = await getDoc(userRef);
+        const existing = snap.exists() ? snap.data() : {};
+        if (!existing.favorites) {
+          if (snap.exists()) {
+            await updateDoc(userRef, { favorites });
+          } else {
+            await setDoc(userRef, { ...existing, favorites });
+          }
+        }
+      }
+      localStorage.removeItem('hakjum_favorites');
+    } catch { /* ignore */ }
+  }
+
   const resultsRaw = localStorage.getItem('hakjum-saved-results');
   if (resultsRaw) {
     try {

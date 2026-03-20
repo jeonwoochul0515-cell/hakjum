@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { useWizard } from '@/context/WizardContext';
+import { useFlowContext } from '@/context/FlowContext';
 
 interface StepIndicatorProps {
   currentStep: number;
@@ -14,7 +14,7 @@ const encourageMessages: Record<number, string> = {
 };
 
 export function StepIndicator({ currentStep }: StepIndicatorProps) {
-  const { state } = useWizard();
+  const { state } = useFlowContext();
 
   return (
     <div className="py-4">

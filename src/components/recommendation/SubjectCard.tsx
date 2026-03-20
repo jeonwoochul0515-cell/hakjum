@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import type { SubjectRecommendation } from '@/types';
-import { useWizard } from '@/context/WizardContext';
 
 interface SubjectCardProps {
   subject: SubjectRecommendation;
@@ -7,8 +7,7 @@ interface SubjectCardProps {
 }
 
 export function SubjectCard({ subject, tierColor }: SubjectCardProps) {
-  const { state, dispatch } = useWizard();
-  const isChecked = state.checkedSubjects.includes(subject.name);
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className={`p-3 rounded-xl bg-white border ${tierColor} transition-all hover:shadow-sm ${isChecked ? 'ring-2 ring-sky-primary/30' : ''}`}>
@@ -17,7 +16,7 @@ export function SubjectCard({ subject, tierColor }: SubjectCardProps) {
           <input
             type="checkbox"
             checked={isChecked}
-            onChange={() => dispatch({ type: 'TOGGLE_CHECKED_SUBJECT', payload: subject.name })}
+            onChange={() => setIsChecked(!isChecked)}
             className="w-4 h-4 rounded border-slate-300 text-sky-primary focus:ring-sky-primary/30 cursor-pointer"
           />
         </label>

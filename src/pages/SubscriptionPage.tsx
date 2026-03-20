@@ -90,6 +90,14 @@ const plans: PlanTier[] = [
   },
 ];
 
+function getSeasonMessage(): { text: string; urgent: boolean } {
+  const month = new Date().getMonth() + 1;
+  if (month >= 1 && month <= 3) return { text: '1학기 수강신청 시즌 — 지금이 가장 중요한 시기예요', urgent: true };
+  if (month >= 7 && month <= 9) return { text: '2학기 수강신청 시즌 — 과목 선택이 중요한 시기예요', urgent: true };
+  if (month >= 10 && month <= 12) return { text: '내년 수강신청 준비 — 미리 과목을 탐색해보세요', urgent: false };
+  return { text: '다음 학기 과목 선택을 미리 준비하세요', urgent: false };
+}
+
 function generateCustomerKey(): string {
   return `cust_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
 }
@@ -97,6 +105,7 @@ function generateCustomerKey(): string {
 export default function SubscriptionPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);
+  const season = getSeasonMessage();
 
   const handleSubscribe = async (plan: PlanTier) => {
     if (plan.id === 'free') return;
@@ -146,9 +155,9 @@ export default function SubscriptionPage() {
           <p className="mt-2 text-sm text-slate-500">
             과목 선택 한 번의 실수가 3년을 좌우합니다
           </p>
-          <div className="mt-3 inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-medium px-3 py-1.5 rounded-full">
+          <div className={`mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full ${season.urgent ? 'bg-red-50 text-red-600' : 'bg-sky-50 text-sky-600'}`}>
             <Clock className="w-3.5 h-3.5" />
-            3월 수강신청 시즌 — 지금이 가장 중요한 시기예요
+            {season.text}
           </div>
         </div>
 

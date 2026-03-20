@@ -14,7 +14,7 @@ export function buildPrompt(state: WizardState): string {
 - 수강 학년: ${grade}
 - 희망 진로: ${careerGoal || '미입력'}
 - 관심 분야: ${tags.length > 0 ? tags.join(', ') : '미선택'}
-- 적성검사: ${state.aptitudeResult ? '커리어넷 직업흥미검사 완료' : '미실시'}`;
+- 적성검사: ${state.aptitudeResult ? '커리어넷 직업흥미검사 완료 (학생이 자신의 흥미와 적성을 파악했으므로, 입력한 관심사가 검사 결과를 반영한 것으로 판단하세요)' : '미실시 (관심사가 아직 탐색 단계일 수 있습니다)'}`;
 
   // 목표 대학·학과 정보 추가
   if (targetMajor) {
@@ -114,6 +114,11 @@ ${allSubjects.join(', ')}
    - "similar": 정확히 같진 않지만 유사 과목이 있음 → 유사 과목명과 함께 안내
 7. admissionInfo는 ${targetMajor.name} 입시에 특화된 구체적인 전략을 제시하세요
 8. 수시는 학생부교과/학생부종합/논술 전형별 전략, 정시는 수능 과목별 준비 전략을 포함하세요`;
+  }
+
+  if (state.aptitudeResult) {
+    const ruleNum = targetMajor ? 9 : 6;
+    prompt += `\n${ruleNum}. 학생이 적성검사를 완료했으므로 입력한 진로 희망이 충분히 검증된 것으로 보고, 해당 진로에 특화된 과목을 적극적으로 추천하세요`;
   }
 
   return prompt;

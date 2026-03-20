@@ -9,7 +9,7 @@
 import type { School, AIExploreResult, AIExploreRecommendation } from '@/types';
 import { popularMajors } from '@/data/majors';
 
-function buildExplorePrompt(interest: string, school?: School | null, regionName?: string): string {
+function buildExplorePrompt(interest: string, school?: School | null, regionName?: string, aptitudeInfo?: string): string {
   let prompt = `당신은 한국 대학 학과 추천 전문가입니다. 고등학생의 관심사와 희망 진로를 분석하여 적합한 대학교 학과를 추천해주세요.
 
 ## 학생 정보
@@ -19,6 +19,9 @@ function buildExplorePrompt(interest: string, school?: School | null, regionName
     prompt += `
 - 고등학교: ${school.name} (${school.type})
 - 개설과목 수: ${school.totalRecords}개`;
+  }
+  if (aptitudeInfo) {
+    prompt += `\n- 적성검사 결과: ${aptitudeInfo}`;
   }
 
   prompt += `
@@ -93,7 +96,7 @@ async function callExploreAI(prompt: string): Promise<AIExploreResult> {
   };
 }
 
-function fallbackExploreRecommend(interest: string): AIExploreResult {
+function fallbackExploreRecommend(interest: string, regionName?: string): AIExploreResult {
   const query = interest.toLowerCase();
 
   const scored = popularMajors.map((major) => {
@@ -198,7 +201,12 @@ function fallbackExploreRecommend(interest: string): AIExploreResult {
     majorName: major.name,
     category: major.category,
     reason: `"${interest}" 관심사와 관련된 학과입니다. ${major.jobs.split(',').slice(0, 2).join(', ')} 등의 직업으로 진출할 수 있어요.`,
-    universities: major.universities.slice(0, 6).map((u) => ({ name: u.name, area: u.area })),
+    universities: [...major.universities]
+      .sort((a, b) => {
+        if (!regionName) return 0;
+        return (a.area === regionName ? -1 : 0) - (b.area === regionName ? -1 : 0);
+      })
+      .slice(0, 6).map((u) => ({ name: u.name, area: u.area })),
     relatedJobs: major.jobs.split(',').map((j) => j.trim()).filter(Boolean).slice(0, 4),
     matchScore: score,
   }));
@@ -214,11 +222,12 @@ export async function getExploreRecommendations(
   interest: string,
   school?: School | null,
   regionName?: string,
+  aptitudeInfo?: string,
 ): Promise<AIExploreResult> {
   try {
-    const prompt = buildExplorePrompt(interest, school, regionName);
+    const prompt = buildExplorePrompt(interest, school, regionName, aptitudeInfo);
     return await callExploreAI(prompt);
   } catch {
-    return fallbackExploreRecommend(interest);
+    return fallbackExploreRecommend(interest, regionName);
   }
 }

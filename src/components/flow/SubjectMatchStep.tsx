@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { PartyPopper, Share2, RotateCcw, Sparkles } from 'lucide-react';
 import { SubjectTier } from '@/components/recommendation/SubjectTier';
 import { SubjectMatchList } from '@/components/recommendation/SubjectMatchList';
@@ -8,7 +8,6 @@ import { ShareSection } from '@/components/recommendation/ShareSection';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { useFlow } from '@/hooks/useFlow';
-import { useWizard } from '@/context/WizardContext';
 
 function MatchRateCounter({ target }: { target: number }) {
   const [count, setCount] = useState(0);
@@ -43,17 +42,8 @@ function MatchRateCounter({ target }: { target: number }) {
 
 export function SubjectMatchStep() {
   const { state, go } = useFlow();
-  const { dispatch: wizardDispatch } = useWizard();
   const { school, grade, interest, tags, selectedMajor, recommendationResult: result } = state;
   const [showShare, setShowShare] = useState(false);
-
-  // Sync flow state to WizardContext so SubjectCard/StrategySummary work
-  useEffect(() => {
-    if (school) wizardDispatch({ type: 'SET_SCHOOL', payload: school });
-    if (grade) wizardDispatch({ type: 'SET_GRADE', payload: grade });
-    if (interest) wizardDispatch({ type: 'SET_CAREER_GOAL', payload: interest });
-    if (selectedMajor) wizardDispatch({ type: 'SET_TARGET_MAJOR', payload: selectedMajor });
-  }, [school, grade, interest, selectedMajor, wizardDispatch]);
 
   const loading = !result;
 

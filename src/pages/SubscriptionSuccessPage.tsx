@@ -73,7 +73,7 @@ export default function SubscriptionSuccessPage() {
             customerKey: data.customerKey,
             amount: pending.amount,
             orderId,
-            orderName: `학줌 ${pending.planName} 구독`,
+            orderName: `학점나비 ${pending.planName} 구독`,
           }),
         });
 
