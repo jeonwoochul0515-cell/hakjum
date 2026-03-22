@@ -15,22 +15,23 @@ import { doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, deleteDoc 
 import { auth, db, firebaseEnabled } from '@/lib/firebase';
 import { setPaidStatus } from '@/lib/usage';
 
-export interface SubscriptionInfo {
-  planId: 'free' | 'semester' | 'annual';
+export interface PurchaseInfo {
+  planId: 'report' | 'allinone';
   planName: string;
-  billingKey?: string;
-  customerKey?: string;
-  startDate: string;
-  endDate: string;
-  cardCompany?: string;
-  cardNumber?: string;
+  orderId: string;
+  paymentKey: string;
+  purchaseDate: string;
+  expiryDate: string; // 구매일 + 6개월
+  amount: number;
+  reportsRemaining: number; // report:1, allinone:3
+  unlimitedAI: boolean; // allinone만 true
 }
 
 export interface ProfileExtra {
   userType?: string;
   grade?: string;
   schoolName?: string;
-  subscription?: SubscriptionInfo;
+  purchase?: PurchaseInfo;
 }
 
 export interface SavedResult {
@@ -52,7 +53,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   updateProfileExtra: (data: ProfileExtra) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
-  saveSubscription: (sub: SubscriptionInfo) => Promise<void>;
+  savePurchase: (purchase: PurchaseInfo) => Promise<void>;
   addSavedResult: (result: Omit<SavedResult, 'id'>) => Promise<void>;
   deleteSavedResult: (id: string) => Promise<void>;
   isPaidUser: boolean;
@@ -203,16 +204,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfileExtra((prev) => ({ ...prev, ...data }));
   }
 
-  async function saveSubscription(sub: SubscriptionInfo) {
+  async function savePurchase(purchase: PurchaseInfo) {
     if (!currentUser || !db) return;
     const userRef = doc(db, 'users', currentUser.uid);
     const snap = await getDoc(userRef);
     if (snap.exists()) {
-      await updateDoc(userRef, { subscription: sub } as Record<string, unknown>);
+      await updateDoc(userRef, { purchase } as Record<string, unknown>);
     } else {
-      await setDoc(userRef, { subscription: sub });
+      await setDoc(userRef, { purchase });
     }
-    setProfileExtra((prev) => ({ ...prev, subscription: sub }));
+    setProfileExtra((prev) => ({ ...prev, purchase }));
   }
 
   async function addSavedResult(result: Omit<SavedResult, 'id'>) {
@@ -229,9 +230,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const isPaidUser = (() => {
-    const sub = profileExtra.subscription;
-    if (!sub || sub.planId === 'free') return false;
-    return new Date(sub.endDate) > new Date();
+    const p = profileExtra.purchase;
+    if (!p) return false;
+    return new Date(p.expiryDate) > new Date();
   })();
 
   useEffect(() => {
@@ -249,7 +250,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logout,
     resetPassword,
     updateProfileExtra,
-    saveSubscription,
+    savePurchase,
     addSavedResult,
     deleteSavedResult,
     isPaidUser,

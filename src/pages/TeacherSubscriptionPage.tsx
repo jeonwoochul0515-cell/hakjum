@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { requestBillingAuth } from '@/lib/toss-payments';
+import { requestPayment } from '@/lib/toss-payments';
+import { useAuth } from '@/context/AuthContext';
 import {
   Users,
   School,
@@ -87,13 +88,10 @@ const plans: TeacherPlan[] = [
   },
 ];
 
-function generateCustomerKey(): string {
-  return `cust_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
-}
-
 export default function TeacherSubscriptionPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);
+  const { currentUser } = useAuth();
 
   const handleSubscribe = async (plan: TeacherPlan) => {
     if (plan.id === 'academy') {
@@ -101,21 +99,32 @@ export default function TeacherSubscriptionPage() {
       return;
     }
 
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+
     setLoading(plan.id);
     try {
-      const customerKey = generateCustomerKey();
+      const orderId = `order_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const customerKey = `user_${currentUser.uid.slice(0, 20)}`;
       sessionStorage.setItem(
-        'pendingSubscription',
+        'pendingPurchase',
         JSON.stringify({
           planId: plan.id,
           planName: plan.name,
           amount: plan.price,
-          customerKey,
+          orderId,
         })
       );
-      await requestBillingAuth(customerKey);
+      await requestPayment({
+        amount: plan.price,
+        orderId,
+        orderName: `학점나비 ${plan.name}`,
+        customerKey,
+      });
     } catch (err) {
-      console.error('빌링 인증 요청 실패:', err);
+      console.error('결제 요청 실패:', err);
       setLoading(null);
     }
   };

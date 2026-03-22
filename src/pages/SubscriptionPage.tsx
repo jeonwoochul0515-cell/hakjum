@@ -3,30 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { requestBillingAuth } from '@/lib/toss-payments';
+import { requestPayment } from '@/lib/toss-payments';
 import { useAuth } from '@/context/AuthContext';
 import {
   Sparkles,
-  Crown,
   Zap,
   Check,
   BookOpen,
   School,
   BarChart3,
-  Save,
-  BrainCircuit,
   FileText,
   ArrowLeft,
   Shield,
-  TrendingDown,
+  BrainCircuit,
   Clock,
 } from 'lucide-react';
 
 interface PlanTier {
-  id: 'free' | 'semester' | 'annual';
+  id: 'free' | 'report' | 'allinone';
   name: string;
   price: number;
-  originalPrice?: number;
   priceLabel: string;
   priceSubLabel?: string;
   description: string;
@@ -40,54 +36,50 @@ interface PlanTier {
 const plans: PlanTier[] = [
   {
     id: 'free',
-    name: '무료 체험',
+    name: '무료',
     price: 0,
     priceLabel: '0원',
-    description: '학과 탐색을 시작해보세요',
+    description: '과목 탐색을 시작해보세요',
     icon: <BookOpen className="w-6 h-6 text-sky-500" />,
     features: [
-      { icon: <Sparkles className="w-4 h-4 text-sky-400" />, text: 'AI 맞춤 과목 추천 1회' },
-      { icon: <School className="w-4 h-4 text-sky-400" />, text: '전국 학교 검색 (1일 1회)' },
+      { icon: <Sparkles className="w-4 h-4 text-sky-400" />, text: 'AI 맞춤 과목 추천 하루 3회' },
+      { icon: <School className="w-4 h-4 text-sky-400" />, text: '전국 학교 검색' },
       { icon: <BarChart3 className="w-4 h-4 text-sky-400" />, text: '기본 학과 정보 열람' },
     ],
     cta: '현재 이용 중',
   },
   {
-    id: 'semester',
-    name: '학기패스',
-    price: 9900,
-    priceLabel: '9,900원',
-    priceSubLabel: '6개월 · 월 1,650원',
-    description: '이번 학기 과목 선택을 확실하게',
-    badge: { text: '가장 인기', color: 'indigo' },
-    icon: <Zap className="w-6 h-6 text-indigo-500" />,
+    id: 'report',
+    name: '과목 선택 리포트',
+    price: 3900,
+    priceLabel: '3,900원',
+    priceSubLabel: '1회 이용권',
+    description: '내 학교 × 목표 학과 맞춤 분석',
+    icon: <FileText className="w-6 h-6 text-indigo-500" />,
     features: [
-      { icon: <Sparkles className="w-4 h-4 text-indigo-400" />, text: '무제한 AI 맞춤 과목 추천' },
-      { icon: <School className="w-4 h-4 text-indigo-400" />, text: '전국 2,400+ 고교 실시간 검색' },
-      { icon: <BarChart3 className="w-4 h-4 text-indigo-400" />, text: '대학별 교과이수 기준 분석' },
-      { icon: <Save className="w-4 h-4 text-indigo-400" />, text: '추천 결과 저장 · 비교 · 공유' },
-      { icon: <BrainCircuit className="w-4 h-4 text-indigo-400" />, text: 'AI 입시 전략 리포트' },
+      { icon: <FileText className="w-4 h-4 text-indigo-400" />, text: '맞춤 과목 추천 리포트 1건' },
+      { icon: <BrainCircuit className="w-4 h-4 text-indigo-400" />, text: 'AI 입시 전략 분석 포함' },
+      { icon: <BarChart3 className="w-4 h-4 text-indigo-400" />, text: '대학별 교과이수 기준 비교' },
     ],
-    highlight: true,
-    cta: '학기패스 시작하기',
+    cta: '리포트 받기',
   },
   {
-    id: 'annual',
-    name: '연간패스',
-    price: 14900,
-    originalPrice: 19800,
-    priceLabel: '14,900원',
-    priceSubLabel: '12개월 · 월 1,242원',
-    description: '고1부터 졸업까지, 진로 탐색의 동반자',
-    badge: { text: '25% 할인', color: 'green' },
-    icon: <Crown className="w-6 h-6 text-amber-500" />,
+    id: 'allinone',
+    name: '올인원 패키지',
+    price: 7900,
+    priceLabel: '7,900원',
+    priceSubLabel: '이번 학기 동안 사용',
+    description: '과목 선택 기간에 필요한 모든 것',
+    badge: { text: '추천', color: 'green' },
+    icon: <Zap className="w-6 h-6 text-amber-500" />,
     features: [
-      { icon: <Check className="w-4 h-4 text-amber-400" />, text: '학기패스의 모든 기능 포함' },
-      { icon: <FileText className="w-4 h-4 text-amber-400" />, text: '학기별 과목 변경 이력 관리' },
-      { icon: <TrendingDown className="w-4 h-4 text-amber-400" />, text: '학기패스 대비 25% 절약' },
-      { icon: <Clock className="w-4 h-4 text-amber-400" />, text: '신규 기능 우선 이용' },
+      { icon: <Sparkles className="w-4 h-4 text-amber-400" />, text: '무제한 AI 맞춤 과목 추천' },
+      { icon: <FileText className="w-4 h-4 text-amber-400" />, text: '맞춤 리포트 3건' },
+      { icon: <Check className="w-4 h-4 text-amber-400" />, text: '과목 비교표 제공' },
+      { icon: <BrainCircuit className="w-4 h-4 text-amber-400" />, text: 'AI 입시 전략 분석 포함' },
     ],
-    cta: '연간패스 시작하기',
+    highlight: true,
+    cta: '올인원 시작하기',
   },
 ];
 
@@ -103,12 +95,11 @@ export default function SubscriptionPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);
   const season = getSeasonMessage();
-  const { currentUser, isPaidUser } = useAuth();
+  const { currentUser, isPaidUser, profileExtra } = useAuth();
 
-  const handleSubscribe = async (plan: PlanTier) => {
+  const handlePurchase = async (plan: PlanTier) => {
     if (plan.id === 'free') return;
 
-    // 로그인 필요
     if (!currentUser) {
       navigate('/login');
       return;
@@ -116,27 +107,33 @@ export default function SubscriptionPage() {
 
     setLoading(plan.id);
     try {
+      const orderId = `order_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       const customerKey = `user_${currentUser.uid.slice(0, 20)}`;
-      // 선택한 플랜 정보를 sessionStorage에 저장 (success 페이지에서 사용)
+
       sessionStorage.setItem(
-        'pendingSubscription',
+        'pendingPurchase',
         JSON.stringify({
           planId: plan.id,
           planName: plan.name,
           amount: plan.price,
-          customerKey,
+          orderId,
         })
       );
-      await requestBillingAuth(customerKey);
+
+      await requestPayment({
+        amount: plan.price,
+        orderId,
+        orderName: `학점나비 ${plan.name}`,
+        customerKey,
+      });
     } catch (err) {
-      console.error('빌링 인증 요청 실패:', err);
+      console.error('결제 요청 실패:', err);
       setLoading(null);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">
-      {/* Header */}
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/60">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center">
           <button
@@ -145,18 +142,17 @@ export default function SubscriptionPage() {
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="ml-2 text-lg font-bold text-slate-800">요금제</h1>
+          <h1 className="ml-2 text-lg font-bold text-slate-800">이용권</h1>
         </div>
       </header>
 
       <main className="max-w-lg mx-auto px-4 py-8 space-y-6">
-        {/* Hero */}
         <div className="text-center animate-fade-in-up">
           <h2 className="text-2xl font-extrabold text-slate-900">
-            커피 한 잔 가격으로<br />입시 과목 전략을 완성하세요
+            과목 선택, 한 번에 끝내세요
           </h2>
           <p className="mt-2 text-sm text-slate-500">
-            과목 선택 한 번의 실수가 3년을 좌우합니다
+            AI가 내 학교 개설과목과 목표 학과를 분석해드려요
           </p>
           <div className={`mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full ${season.urgent ? 'bg-red-50 text-red-600' : 'bg-sky-50 text-sky-600'}`}>
             <Clock className="w-3.5 h-3.5" />
@@ -164,7 +160,20 @@ export default function SubscriptionPage() {
           </div>
         </div>
 
-        {/* Plan Cards */}
+        {/* 이미 구매한 경우 */}
+        {isPaidUser && profileExtra.purchase && (
+          <div className="animate-fade-in-up bg-green-50 rounded-2xl p-4 border border-green-200">
+            <p className="text-sm font-semibold text-green-800">
+              {profileExtra.purchase.planName} 이용 중
+            </p>
+            <p className="text-xs text-green-600 mt-1">
+              {new Date(profileExtra.purchase.expiryDate).toLocaleDateString('ko-KR')}까지 ·
+              리포트 {profileExtra.purchase.reportsRemaining}건 남음
+              {profileExtra.purchase.unlimitedAI && ' · AI 무제한'}
+            </p>
+          </div>
+        )}
+
         <div className="space-y-4">
           {plans.map((plan, index) => (
             <div
@@ -175,24 +184,22 @@ export default function SubscriptionPage() {
               <Card
                 className={`relative overflow-hidden p-5 ${
                   plan.highlight
-                    ? 'border-indigo-primary ring-2 ring-indigo-primary/20'
+                    ? 'border-amber-400 ring-2 ring-amber-400/20'
                     : ''
                 }`}
               >
-                {/* Badge */}
                 {plan.badge && (
                   <div className="absolute top-4 right-4">
                     <Badge color={plan.badge.color}>{plan.badge.text}</Badge>
                   </div>
                 )}
 
-                {/* Plan header */}
                 <div className="flex items-center gap-3 mb-3">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                       plan.id === 'free'
                         ? 'bg-sky-50'
-                        : plan.id === 'semester'
+                        : plan.id === 'report'
                           ? 'bg-indigo-50'
                           : 'bg-amber-50'
                     }`}
@@ -205,22 +212,15 @@ export default function SubscriptionPage() {
                   </div>
                 </div>
 
-                {/* Price */}
                 <div className="mb-4">
-                  {plan.originalPrice && (
-                    <span className="text-sm text-slate-400 line-through mr-2">
-                      {plan.originalPrice.toLocaleString()}원
-                    </span>
-                  )}
                   <span className="text-2xl font-extrabold text-slate-900">
                     {plan.priceLabel}
                   </span>
                   {plan.priceSubLabel && (
-                    <p className="text-xs text-slate-500 mt-0.5">{plan.priceSubLabel}</p>
+                    <span className="text-xs text-slate-500 ml-2">{plan.priceSubLabel}</span>
                   )}
                 </div>
 
-                {/* Features */}
                 <ul className="space-y-2.5 mb-5">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-2.5 text-sm text-slate-700">
@@ -230,13 +230,12 @@ export default function SubscriptionPage() {
                   ))}
                 </ul>
 
-                {/* CTA */}
                 <Button
                   variant={plan.id === 'free' ? 'secondary' : 'primary'}
                   size="lg"
                   className="w-full"
-                  disabled={plan.id === 'free' || loading !== null || isPaidUser}
-                  onClick={() => handleSubscribe(plan)}
+                  disabled={plan.id === 'free' || loading !== null}
+                  onClick={() => handlePurchase(plan)}
                 >
                   {loading === plan.id ? (
                     <span className="flex items-center gap-2">
@@ -252,42 +251,14 @@ export default function SubscriptionPage() {
           ))}
         </div>
 
-        {/* Social proof */}
-        <div className="animate-fade-in-up bg-white rounded-2xl p-4 border border-slate-100 shadow-sm" style={{ animationDelay: '300ms' }}>
-          <p className="text-sm font-semibold text-slate-700 text-center mb-3">학부모님들의 후기</p>
-          <div className="space-y-2.5">
-            <div className="bg-slate-50 rounded-xl px-3.5 py-2.5">
-              <p className="text-xs text-slate-600">"아이가 스스로 과목을 골라왔어요. 학원에서도 이걸 보고 상담한다고 하더라고요."</p>
-              <p className="text-[10px] text-slate-400 mt-1">— 고1 학부모 김○○님</p>
-            </div>
-            <div className="bg-slate-50 rounded-xl px-3.5 py-2.5">
-              <p className="text-xs text-slate-600">"진로 선생님이 추천해주셔서 써봤는데, 대학별 이수 기준까지 한눈에 보여서 좋아요."</p>
-              <p className="text-[10px] text-slate-400 mt-1">— 고2 학부모 박○○님</p>
-            </div>
-          </div>
-        </div>
-
-        {/* B2B CTA */}
-        <div className="animate-fade-in-up text-center" style={{ animationDelay: '350ms' }}>
-          <button
-            onClick={() => navigate('/subscription/teacher')}
-            className="text-sm text-indigo-500 hover:text-indigo-700 font-medium transition-colors cursor-pointer"
-          >
-            교사 · 학원용 단체 요금제 알아보기 →
-          </button>
-        </div>
-
-        {/* Trust signals */}
-        <div className="animate-fade-in-up text-center space-y-3 pt-2 pb-8" style={{ animationDelay: '400ms' }}>
+        <div className="animate-fade-in-up text-center space-y-3 pt-2 pb-8" style={{ animationDelay: '300ms' }}>
           <div className="flex items-center justify-center gap-4 text-xs text-slate-500">
             <span className="flex items-center gap-1">
               <Shield className="w-3.5 h-3.5 text-green-500" />
               토스페이먼츠 안전결제
             </span>
             <span>·</span>
-            <span>언제든 해지 가능</span>
-            <span>·</span>
-            <span>잔여기간 보장</span>
+            <span>1회 결제 (자동갱신 없음)</span>
           </div>
         </div>
       </main>

@@ -220,7 +220,7 @@ export default function ProfilePage() {
           )}
         </Card>
 
-        {/* Subscription Status */}
+        {/* Purchase Status */}
         <Card className="p-5 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -229,23 +229,23 @@ export default function ProfilePage() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-slate-900">
-                  {isPaidUser ? profileExtra.subscription?.planName || '유료 플랜' : '무료 플랜'}
+                  {isPaidUser ? profileExtra.purchase?.planName || '이용권' : '무료'}
                 </h3>
                 <p className="text-xs text-slate-500">
-                  {isPaidUser
-                    ? `${new Date(profileExtra.subscription?.endDate || '').toLocaleDateString('ko-KR')}까지`
-                    : '기본 추천 기능 이용 중'}
+                  {isPaidUser && profileExtra.purchase
+                    ? `${new Date(profileExtra.purchase.expiryDate).toLocaleDateString('ko-KR')}까지 · 리포트 ${profileExtra.purchase.reportsRemaining}건`
+                    : 'AI 추천 하루 3회 이용 가능'}
                 </p>
               </div>
             </div>
-            <Badge color={isPaidUser ? 'amber' : 'green'}>{isPaidUser ? '구독 중' : '무료'}</Badge>
+            <Badge color={isPaidUser ? 'amber' : 'green'}>{isPaidUser ? '이용 중' : '무료'}</Badge>
           </div>
           {!isPaidUser && (
             <button
               onClick={() => navigate('/subscription')}
               className="mt-3 w-full text-center text-xs text-sky-primary font-medium hover:underline cursor-pointer"
             >
-              유료 플랜으로 업그레이드
+              이용권 구매하기
             </button>
           )}
         </Card>
