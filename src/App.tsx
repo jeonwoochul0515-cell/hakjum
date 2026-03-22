@@ -11,6 +11,7 @@ const TeacherSubscriptionPage = lazy(() => import('@/pages/TeacherSubscriptionPa
 const LoginPage = lazy(() => import('@/pages/LoginPage'));
 const SignupPage = lazy(() => import('@/pages/SignupPage'));
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'));
+const ParentPaymentPage = lazy(() => import('@/pages/ParentPaymentPage'));
 
 function PageLoader() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+        <Route path="/pay" element={<ParentPaymentPage />} />
         {/* Legacy redirects */}
         <Route path="/explore" element={<Navigate to="/flow" replace />} />
         <Route path="/school" element={<Navigate to="/flow" replace />} />

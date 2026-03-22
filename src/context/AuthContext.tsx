@@ -13,7 +13,7 @@ import type { User, Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db, firebaseEnabled } from '@/lib/firebase';
-import { setPaidStatus } from '@/lib/usage';
+import { setPaidStatus, setUnlimitedAI } from '@/lib/usage';
 
 export interface PurchaseInfo {
   planId: 'report' | 'allinone';
@@ -54,6 +54,7 @@ interface AuthContextType {
   updateProfileExtra: (data: ProfileExtra) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   savePurchase: (purchase: PurchaseInfo) => Promise<void>;
+  decrementReport: () => Promise<void>;
   addSavedResult: (result: Omit<SavedResult, 'id'>) => Promise<void>;
   deleteSavedResult: (id: string) => Promise<void>;
   isPaidUser: boolean;
@@ -216,6 +217,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfileExtra((prev) => ({ ...prev, purchase }));
   }
 
+  async function decrementReport() {
+    if (!currentUser || !db) return;
+    const p = profileExtra.purchase;
+    if (!p || p.reportsRemaining <= 0) return;
+    const updated = { ...p, reportsRemaining: p.reportsRemaining - 1 };
+    const userRef = doc(db, 'users', currentUser.uid);
+    await updateDoc(userRef, { purchase: updated } as Record<string, unknown>);
+    setProfileExtra((prev) => ({ ...prev, purchase: updated }));
+  }
+
   async function addSavedResult(result: Omit<SavedResult, 'id'>) {
     if (!currentUser || !db) return;
     const colRef = collection(db, 'users', currentUser.uid, 'savedResults');
@@ -237,7 +248,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setPaidStatus(isPaidUser);
-  }, [isPaidUser]);
+    setUnlimitedAI(isPaidUser && !!profileExtra.purchase?.unlimitedAI);
+  }, [isPaidUser, profileExtra.purchase?.unlimitedAI]);
 
   const value: AuthContextType = {
     currentUser,
@@ -251,6 +263,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     resetPassword,
     updateProfileExtra,
     savePurchase,
+    decrementReport,
     addSavedResult,
     deleteSavedResult,
     isPaidUser,

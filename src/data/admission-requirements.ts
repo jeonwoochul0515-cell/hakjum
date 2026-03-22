@@ -594,11 +594,16 @@ export function getRequirementsForMajor(majorName: string): {
   // 정확한 매칭 먼저
   let match = MAJOR_SUBJECT_MAP[majorName];
 
-  // 부분 매칭
+  // 부분 매칭 — 정확도 우선: 짧은 쪽이 긴 쪽에 포함될 때만, 그리고 긴 쪽이 더 길 때만
   if (!match) {
-    const key = Object.keys(MAJOR_SUBJECT_MAP).find(
-      (k) => majorName.includes(k.replace(/[()·]/g, '')) || k.includes(majorName.replace(/[()·]/g, ''))
-    );
+    const cleanName = majorName.replace(/[()·]/g, '');
+    const key = Object.keys(MAJOR_SUBJECT_MAP).find((k) => {
+      const cleanK = k.replace(/[()·]/g, '');
+      // "약학과"가 "한약학과"를 매칭하지 않도록: 길이가 비슷할 때만 허용
+      if (cleanName.length >= cleanK.length && cleanName.includes(cleanK)) return true;
+      if (cleanK.length > cleanName.length && cleanK.includes(cleanName)) return true;
+      return false;
+    });
     if (key) match = MAJOR_SUBJECT_MAP[key];
   }
 

@@ -29,6 +29,14 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     );
   }
 
+  const VALID_AMOUNTS = [4900, 7900];
+  if (!VALID_AMOUNTS.includes(amount)) {
+    return new Response(
+      JSON.stringify({ message: '유효하지 않은 결제 금액입니다.' }),
+      { status: 400, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   try {
     const encoded = btoa(`${secretKey}:`);
 

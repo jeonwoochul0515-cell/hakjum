@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -8,11 +8,15 @@ import { useAuth } from '@/context/AuthContext';
 export default function SubscriptionSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { savePurchase, currentUser } = useAuth();
+  const { savePurchase, currentUser, loading: authLoading } = useAuth();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [errorMessage, setErrorMessage] = useState('');
+  const confirmedRef = useRef(false);
 
   useEffect(() => {
+    if (authLoading) return; // Auth 로딩 완료 대기
+    if (confirmedRef.current) return; // 중복 실행 방지
+
     const paymentKey = searchParams.get('paymentKey');
     const orderId = searchParams.get('orderId');
     const amount = searchParams.get('amount');
@@ -23,8 +27,9 @@ export default function SubscriptionSuccessPage() {
       return;
     }
 
+    confirmedRef.current = true;
     confirmPayment(paymentKey, orderId, Number(amount));
-  }, [searchParams]);
+  }, [searchParams, authLoading, currentUser]);
 
   async function confirmPayment(paymentKey: string, orderId: string, amount: number) {
     try {
@@ -61,9 +66,11 @@ export default function SubscriptionSuccessPage() {
           reportsRemaining: isAllinone ? 3 : 1,
           unlimitedAI: isAllinone,
         });
+
+        // savePurchase 성공 후에만 sessionStorage 삭제
+        sessionStorage.removeItem('pendingPurchase');
       }
 
-      sessionStorage.removeItem('pendingPurchase');
       setStatus('success');
     } catch (err) {
       setStatus('error');

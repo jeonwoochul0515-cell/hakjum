@@ -22,3 +22,10 @@ export async function requestPayment(req: PaymentRequest) {
     failUrl: `${window.location.origin}/subscription/fail`,
   });
 }
+
+/** 결제위젯 키 발급 후 사용 — 현재는 미사용 */
+export async function initWidgets(customerKey: string) {
+  const tossPayments = await loadTossPayments(CLIENT_KEY);
+  const widgets = tossPayments.widgets({ customerKey });
+  return widgets;
+}

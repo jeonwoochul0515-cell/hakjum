@@ -20,6 +20,7 @@ const CACHE_TTL = 10 * 60 * 1000;
 export function useFlow() {
   const { state, dispatch } = useFlowContext();
   const cacheRef = useRef<Map<string, CacheEntry>>(new Map());
+  const selectMajorIdRef = useRef(0); // race condition 방지
 
   // ── Navigate ──
   const go = useCallback(
@@ -75,25 +76,33 @@ export function useFlow() {
 
   // ── Select Major (loads detail) ──
   const selectMajor = useCallback(async (majorName: string, category: string) => {
+    const callId = ++selectMajorIdRef.current; // 현재 호출 ID
     try {
       const searchResults = await searchMajorsAPI(majorName, category);
-      const match = searchResults.find(
-        (m) => m.name === majorName || m.name.includes(majorName) || majorName.includes(m.name),
-      ) || searchResults[0];
+      if (callId !== selectMajorIdRef.current) return; // 새 호출이 왔으면 중단
+
+      // 1. 정확 매칭 우선
+      const match = searchResults.find((m) => m.name === majorName)
+        // 2. 정확 매칭 실패 시에만 부분 매칭 (길이 긴 쪽이 짧은 쪽을 포함할 때만)
+        || searchResults.find((m) => m.name.length > majorName.length && m.name.includes(majorName))
+        || searchResults.find((m) => majorName.length > m.name.length && majorName.includes(m.name))
+        || searchResults[0];
 
       if (match) {
         const full = await getMajorFullAPI(match.id);
+        if (callId !== selectMajorIdRef.current) return; // 새 호출이 왔으면 중단
+
         full.category = match.category || category || full.category;
         dispatch({ type: 'SET_SELECTED_MAJOR', payload: full });
         dispatch({ type: 'GO', payload: 'major-detail' });
 
-        // Async load enrollment + university stats (fire and forget)
+        // Async load — callId 체크로 stale 응답 방지
         getEnrollmentAPI(match.name)
-          .then((data) => dispatch({ type: 'SET_ENROLLMENT', payload: data }))
+          .then((data) => { if (callId === selectMajorIdRef.current) dispatch({ type: 'SET_ENROLLMENT', payload: data }); })
           .catch(() => {});
         const univNames = full.universitiesFull.map((u) => u.name);
         getUniversityStats(univNames)
-          .then((data) => dispatch({ type: 'SET_UNIVERSITY_STATS', payload: data }))
+          .then((data) => { if (callId === selectMajorIdRef.current) dispatch({ type: 'SET_UNIVERSITY_STATS', payload: data }); })
           .catch(() => {});
       }
     } catch {

@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
-import { PartyPopper, Share2, RotateCcw, Sparkles } from 'lucide-react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PartyPopper, Share2, RotateCcw, Sparkles, Lock, Download, Send } from 'lucide-react';
 import { SubjectTier } from '@/components/recommendation/SubjectTier';
 import { SubjectMatchList } from '@/components/recommendation/SubjectMatchList';
 import { AdmissionStrategy } from '@/components/recommendation/AdmissionStrategy';
@@ -8,6 +9,8 @@ import { ShareSection } from '@/components/recommendation/ShareSection';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { useFlow } from '@/hooks/useFlow';
+import { useAuth } from '@/context/AuthContext';
+import { generatePdfReport } from '@/lib/pdf-report';
 
 function MatchRateCounter({ target }: { target: number }) {
   const [count, setCount] = useState(0);
@@ -44,8 +47,13 @@ export function SubjectMatchStep() {
   const { state, go } = useFlow();
   const { school, grade, interest, tags, selectedMajor, recommendationResult: result } = state;
   const [showShare, setShowShare] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const navigate = useNavigate();
+  const { isPaidUser, profileExtra, decrementReport, currentUser } = useAuth();
+  const reportRef = useRef<HTMLDivElement>(null);
 
   const loading = !result;
+  const reportsRemaining = profileExtra.purchase?.reportsRemaining ?? 0;
 
   const matchRate = useMemo(() => {
     if (!result?.subjectMatches || result.subjectMatches.length === 0) {
@@ -128,25 +136,146 @@ export function SubjectMatchStep() {
         {result.source === 'fallback' && <Badge color="amber">키워드 기반 추천</Badge>}
       </div>
 
-      {/* Tier recommendations */}
-      <div className="space-y-3">
-        {result.tiers.map((tier) => (
-          <SubjectTier key={tier.tier} tier={tier} />
-        ))}
+      {/* All tiers — reportRef wraps everything for PDF */}
+      <div ref={reportRef}>
+        {/* Tier 1 (essential) - always visible */}
+        <div className="space-y-3">
+          {result.tiers
+            .filter((tier) => tier.tier === 'essential')
+            .map((tier) => (
+              <SubjectTier key={tier.tier} tier={tier} />
+            ))}
+        </div>
+
+        {/* Tiers 2-4 + analysis - paywall for non-paid users */}
+        <div className="relative mt-3">
+          <div
+            className={!isPaidUser ? 'pointer-events-none select-none' : ''}
+            style={!isPaidUser ? { filter: 'blur(6px)' } : undefined}
+          >
+            <div className="space-y-3">
+              {result.tiers
+                .filter((tier) => tier.tier !== 'essential')
+                .map((tier) => (
+                  <SubjectTier key={tier.tier} tier={tier} />
+                ))}
+            </div>
+
+          {result.subjectMatches && result.subjectMatches.length > 0 && (
+            <div className="mt-4">
+              <SubjectMatchList matches={result.subjectMatches} />
+            </div>
+          )}
+
+          {result.admissionInfo && selectedMajor && (
+            <div className="mt-4">
+              <AdmissionStrategy info={result.admissionInfo} majorName={selectedMajor.name} />
+            </div>
+          )}
+
+          <div className="mt-4">
+            <StrategySummary strategy={result.strategy} source={result.source} />
+          </div>
+        </div>
+
+        {/* Paywall CTA overlay */}
+        {!isPaidUser && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-indigo-100 max-w-sm mx-4 text-center">
+              <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center mx-auto mb-3">
+                <Lock className="w-6 h-6 text-indigo-500" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-1">
+                전체 분석 리포트 받기 — 4,900원
+              </h3>
+              <p className="text-sm text-slate-500 mb-4">
+                나머지 추천 과목, 입시 전략, 맞춤 분석을 확인하세요
+              </p>
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full mb-2"
+                onClick={() => navigate('/subscription')}
+              >
+                결제하기
+              </Button>
+              <p className="text-xs text-slate-400">1회 결제 · 자동갱신 없음</p>
+
+              {/* 부모 대리결제 링크 */}
+              {currentUser && (
+                <button
+                  onClick={() => {
+                    const payUrl = `${window.location.origin}/pay?uid=${currentUser.uid}&plan=report&name=${encodeURIComponent(currentUser.displayName || '')}`;
+                    if (navigator.share) {
+                      navigator.share({
+                        title: '학점나비 결제 요청',
+                        text: `${currentUser.displayName || '자녀'}의 과목 분석 리포트 결제를 요청드립니다.`,
+                        url: payUrl,
+                      }).catch(() => {});
+                    } else {
+                      navigator.clipboard.writeText(payUrl);
+                      alert('결제 링크가 복사되었습니다. 부모님께 전달해주세요.');
+                    }
+                  }}
+                  className="mt-3 flex items-center gap-1.5 text-xs text-indigo-500 hover:text-indigo-700 transition-colors cursor-pointer mx-auto"
+                >
+                  <Send size={12} />
+                  부모님께 결제 요청하기
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
+      </div>{/* close reportRef */}
 
-      {/* Subject match analysis */}
-      {result.subjectMatches && result.subjectMatches.length > 0 && (
-        <SubjectMatchList matches={result.subjectMatches} />
+      {/* PDF Download for paid users */}
+      {isPaidUser && (
+        <div className="bg-indigo-50 rounded-2xl p-4 border border-indigo-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-indigo-800">PDF 리포트 다운로드</p>
+              <p className="text-xs text-indigo-500 mt-0.5">남은 횟수: {reportsRemaining}건</p>
+            </div>
+            <Button
+              variant="primary"
+              size="md"
+              disabled={reportsRemaining <= 0 || pdfLoading}
+              onClick={async () => {
+                if (!reportRef.current || !school || !selectedMajor) return;
+                setPdfLoading(true);
+                try {
+                  await generatePdfReport(reportRef.current, {
+                    schoolName: school.name,
+                    majorName: selectedMajor.name,
+                    date: new Date().toLocaleDateString('ko-KR'),
+                  });
+                  await decrementReport();
+                } catch (err) {
+                  console.error('PDF 생성 실패:', err);
+                } finally {
+                  setPdfLoading(false);
+                }
+              }}
+            >
+              {pdfLoading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  생성 중...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  <Download size={16} />
+                  다운로드
+                </span>
+              )}
+            </Button>
+          </div>
+          {reportsRemaining <= 0 && (
+            <p className="text-xs text-red-500 mt-2">다운로드 횟수를 모두 사용했습니다.</p>
+          )}
+        </div>
       )}
-
-      {/* Admission strategy */}
-      {result.admissionInfo && selectedMajor && (
-        <AdmissionStrategy info={result.admissionInfo} majorName={selectedMajor.name} />
-      )}
-
-      {/* Strategy summary */}
-      <StrategySummary strategy={result.strategy} source={result.source} />
 
       {/* Share toggle */}
       <div className="pt-2">

@@ -51,8 +51,8 @@ const plans: PlanTier[] = [
   {
     id: 'report',
     name: '과목 선택 리포트',
-    price: 3900,
-    priceLabel: '3,900원',
+    price: 4900,
+    priceLabel: '4,900원',
     priceSubLabel: '1회 이용권',
     description: '내 학교 × 목표 학과 맞춤 분석',
     icon: <FileText className="w-6 h-6 text-indigo-500" />,
@@ -94,6 +94,7 @@ function getSeasonMessage(): { text: string; urgent: boolean } {
 export default function SubscriptionPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const season = getSeasonMessage();
   const { currentUser, isPaidUser, profileExtra } = useAuth();
 
@@ -234,7 +235,7 @@ export default function SubscriptionPage() {
                   variant={plan.id === 'free' ? 'secondary' : 'primary'}
                   size="lg"
                   className="w-full"
-                  disabled={plan.id === 'free' || loading !== null}
+                  disabled={plan.id === 'free' || loading !== null || !agreedToTerms}
                   onClick={() => handlePurchase(plan)}
                 >
                   {loading === plan.id ? (
@@ -251,7 +252,25 @@ export default function SubscriptionPage() {
           ))}
         </div>
 
-        <div className="animate-fade-in-up text-center space-y-3 pt-2 pb-8" style={{ animationDelay: '300ms' }}>
+        {/* 환불 정책 + 동의 */}
+        <div className="animate-fade-in-up bg-slate-50 rounded-2xl p-4 border border-slate-200" style={{ animationDelay: '250ms' }}>
+          <div className="text-xs text-slate-600 space-y-1 mb-3">
+            <p className="font-semibold text-slate-700">환불 정책</p>
+            <p>· 리포트 미열람 시 구매일로부터 7일 이내 환불 가능</p>
+            <p>· 리포트 열람(PDF 다운로드) 후에는 환불 불가</p>
+          </div>
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            <span className="text-xs text-slate-600">위 내용에 동의합니다</span>
+          </label>
+        </div>
+
+        <div className="animate-fade-in-up text-center space-y-3 pt-2" style={{ animationDelay: '300ms' }}>
           <div className="flex items-center justify-center gap-4 text-xs text-slate-500">
             <span className="flex items-center gap-1">
               <Shield className="w-3.5 h-3.5 text-green-500" />
@@ -261,6 +280,15 @@ export default function SubscriptionPage() {
             <span>1회 결제 (자동갱신 없음)</span>
           </div>
         </div>
+
+        {/* 사업자 정보 */}
+        <footer className="animate-fade-in-up text-center text-xs text-slate-400 pt-4 pb-8 space-y-1" style={{ animationDelay: '350ms' }}>
+          <p className="font-medium text-slate-500">사업자 정보</p>
+          <p>상호: (주)학점나비 | 대표: ___</p>
+          <p>사업자등록번호: ___-__-_____ | 통신판매업신고: 제____호</p>
+          <p>주소: ___________________</p>
+          <p>이메일: support@hakjumnabi.com | 전화: ___-____-____</p>
+        </footer>
       </main>
     </div>
   );

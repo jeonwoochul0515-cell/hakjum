@@ -102,8 +102,11 @@ function fallbackExploreRecommend(interest: string, regionName?: string): AIExpl
   const scored = popularMajors.map((major) => {
     let score = 30; // base
 
-    // Match against major name
-    if (major.name.toLowerCase().includes(query) || query.includes(major.name.replace(/[()·]/g, '').toLowerCase())) {
+    // Match against major name — 정확 매칭 우선, 부분 매칭은 길이 체크
+    const majorClean = major.name.replace(/[()·]/g, '').toLowerCase();
+    if (majorClean === query) {
+      score += 60; // 정확 매칭 보너스
+    } else if (majorClean.includes(query) || query.includes(majorClean)) {
       score += 40;
     }
 
@@ -112,7 +115,8 @@ function fallbackExploreRecommend(interest: string, regionName?: string): AIExpl
     const words = query.split(/[\s,]+/).filter((w) => w.length >= 2);
     for (const word of words) {
       if (jobs.includes(word)) score += 15;
-      if (major.name.toLowerCase().includes(word)) score += 20;
+      // 단어 매칭도 정확도 고려 — 2글자 이하 단어는 학과명 매칭 제외
+      if (word.length >= 3 && major.name.toLowerCase().includes(word)) score += 20;
       if (major.category.toLowerCase().includes(word)) score += 10;
     }
 
