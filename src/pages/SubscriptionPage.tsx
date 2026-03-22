@@ -99,10 +99,6 @@ function getSeasonMessage(): { text: string; urgent: boolean } {
   return { text: '다음 학기 과목 선택을 미리 준비하세요', urgent: false };
 }
 
-function generateCustomerKey(): string {
-  return `cust_${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`;
-}
-
 export default function SubscriptionPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);

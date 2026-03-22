@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { PartyPopper, Share2, RotateCcw, Sparkles } from 'lucide-react';
 import { SubjectTier } from '@/components/recommendation/SubjectTier';
 import { SubjectMatchList } from '@/components/recommendation/SubjectMatchList';
