@@ -6,16 +6,31 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 import type { User, Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db, firebaseEnabled } from '@/lib/firebase';
+import { setPaidStatus } from '@/lib/usage';
+
+export interface SubscriptionInfo {
+  planId: 'free' | 'semester' | 'annual';
+  planName: string;
+  billingKey?: string;
+  customerKey?: string;
+  startDate: string;
+  endDate: string;
+  cardCompany?: string;
+  cardNumber?: string;
+}
 
 export interface ProfileExtra {
   userType?: string;
   grade?: string;
   schoolName?: string;
+  subscription?: SubscriptionInfo;
 }
 
 export interface SavedResult {
@@ -32,12 +47,15 @@ interface AuthContextType {
   profileExtra: ProfileExtra;
   savedResults: SavedResult[];
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
   signup: (email: string, password: string, displayName: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfileExtra: (data: ProfileExtra) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  saveSubscription: (sub: SubscriptionInfo) => Promise<void>;
   addSavedResult: (result: Omit<SavedResult, 'id'>) => Promise<void>;
   deleteSavedResult: (id: string) => Promise<void>;
+  isPaidUser: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -151,6 +169,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await signInWithEmailAndPassword(auth, email, password);
   }
 
+  async function loginWithGoogle() {
+    if (!auth) throw new Error('Firebase not configured');
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  }
+
   async function signup(email: string, password: string, displayName: string) {
     if (!auth) throw new Error('Firebase not configured');
     const credential = await createUserWithEmailAndPassword(auth, email, password);
@@ -179,6 +203,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfileExtra((prev) => ({ ...prev, ...data }));
   }
 
+  async function saveSubscription(sub: SubscriptionInfo) {
+    if (!currentUser || !db) return;
+    const userRef = doc(db, 'users', currentUser.uid);
+    const snap = await getDoc(userRef);
+    if (snap.exists()) {
+      await updateDoc(userRef, { subscription: sub } as Record<string, unknown>);
+    } else {
+      await setDoc(userRef, { subscription: sub });
+    }
+    setProfileExtra((prev) => ({ ...prev, subscription: sub }));
+  }
+
   async function addSavedResult(result: Omit<SavedResult, 'id'>) {
     if (!currentUser || !db) return;
     const colRef = collection(db, 'users', currentUser.uid, 'savedResults');
@@ -192,18 +228,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSavedResults((prev) => prev.filter((r) => r.id !== id));
   }
 
+  const isPaidUser = (() => {
+    const sub = profileExtra.subscription;
+    if (!sub || sub.planId === 'free') return false;
+    return new Date(sub.endDate) > new Date();
+  })();
+
+  useEffect(() => {
+    setPaidStatus(isPaidUser);
+  }, [isPaidUser]);
+
   const value: AuthContextType = {
     currentUser,
     loading,
     profileExtra,
     savedResults,
     login,
+    loginWithGoogle,
     signup,
     logout,
     resetPassword,
     updateProfileExtra,
+    saveSubscription,
     addSavedResult,
     deleteSavedResult,
+    isPaidUser,
   };
 
   return (

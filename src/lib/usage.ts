@@ -1,4 +1,5 @@
 const USAGE_KEY = 'hakjum_daily_usage';
+const PAID_KEY = 'hakjum_paid_status';
 
 interface DailyUsage {
   date: string; // YYYY-MM-DD in KST
@@ -30,22 +31,38 @@ function setUsage(usage: DailyUsage): void {
   } catch { /* ignore */ }
 }
 
+/** AuthContext에서 로그인/구독 상태 변경 시 호출 */
+export function setPaidStatus(isPaid: boolean): void {
+  try {
+    localStorage.setItem(PAID_KEY, isPaid ? '1' : '0');
+  } catch { /* ignore */ }
+}
+
+function isPaid(): boolean {
+  try {
+    return localStorage.getItem(PAID_KEY) === '1';
+  } catch { return false; }
+}
+
 export function canUseAI(): boolean {
+  if (isPaid()) return true;
   const usage = getUsage();
   return usage.count < FREE_DAILY_LIMIT;
 }
 
 export function recordAIUsage(): void {
+  if (isPaid()) return; // 유료 사용자는 카운트 안 함
   const usage = getUsage();
   usage.count++;
   setUsage(usage);
 }
 
 export function getRemainingUsage(): number {
+  if (isPaid()) return Infinity;
   const usage = getUsage();
   return Math.max(0, FREE_DAILY_LIMIT - usage.count);
 }
 
 export function getDailyLimit(): number {
-  return FREE_DAILY_LIMIT;
+  return isPaid() ? Infinity : FREE_DAILY_LIMIT;
 }

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { requestBillingAuth } from '@/lib/toss-payments';
+import { useAuth } from '@/context/AuthContext';
 import {
   Sparkles,
   Crown,
@@ -106,14 +107,20 @@ export default function SubscriptionPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<string | null>(null);
   const season = getSeasonMessage();
+  const { currentUser, isPaidUser } = useAuth();
 
   const handleSubscribe = async (plan: PlanTier) => {
     if (plan.id === 'free') return;
-    // 학기패스: 6개월 1회 결제, 연간패스: 12개월 1회 결제
+
+    // 로그인 필요
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
 
     setLoading(plan.id);
     try {
-      const customerKey = generateCustomerKey();
+      const customerKey = `user_${currentUser.uid.slice(0, 20)}`;
       // 선택한 플랜 정보를 sessionStorage에 저장 (success 페이지에서 사용)
       sessionStorage.setItem(
         'pendingSubscription',
@@ -232,7 +239,7 @@ export default function SubscriptionPage() {
                   variant={plan.id === 'free' ? 'secondary' : 'primary'}
                   size="lg"
                   className="w-full"
-                  disabled={plan.id === 'free' || loading !== null}
+                  disabled={plan.id === 'free' || loading !== null || isPaidUser}
                   onClick={() => handleSubscribe(plan)}
                 >
                   {loading === plan.id ? (

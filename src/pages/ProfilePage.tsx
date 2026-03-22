@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { useAuth } from '@/context/AuthContext';
 
 export default function ProfilePage() {
-  const { currentUser, logout, profileExtra, savedResults, updateProfileExtra } = useAuth();
+  const { currentUser, logout, profileExtra, savedResults, updateProfileExtra, isPaidUser } = useAuth();
   const navigate = useNavigate();
   const [loggingOut, setLoggingOut] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -224,16 +224,30 @@ export default function ProfilePage() {
         <Card className="p-5 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
-                <Crown className="w-5 h-5 text-amber-primary" />
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isPaidUser ? 'bg-amber-50' : 'bg-slate-50'}`}>
+                <Crown className={`w-5 h-5 ${isPaidUser ? 'text-amber-primary' : 'text-slate-400'}`} />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-slate-900">무료 플랜</h3>
-                <p className="text-xs text-slate-500">기본 추천 기능 이용 중</p>
+                <h3 className="text-sm font-semibold text-slate-900">
+                  {isPaidUser ? profileExtra.subscription?.planName || '유료 플랜' : '무료 플랜'}
+                </h3>
+                <p className="text-xs text-slate-500">
+                  {isPaidUser
+                    ? `${new Date(profileExtra.subscription?.endDate || '').toLocaleDateString('ko-KR')}까지`
+                    : '기본 추천 기능 이용 중'}
+                </p>
               </div>
             </div>
-            <Badge color="green">활성</Badge>
+            <Badge color={isPaidUser ? 'amber' : 'green'}>{isPaidUser ? '구독 중' : '무료'}</Badge>
           </div>
+          {!isPaidUser && (
+            <button
+              onClick={() => navigate('/subscription')}
+              className="mt-3 w-full text-center text-xs text-sky-primary font-medium hover:underline cursor-pointer"
+            >
+              유료 플랜으로 업그레이드
+            </button>
+          )}
         </Card>
 
         {/* Saved Recommendations */}

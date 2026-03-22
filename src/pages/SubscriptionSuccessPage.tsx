@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { CheckCircle, CreditCard, Loader2 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 interface BillingResult {
   billingKey: string;
@@ -14,6 +15,7 @@ interface BillingResult {
 export default function SubscriptionSuccessPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { saveSubscription, currentUser } = useAuth();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [billingResult, setBillingResult] = useState<BillingResult | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -81,6 +83,25 @@ export default function SubscriptionSuccessPage() {
           const payErr = await payRes.json().catch(() => ({ message: '결제 실패' }));
           throw new Error(payErr.message || '첫 결제에 실패했습니다.');
         }
+      }
+
+      // 구독 정보를 Firestore에 저장
+      if (currentUser && pending) {
+        const durationMonths = pending.planId === 'annual' ? 12 : 6;
+        const startDate = new Date();
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + durationMonths);
+
+        await saveSubscription({
+          planId: pending.planId as 'semester' | 'annual',
+          planName: pending.planName,
+          billingKey: data.billingKey,
+          customerKey: data.customerKey,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          cardCompany: data.cardCompany,
+          cardNumber: data.cardNumber,
+        });
       }
 
       sessionStorage.removeItem('pendingSubscription');
