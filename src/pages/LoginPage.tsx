@@ -228,17 +228,6 @@ export default function LoginPage() {
             {googleLoading ? '로그인 중...' : 'Google로 시작하기'}
           </button>
 
-          {/* Kakao Login */}
-          <button
-            onClick={() => alert('카카오 로그인은 준비 중입니다.')}
-            className="w-full mt-2 flex items-center justify-center gap-2 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer"
-            style={{ backgroundColor: '#FEE500', color: '#191919' }}
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 1C4.58 1 1 3.79 1 7.21c0 2.17 1.45 4.08 3.64 5.18l-.93 3.43c-.08.3.26.54.52.37l4.1-2.72c.22.02.44.03.67.03 4.42 0 8-2.79 8-6.29S13.42 1 9 1z" fill="#191919"/>
-            </svg>
-            카카오로 시작하기
-          </button>
 
           {/* Signup link */}
           <p className="text-center text-sm text-slate-500 mt-5">
