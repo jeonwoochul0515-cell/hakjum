@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hakjum-v2';
+const CACHE_NAME = 'hakjum-v3';
 const STATIC_ASSETS = ['/', '/butterfly.svg', '/manifest.json'];
 
 self.addEventListener('install', (event) => {
@@ -74,17 +74,16 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 기타 정적 에셋은 cache-first
+  // 기타 정적 에셋은 network-first with cache fallback
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request).then((res) => {
+    fetch(request)
+      .then((res) => {
         if (res.ok && url.origin === self.location.origin) {
           const clone = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
         }
         return res;
-      });
-    })
+      })
+      .catch(() => caches.match(request))
   );
 });
