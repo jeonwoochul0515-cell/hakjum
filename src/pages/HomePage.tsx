@@ -6,6 +6,7 @@ import {
   ChevronDown, Shield, Zap, Target, Star, User, Crown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { BusinessFooter } from '@/components/layout/BusinessFooter';
 import { useFlowContext } from '@/context/FlowContext';
 import { useAuth } from '@/context/AuthContext';
 
@@ -459,6 +460,8 @@ export default function HomePage() {
           과목 선택은 한 번뿐이에요. 후회 없는 선택을 도와드릴게요.
         </p>
       </div>
+
+      <BusinessFooter />
     </div>
   );
 }

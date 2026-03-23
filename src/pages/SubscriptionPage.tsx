@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { requestPayment } from '@/lib/toss-payments';
 import { useAuth } from '@/context/AuthContext';
+import { BusinessFooter } from '@/components/layout/BusinessFooter';
 import {
   Sparkles,
   Zap,
@@ -134,7 +135,7 @@ export default function SubscriptionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50 flex flex-col">
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/60">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center">
           <button
@@ -258,6 +259,7 @@ export default function SubscriptionPage() {
             <p className="font-semibold text-slate-700">환불 정책</p>
             <p>· 리포트 미열람 시 구매일로부터 7일 이내 환불 가능</p>
             <p>· 리포트 열람(PDF 다운로드) 후에는 환불 불가</p>
+            <a href="/refund-policy" className="text-sky-600 underline mt-1 inline-block">환불정책 전문 보기</a>
           </div>
           <label className="flex items-start gap-2 cursor-pointer">
             <input
@@ -266,7 +268,9 @@ export default function SubscriptionPage() {
               onChange={(e) => setAgreedToTerms(e.target.checked)}
               className="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
             />
-            <span className="text-xs text-slate-600">위 내용에 동의합니다</span>
+            <span className="text-xs text-slate-600">
+              <a href="/terms" className="text-sky-600 underline">이용약관</a> 및 <a href="/refund-policy" className="text-sky-600 underline">환불정책</a>에 동의합니다
+            </span>
           </label>
         </div>
 
@@ -281,15 +285,9 @@ export default function SubscriptionPage() {
           </div>
         </div>
 
-        {/* 사업자 정보 */}
-        <footer className="animate-fade-in-up text-center text-xs text-slate-400 pt-4 pb-8 space-y-1" style={{ animationDelay: '350ms' }}>
-          <p className="font-medium text-slate-500">사업자 정보</p>
-          <p>상호: (주)학점나비 | 대표: ___</p>
-          <p>사업자등록번호: ___-__-_____ | 통신판매업신고: 제____호</p>
-          <p>주소: ___________________</p>
-          <p>이메일: support@hakjumnabi.com | 전화: ___-____-____</p>
-        </footer>
       </main>
+
+      <BusinessFooter />
     </div>
   );
 }
