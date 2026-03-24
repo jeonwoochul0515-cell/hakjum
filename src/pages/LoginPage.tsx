@@ -210,8 +210,10 @@ export default function LoginPage() {
               try {
                 await loginWithGoogle();
                 navigate('/');
-              } catch {
-                setError('구글 로그인에 실패했습니다.');
+              } catch (err: unknown) {
+                const msg = err instanceof Error ? err.message : String(err);
+                console.error('Google login error:', err);
+                setError(`구글 로그인에 실패했습니다. (${msg})`);
               } finally {
                 setGoogleLoading(false);
               }
