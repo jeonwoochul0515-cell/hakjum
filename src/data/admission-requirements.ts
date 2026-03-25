@@ -611,8 +611,8 @@ export function getRequirementsForMajor(majorName: string): {
   if (!match) {
     const name = majorName.toLowerCase();
     let track = '인문·사회계열';
-    if (/공학|소프트웨어|컴퓨터|전자|전기|기계|건축|산업|재료|화공/.test(name)) track = '자연·공학계열';
-    else if (/의|치|한의|약|간호|보건|물리치료|방사선/.test(name)) track = '의약계열';
+    if (/공학|소프트웨어|컴퓨터|전자|전기|기계|건축|산업공|재료|화공/.test(name)) track = '자연·공학계열';
+    else if (/의예|의학|치의|치학|한의|약학|약대|간호|보건|물리치료|방사선|수의/.test(name)) track = '의약계열';
     else if (/수학|물리|화학|생명|생물|지구|천문|통계/.test(name)) track = '자연·공학계열';
     else if (/교육|사범/.test(name)) track = '교육계열';
     else if (/미술|음악|체육|디자인|영상|연극|무용/.test(name)) track = '예체능계열';
