@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, AlertTriangle } from 'lucide-react';
 import { MajorOverviewCard } from '@/components/explore/MajorOverviewCard';
 import { CareerOutcomeSection } from '@/components/explore/CareerOutcomeSection';
 import { RequiredSubjectsView } from '@/components/explore/RequiredSubjectsView';
@@ -8,6 +8,11 @@ import { ShareButton } from '@/components/explore/ShareButton';
 import { Badge } from '@/components/ui/Badge';
 import { useFlow } from '@/hooks/useFlow';
 
+// 학과별 특수 안내 (로스쿨 전환, 폐지 등)
+const MAJOR_NOTICES: Record<string, string> = {
+  '법학과': '2009년부터 서울대, 연세대, 고려대 등 주요 25개 대학의 학부 법학과가 법학전문대학원(로스쿨)으로 전환되었습니다. 변호사를 희망하는 경우 학부 졸업 후 로스쿨 진학이 필요합니다. 일부 대학은 여전히 학부 법학과를 운영합니다.',
+};
+
 export function MajorDetailStep() {
   const { state, go, runRecommendation } = useFlow();
   const { selectedMajor, school, interest } = state;
@@ -16,6 +21,7 @@ export function MajorDetailStep() {
 
   const handleGoToUniversities = () => go('university-list');
   const handleGoToSubjectMatch = () => runRecommendation();
+  const notice = MAJOR_NOTICES[selectedMajor.name];
 
   return (
     <div className="animate-fade-in-up">
@@ -35,6 +41,14 @@ export function MajorDetailStep() {
           <p className="text-xs text-slate-400 mt-1.5">{school.name} 학생을 위한 맞춤 정보</p>
         )}
       </div>
+
+      {/* 특수 안내 (로스쿨 전환 등) */}
+      {notice && (
+        <div className="mb-4 p-4 bg-amber-50 rounded-xl border border-amber-200 flex gap-2.5">
+          <AlertTriangle size={16} className="text-amber-500 flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-amber-700 leading-relaxed">{notice}</p>
+        </div>
+      )}
 
       {/* 개요 */}
       <MajorOverviewCard major={selectedMajor} />
