@@ -59,6 +59,7 @@ export interface WizardState {
   tags: string[];
   targetMajor: Major | null;
   aptitudeResult: AptitudeResult | null;
+  admissionResults?: AdmissionResult[];
 }
 
 export interface SubjectRecommendation {
@@ -104,6 +105,25 @@ export interface ShareableResult {
   timestamp: number;
 }
 
+// ── 입시결과 ──
+
+export interface AdmissionResult {
+  university: string;
+  major: string;
+  year: number;
+  admissionType: string; // "학생부교과" | "학생부종합" | "논술" | "정시"
+  period: 'susi' | 'jeongsi';
+  recruited: number;
+  applied: number;
+  competitionRate: number;
+  cutline: {
+    avg: number;
+    percentile70: number;
+    min: number;
+  };
+  supplementaryOrder: number | null;
+}
+
 // ── 적성검사 ──
 
 export interface AptitudeQuestion {
@@ -147,6 +167,7 @@ export interface FlowState {
   universityStats: UniversityStats[];
   selectedUniversity: UniversityFull | null;
   academyInfo: AcademyInfo | null;
+  admissionResults: AdmissionResult[] | null;
   recommendationResult: RecommendationResult | null;
 }
 
@@ -165,6 +186,7 @@ export type FlowAction =
   | { type: 'SET_UNIVERSITY_STATS'; payload: UniversityStats[] }
   | { type: 'SET_SELECTED_UNIVERSITY'; payload: UniversityFull }
   | { type: 'SET_ACADEMY_INFO'; payload: AcademyInfo }
+  | { type: 'SET_ADMISSION_RESULTS'; payload: AdmissionResult[] }
   | { type: 'SET_RECOMMENDATION'; payload: RecommendationResult }
   | { type: 'RESET' };
 

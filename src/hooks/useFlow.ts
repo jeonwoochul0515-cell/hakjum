@@ -3,6 +3,7 @@ import { useFlowContext } from '@/context/FlowContext';
 import { getExploreRecommendations } from '@/lib/explore-ai';
 import { getMajorFullAPI, searchMajorsAPI } from '@/lib/career-api';
 import { getEnrollmentAPI, getUniversityStats, getAcademyInfoStats } from '@/lib/university-api';
+import { getAdmissionResults } from '@/lib/admission-api';
 import { buildPrompt } from '@/lib/recommendation-prompt';
 import { callClaudeAPI } from '@/lib/claude-api';
 import { fallbackRecommend } from '@/lib/fallback-engine';
@@ -119,7 +120,12 @@ export function useFlow() {
     getAcademyInfoStats(u.name)
       .then((data) => dispatch({ type: 'SET_ACADEMY_INFO', payload: data }))
       .catch(() => {});
-  }, [dispatch]);
+
+    // Async load admission results (fire and forget)
+    getAdmissionResults(u.name, state.selectedMajor?.name || '')
+      .then((data) => { if (data.length > 0) dispatch({ type: 'SET_ADMISSION_RESULTS', payload: data }); })
+      .catch(() => {});
+  }, [dispatch, state.selectedMajor]);
 
   // ── Subject Match (recommendation) ──
   const runRecommendation = useCallback(async () => {
@@ -138,6 +144,7 @@ export function useFlow() {
       tags: state.tags,
       targetMajor: state.selectedMajor,
       aptitudeResult: state.aptitudeResult,
+      admissionResults: state.admissionResults || undefined,
     };
 
     try {

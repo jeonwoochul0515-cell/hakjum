@@ -30,6 +30,21 @@ export function buildPrompt(state: WizardState): string {
 - 일반선택과목: ${targetMajor.relateSubject.general}
 - 진로선택과목: ${targetMajor.relateSubject.career}
 ${targetMajor.relateSubject.professional ? `- 전문교과Ⅰ: ${targetMajor.relateSubject.professional}` : ''}`;
+
+    // 입시결과 데이터가 있으면 프롬프트에 포함
+    if (state.admissionResults && state.admissionResults.length > 0) {
+      prompt += `\n\n## 목표 대학 입시결과 (최근 데이터)`;
+      for (const r of state.admissionResults) {
+        prompt += `\n- [${r.admissionType}] 경쟁률 ${r.competitionRate}:1`;
+        if (r.cutline.avg > 0) prompt += `, 내신 평균 ${r.cutline.avg}등급`;
+        if (r.cutline.percentile70 > 0) prompt += `, 70%컷 ${r.cutline.percentile70}등급`;
+        prompt += `, 모집 ${r.recruited}명, 지원 ${r.applied}명`;
+      }
+      prompt += `\n\n위 입시결과를 참고하여:
+- 합격선에 도달하기 위한 최적 과목 조합을 역산하세요
+- 해당 전형에서 유리한 과목(가산점, 교과이수기준 충족)을 우선 배치하세요
+- admissionInfo의 수시/정시 전략에 실제 커트라인 수치를 반영하세요`;
+    }
   }
 
   prompt += `

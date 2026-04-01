@@ -2,6 +2,7 @@ import { ExternalLink, Users, GraduationCap, Wallet, BookOpen, Briefcase, MapPin
 import { useFlow } from '@/hooks/useFlow';
 import type { EnrollmentInfo, UniversityStats, AcademyInfo } from '@/lib/university-api';
 import { UniversityRecommendations } from './UniversityRecommendations';
+import { AdmissionResultSection } from './AdmissionResultSection';
 
 export function UniversityDetailStep() {
   const { state, runRecommendation } = useFlow();
@@ -178,6 +179,15 @@ export function UniversityDetailStep() {
             )}
           </div>
         </div>
+      )}
+
+      {/* 입시결과 (커트라인, 경쟁률, 추합) */}
+      {state.admissionResults && state.admissionResults.length > 0 && (
+        <AdmissionResultSection
+          results={state.admissionResults}
+          universityName={selectedUniversity.name}
+          majorName={selectedMajor.name}
+        />
       )}
 
       {/* 대학별 권장과목 (2028학년도 대교협 자료) */}
