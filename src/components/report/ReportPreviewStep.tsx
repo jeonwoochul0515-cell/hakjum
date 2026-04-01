@@ -317,7 +317,7 @@ function PaymentCTA({ onPayment, variant = 'full' }: { onPayment: () => void; va
         <h3 className="text-base font-bold text-slate-800">전체 보고서 잠금해제</h3>
         <p className="text-sm text-slate-500 mt-1 leading-relaxed">
           학과 상세 분석, 대학 매칭, 입시 전략, 3개년 로드맵 등<br />
-          <strong className="text-slate-700">8개 심화 섹션</strong>을 확인하세요
+          <strong className="text-slate-700">7개 심화 섹션</strong>을 확인하세요
         </p>
 
         <div className="flex items-center justify-center gap-2 mt-3 mb-4">

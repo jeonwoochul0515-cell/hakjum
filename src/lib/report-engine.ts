@@ -294,7 +294,14 @@ export async function generateReport(input: ReportInput): Promise<ReportData> {
         summary: phase2Data.roadmap?.summary || '',
       } as RoadmapSection,
       competition: {
-        data: [],  // 입시결과 데이터가 별도 API로 제공될 때 채워짐
+        data: (phase2Data.competition || []).map((c: any) => ({
+          university: c.university || '',
+          major: c.major || '',
+          admissionType: c.admissionType || '',
+          competitionRate: c.competitionRate || 0,
+          cutlineAvg: c.cutlineAvg || 0,
+          trend: c.trend || '',
+        })),
       } as CompetitionSection,
       actionPlan,
     },

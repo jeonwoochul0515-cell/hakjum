@@ -72,6 +72,11 @@ export default function SubscriptionSuccessPage() {
       }
 
       setStatus('success');
+
+      // 보고서 결제 후 복원: pendingReport가 있으면 /report로 리다이렉트
+      if (sessionStorage.getItem('pendingReport')) {
+        setTimeout(() => navigate('/report'), 1500);
+      }
     } catch (err) {
       setStatus('error');
       setErrorMessage(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');

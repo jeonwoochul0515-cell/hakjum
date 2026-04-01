@@ -168,6 +168,16 @@ ${school.allSubjects.join(', ')}
     ],
     "summary": "3년 로드맵 전체 요약 (2-3문장)"
   },
+  "competition": [
+    {
+      "university": "대학교명",
+      "major": "학과명",
+      "admissionType": "학생부교과 또는 정시 등",
+      "competitionRate": 12.3,
+      "cutlineAvg": 2.8,
+      "trend": "최근 3년 경쟁률 추이 설명 (1문장)"
+    }
+  ],
   "actionPlan": {
     "summary": "종합 의견 (3-4문장)",
     "immediate": ["즉시 실행할 액션1", "즉시 실행할 액션2"],

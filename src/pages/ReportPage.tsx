@@ -19,13 +19,34 @@ async function loadGenerateReport() {
 export default function ReportPage() {
   return (
     <ReportProvider>
-      <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">
-        <ReportNav />
-        <div className="max-w-lg mx-auto px-4 pt-4 pb-8">
-          <ReportContent />
-        </div>
-      </div>
+      <ReportPageInner />
     </ReportProvider>
+  );
+}
+
+function ReportPageInner() {
+  const { dispatch } = useReportContext();
+
+  // 결제 완료 후 복원: sessionStorage에 pendingReport가 있으면 잠금해제
+  useEffect(() => {
+    const pending = sessionStorage.getItem('pendingReport');
+    if (pending) {
+      try {
+        const reportData = JSON.parse(pending);
+        dispatch({ type: 'SET_REPORT', payload: reportData });
+        dispatch({ type: 'SET_PAID' });
+      } catch { /* ignore */ }
+      sessionStorage.removeItem('pendingReport');
+    }
+  }, [dispatch]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">
+      <ReportNav />
+      <div className="max-w-lg mx-auto px-4 pt-4 pb-8">
+        <ReportContent />
+      </div>
+    </div>
   );
 }
 

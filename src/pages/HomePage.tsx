@@ -4,7 +4,7 @@ import {
   Sparkles, ArrowRight, Users, Clock,
   CheckCircle, BookOpen, GraduationCap,
   ChevronDown, Shield, Target, Star, User, Crown,
-  Search,
+  Search, FileText,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { BusinessFooter } from '@/components/layout/BusinessFooter';
@@ -296,6 +296,25 @@ export default function HomePage() {
             <p className="text-xs font-medium text-emerald-700">교사 · 학원</p>
             <p className="text-[10px] text-emerald-400 mt-0.5">진로지도 도구</p>
           </button>
+        </div>
+
+        {/* ── 맞춤 보고서 CTA ── */}
+        <div className="mt-6 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl p-4 border border-indigo-100">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-500 text-white flex items-center justify-center flex-shrink-0">
+              <FileText size={18} />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-bold text-slate-800">AI 맞춤 분석 보고서</p>
+              <p className="text-[11px] text-slate-500">학과 추천 + 입시 전략 + 3년 로드맵</p>
+            </div>
+            <button
+              onClick={() => navigate('/report')}
+              className="px-3 py-1.5 bg-indigo-500 text-white text-xs font-semibold rounded-lg hover:bg-indigo-600 transition-colors cursor-pointer"
+            >
+              받기
+            </button>
+          </div>
         </div>
 
         {/* ── 후기 ── */}
