@@ -39,8 +39,10 @@ function categorize(name: string): SubjectCategory {
 export function SubjectPreview({ school }: SubjectPreviewProps) {
   const [showGrade1, setShowGrade1] = useState(false);
 
-  const currentYear = new Date().getFullYear();
-  const currentYearStr = String(currentYear);
+  // NEIS는 학년도 기준 (3월~2월). 현재 월이 1~2월이면 전년도가 현재 학년도
+  const now = new Date();
+  const academicYear = now.getMonth() < 2 ? now.getFullYear() - 1 : now.getFullYear();
+  const currentYearStr = String(academicYear);
   const gradeDataYear = school.gradeDataYear || {};
 
   const grade2 = school.subjectsByGrade['2학년'] || [];

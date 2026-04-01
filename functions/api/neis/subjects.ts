@@ -96,14 +96,14 @@ function getDateRange(year: string, semester: string): { from: string; to: strin
   const isCurrentYear = y === now.getFullYear();
 
   if (semester === '1') {
-    if (isCurrentYear && now.getMonth() < 4) {
-      // 현재 연도 3~4월 → 3월 초부터 현재까지
+    if (isCurrentYear && now.getMonth() < 3) {
+      // 현재 연도 3월 → 3월 초부터 현재까지 (데이터 누적 중)
       const end = new Date(now);
       end.setDate(end.getDate() - 1);
       const start = new Date(y, 2, 4);
       return { from: fmt(start), to: fmt(end) };
     }
-    // 4월~5월 초 (4주)
+    // 4월 이후 → 4월~5월 초 (4주, 충분한 데이터)
     return { from: `${year}0407`, to: `${year}0502` };
   } else {
     if (isCurrentYear && now.getMonth() < 9) {
