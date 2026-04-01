@@ -3,7 +3,10 @@ interface Env {
 }
 
 const ACADEMY_HOST = 'http://openapi.academyinfo.go.kr/openapi/service/rest';
-const SVY_YR = '2024';
+// 대학알리미 조사연도: 전년도 데이터가 다음해 상반기에 공개되므로
+// 현재 연도 - 2를 기본으로 사용 (예: 2026년 → 2024년 조사 데이터)
+// 상반기(1~6월)에는 직전 데이터가 아직 미공개일 수 있어 -2가 안전
+const SVY_YR = String(new Date().getFullYear() - 2);
 
 function xmlTag(xml: string, tag: string): string {
   const re = new RegExp(`<${tag}>([^<]*)</${tag}>`);

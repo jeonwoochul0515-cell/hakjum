@@ -222,9 +222,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   // ── Cloudflare Cache API ──
   const cacheUrl = new URL(url.toString());
-  // 캐시 키 정규화 (regionCode, schoolCode만으로 캐시 구분)
+  // 캐시 키 정규화 (regionCode, schoolCode, 연도로 캐시 구분)
+  // 연도를 포함시켜 학년도 전환 시 자동으로 캐시 무효화
+  const cacheYear = new Date().getFullYear();
   if (!requestedYear && !requestedSemester) {
-    cacheUrl.search = `?regionCode=${regionCode}&schoolCode=${schoolCode}`;
+    cacheUrl.search = `?regionCode=${regionCode}&schoolCode=${schoolCode}&v=${cacheYear}`;
   }
   const cacheKey = new Request(cacheUrl.toString());
   const cache = (caches as any).default as Cache;

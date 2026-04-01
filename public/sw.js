@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hakjum-v3';
+const CACHE_NAME = 'hakjum-v4';
 const STATIC_ASSETS = ['/', '/butterfly.svg', '/manifest.json'];
 
 self.addEventListener('install', (event) => {
