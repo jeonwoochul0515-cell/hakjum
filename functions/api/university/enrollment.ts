@@ -46,9 +46,15 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const apiUrl = `http://api.data.go.kr/openapi/tn_pubr_public_univ_major_api?serviceKey=${apiKey}&${params}`;
 
   try {
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      return new Response(JSON.stringify({ error: `data.go.kr API error: ${response.status}`, items: [] }), {
+    // data.go.kr HTTP API는 간헐적 520/522 오류 발생 → 최대 2회 재시도
+    let response: Response | null = null;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      response = await fetch(apiUrl);
+      if (response.ok) break;
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+    }
+    if (!response || !response.ok) {
+      return new Response(JSON.stringify({ error: `data.go.kr API error: ${response?.status}`, items: [] }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });

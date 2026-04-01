@@ -22,9 +22,17 @@ function xmlTagAll(xml: string, tag: string): string[] {
 }
 
 async function fetchXml(url: string): Promise<string> {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.text();
+  // HTTP API 간헐적 오류 대비 재시도
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) return res.text();
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+    } catch {
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+    }
+  }
+  throw new Error('Failed after 3 attempts');
 }
 
 // GET /api/university/academyinfo?school=대학이름

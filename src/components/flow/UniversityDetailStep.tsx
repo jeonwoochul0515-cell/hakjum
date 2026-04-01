@@ -1,4 +1,5 @@
-import { ExternalLink, Users, GraduationCap, Wallet, BookOpen, Briefcase, MapPin, ArrowRight, BarChart3 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ExternalLink, Users, GraduationCap, Wallet, BookOpen, Briefcase, MapPin, ArrowRight, BarChart3, Loader2 } from 'lucide-react';
 import { useFlow } from '@/hooks/useFlow';
 import type { EnrollmentInfo, UniversityStats, AcademyInfo } from '@/lib/university-api';
 import { UniversityRecommendations } from './UniversityRecommendations';
@@ -7,6 +8,14 @@ import { AdmissionResultSection } from './AdmissionResultSection';
 export function UniversityDetailStep() {
   const { state, runRecommendation } = useFlow();
   const { selectedUniversity, selectedMajor, enrollment, universityStats, academyInfo } = state;
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 데이터 로드 완료 감지 (2초 후 로딩 종료 — 비동기 fire-and-forget이므로 타이머 기반)
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 2500);
+    return () => clearTimeout(timer);
+  }, [selectedUniversity?.name]);
 
   if (!selectedUniversity || !selectedMajor) return null;
 
@@ -230,10 +239,17 @@ export function UniversityDetailStep() {
         </div>
       )}
 
-      {/* 데이터 없을 때 */}
+      {/* 데이터 로딩 중 또는 없을 때 */}
       {!info && !stats && (
         <div className="bg-slate-50 rounded-xl p-6 text-center">
-          <p className="text-sm text-slate-500">이 대학교의 상세 데이터가 아직 없어요</p>
+          {isLoading ? (
+            <div className="flex items-center justify-center gap-2">
+              <Loader2 size={16} className="animate-spin text-sky-primary" />
+              <p className="text-sm text-slate-500">대학 데이터를 불러오는 중...</p>
+            </div>
+          ) : (
+            <p className="text-sm text-slate-500">이 대학교의 상세 데이터가 아직 없어요</p>
+          )}
         </div>
       )}
 
