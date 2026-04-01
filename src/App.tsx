@@ -15,6 +15,7 @@ const ParentPaymentPage = lazy(() => import('@/pages/ParentPaymentPage'));
 const RefundPolicyPage = lazy(() => import('@/pages/RefundPolicyPage'));
 const TermsPage = lazy(() => import('@/pages/TermsPage'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
+const ReportPage = lazy(() => import('@/pages/ReportPage'));
 
 function PageLoader() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/report" element={<ReportPage />} />
         {/* Legacy redirects */}
         <Route path="/explore" element={<Navigate to="/flow" replace />} />
         <Route path="/school" element={<Navigate to="/flow" replace />} />
