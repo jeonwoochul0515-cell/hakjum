@@ -176,6 +176,27 @@ export default function SubscriptionPage() {
           </div>
         )}
 
+        {/* 환불 정책 + 동의 */}
+        <div className="animate-fade-in-up bg-slate-50 rounded-2xl p-4 border border-slate-200">
+          <div className="text-xs text-slate-600 space-y-1 mb-3">
+            <p className="font-semibold text-slate-700">환불 정책</p>
+            <p>· 리포트 미열람 시 구매일로부터 7일 이내 환불 가능</p>
+            <p>· 리포트 열람(PDF 다운로드) 후에는 환불 불가</p>
+            <a href="/refund-policy" className="text-sky-600 underline mt-1 inline-block">환불정책 전문 보기</a>
+          </div>
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              className="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            <span className="text-xs text-slate-600">
+              <a href="/terms" className="text-sky-600 underline">이용약관</a> 및 <a href="/refund-policy" className="text-sky-600 underline">환불정책</a>에 동의합니다
+            </span>
+          </label>
+        </div>
+
         <div className="space-y-4">
           {plans.map((plan, index) => (
             <div
@@ -251,27 +272,6 @@ export default function SubscriptionPage() {
               </Card>
             </div>
           ))}
-        </div>
-
-        {/* 환불 정책 + 동의 */}
-        <div className="animate-fade-in-up bg-slate-50 rounded-2xl p-4 border border-slate-200" style={{ animationDelay: '250ms' }}>
-          <div className="text-xs text-slate-600 space-y-1 mb-3">
-            <p className="font-semibold text-slate-700">환불 정책</p>
-            <p>· 리포트 미열람 시 구매일로부터 7일 이내 환불 가능</p>
-            <p>· 리포트 열람(PDF 다운로드) 후에는 환불 불가</p>
-            <a href="/refund-policy" className="text-sky-600 underline mt-1 inline-block">환불정책 전문 보기</a>
-          </div>
-          <label className="flex items-start gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={agreedToTerms}
-              onChange={(e) => setAgreedToTerms(e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-            />
-            <span className="text-xs text-slate-600">
-              <a href="/terms" className="text-sky-600 underline">이용약관</a> 및 <a href="/refund-policy" className="text-sky-600 underline">환불정책</a>에 동의합니다
-            </span>
-          </label>
         </div>
 
         <div className="animate-fade-in-up text-center space-y-3 pt-2" style={{ animationDelay: '300ms' }}>
