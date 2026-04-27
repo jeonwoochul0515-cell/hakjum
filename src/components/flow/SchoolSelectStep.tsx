@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe, FileText, ChevronRight } from 'lucide-react';
 import { SubjectPreview } from '@/components/school/SubjectPreview';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { useSchoolSearch } from '@/hooks/useSchoolSearch';
 import { useFlow } from '@/hooks/useFlow';
 import type { NEISSchool } from '@/lib/neis-api';
+import { C } from '@/lib/design-tokens';
 
 export function SchoolSelectStep() {
   const { state, dispatch, go } = useFlow();
@@ -144,6 +146,47 @@ export function SchoolSelectStep() {
       )}
 
       {state.school && state.school.allSubjects.length > 0 && <SubjectPreview school={state.school} />}
+
+      {/* 학교 교육과정 PDF 업로드 진입 (가장 정확한 데이터 — NEIS보다 우선) */}
+      <Link
+        to="/curriculum-upload"
+        className="cursor-pointer transition-colors"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          padding: '12px 14px',
+          background: C.bg,
+          borderRadius: 12,
+          textDecoration: 'none',
+          border: `1px solid ${C.line}`,
+        }}
+      >
+        <div
+          style={{
+            width: 34,
+            height: 34,
+            borderRadius: 9,
+            background: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: `1px solid ${C.line}`,
+            flexShrink: 0,
+          }}
+        >
+          <FileText size={16} color={C.brand} />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 700, color: C.ink, letterSpacing: '-0.02em' }}>
+            학교에서 받은 교육과정 PDF가 있나요?
+          </div>
+          <div style={{ fontSize: 11, color: C.sub, marginTop: 1 }}>
+            AI가 PDF를 읽고 정확한 개설 과목을 정리해드려요
+          </div>
+        </div>
+        <ChevronRight size={14} color={C.sub} />
+      </Link>
 
       <Button
         size="lg"

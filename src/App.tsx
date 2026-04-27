@@ -16,6 +16,7 @@ const RefundPolicyPage = lazy(() => import('@/pages/RefundPolicyPage'));
 const TermsPage = lazy(() => import('@/pages/TermsPage'));
 const PrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
 const ReportPage = lazy(() => import('@/pages/ReportPage'));
+const CurriculumUploadPage = lazy(() => import('@/pages/CurriculumUploadPage'));
 
 function PageLoader() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/report" element={<ReportPage />} />
+        <Route path="/curriculum-upload" element={<CurriculumUploadPage />} />
         {/* Legacy redirects */}
         <Route path="/explore" element={<Navigate to="/flow" replace />} />
         <Route path="/school" element={<Navigate to="/flow" replace />} />

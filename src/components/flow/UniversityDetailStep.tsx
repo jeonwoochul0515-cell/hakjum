@@ -4,6 +4,7 @@ import { useFlow } from '@/hooks/useFlow';
 import type { EnrollmentInfo, UniversityStats, AcademyInfo } from '@/lib/university-api';
 import { UniversityRecommendations } from './UniversityRecommendations';
 import { AdmissionResultSection } from './AdmissionResultSection';
+import { UniversityCostCard } from '@/components/explore/UniversityCostCard';
 
 export function UniversityDetailStep() {
   const { state, runRecommendation } = useFlow();
@@ -129,6 +130,13 @@ export function UniversityDetailStep() {
           </div>
         </div>
       )}
+
+      {/* 등록금·장학금·학자금대출 (KCUE 표준데이터) */}
+      <UniversityCostCard
+        universityName={selectedUniversity.name}
+        category={info?.category7}
+        className="mb-4"
+      />
 
       {/* 대학 주요 지표 */}
       {hasAcademyData && (

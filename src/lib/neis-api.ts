@@ -96,3 +96,147 @@ export async function fetchSchoolSubjects(
 
   return await res.json();
 }
+
+// ────────────────────────────────────────────────────────────────────────
+// 학사일정(SchoolSchedule) / 방과후학교(afsclTimetable) / 학교급식(mealServiceDietInfo)
+// 전부 NEIS Open API hub 프록시 (functions/api/neis/{schedule,after-school,meal}.ts)
+// ────────────────────────────────────────────────────────────────────────
+
+export interface NEISMeta {
+  source: string;
+  apiId: string;
+  license: string;
+  organization?: string;
+  upstreamUrl?: string;
+  syncedAt: string;
+  totalCount?: number;
+  request?: Record<string, string | null>;
+}
+
+export interface ScheduleEvent {
+  /** YYYY-MM-DD */
+  date: string;
+  name: string;
+  type: 'holiday' | 'exam' | 'vacation' | 'ceremony' | 'event';
+  content?: string;
+  grades?: number[];
+}
+
+export interface ScheduleResponse {
+  events: ScheduleEvent[];
+  totalCount: number;
+  _meta: NEISMeta;
+}
+
+export interface AfterSchoolLesson {
+  /** YYYY-MM-DD */
+  date: string;
+  period: number;
+  subject: string;
+  grade?: string;
+  classNm?: string;
+}
+
+export interface AfterSchoolResponse {
+  lessons: AfterSchoolLesson[];
+  totalCount: number;
+  _meta: NEISMeta;
+}
+
+export interface SchoolMeal {
+  /** YYYY-MM-DD */
+  date: string;
+  type: string; // 조식/중식/석식
+  dishes: string[];
+  calorie?: string;
+  nutrients?: string;
+  origin?: string;
+}
+
+export interface MealResponse {
+  meals: SchoolMeal[];
+  totalCount: number;
+  _meta: NEISMeta;
+}
+
+/**
+ * 학사일정 조회.
+ * @param regionCode  ATPT_OFCDC_SC_CODE (시도교육청 코드, 예: 'B10')
+ * @param schoolCode  SD_SCHUL_CODE (학교코드)
+ * @param fromYmd     YYYYMMDD 또는 YYYY-MM-DD
+ * @param toYmd       YYYYMMDD 또는 YYYY-MM-DD
+ *
+ * @example
+ *   const { events } = await getSchoolSchedule('B10', '7010536', '20260301', '20260831');
+ */
+export async function getSchoolSchedule(
+  regionCode: string,
+  schoolCode: string,
+  fromYmd?: string,
+  toYmd?: string,
+): Promise<ScheduleResponse> {
+  const params = new URLSearchParams({
+    atptOfcdcSCCode: regionCode,
+    schulCode: schoolCode,
+  });
+  if (fromYmd) params.set('fromYmd', fromYmd.replace(/-/g, ''));
+  if (toYmd) params.set('toYmd', toYmd.replace(/-/g, ''));
+
+  const res = await fetch(`/api/neis/schedule?${params}`);
+  if (!res.ok) throw new Error('Failed to fetch school schedule');
+  return (await res.json()) as ScheduleResponse;
+}
+
+/**
+ * 방과후학교 시간표 조회.
+ * @param regionCode  ATPT_OFCDC_SC_CODE
+ * @param schoolCode  SD_SCHUL_CODE
+ * @param options     학년도/학기/학년 (전부 옵션)
+ *
+ * @example
+ *   const { lessons } = await getAfterSchool('B10', '7010536', { year: '2026', semester: '1' });
+ */
+export async function getAfterSchool(
+  regionCode: string,
+  schoolCode: string,
+  options: { year?: string; semester?: string; grade?: string; fromYmd?: string; toYmd?: string } = {},
+): Promise<AfterSchoolResponse> {
+  const params = new URLSearchParams({
+    atptOfcdcSCCode: regionCode,
+    schulCode: schoolCode,
+  });
+  if (options.year) params.set('ay', options.year);
+  if (options.semester) params.set('sem', options.semester);
+  if (options.grade) params.set('grade', options.grade);
+  if (options.fromYmd) params.set('fromYmd', options.fromYmd.replace(/-/g, ''));
+  if (options.toYmd) params.set('toYmd', options.toYmd.replace(/-/g, ''));
+
+  const res = await fetch(`/api/neis/after-school?${params}`);
+  if (!res.ok) throw new Error('Failed to fetch after-school timetable');
+  return (await res.json()) as AfterSchoolResponse;
+}
+
+/**
+ * 학교급식 식단 조회.
+ *
+ * @example
+ *   const { meals } = await getSchoolMeals('B10', '7010536', { fromYmd: '20260427', toYmd: '20260503' });
+ */
+export async function getSchoolMeals(
+  regionCode: string,
+  schoolCode: string,
+  options: { ymd?: string; fromYmd?: string; toYmd?: string; mealCode?: '1' | '2' | '3' } = {},
+): Promise<MealResponse> {
+  const params = new URLSearchParams({
+    atptOfcdcSCCode: regionCode,
+    schulCode: schoolCode,
+  });
+  if (options.ymd) params.set('ymd', options.ymd.replace(/-/g, ''));
+  if (options.fromYmd) params.set('fromYmd', options.fromYmd.replace(/-/g, ''));
+  if (options.toYmd) params.set('toYmd', options.toYmd.replace(/-/g, ''));
+  if (options.mealCode) params.set('mealCode', options.mealCode);
+
+  const res = await fetch(`/api/neis/meal?${params}`);
+  if (!res.ok) throw new Error('Failed to fetch school meals');
+  return (await res.json()) as MealResponse;
+}

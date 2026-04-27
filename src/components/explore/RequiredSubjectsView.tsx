@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
-import { ChevronDown, AlertCircle } from 'lucide-react';
+import { ChevronDown, AlertCircle, Sparkles } from 'lucide-react';
 import type { MajorFull } from '@/types';
 import { useFlow } from '@/hooks/useFlow';
 import { checkSubjectAvailability } from '@/lib/subject-content';
 import { C } from '@/lib/design-tokens';
 import { UnopenedSubjectAlternatives } from '@/components/explore/UnopenedSubjectAlternatives';
+import { getUploadedCurriculum } from '@/lib/curriculum-storage';
 
 interface Props {
   major: MajorFull;
@@ -31,11 +32,23 @@ function extractRegionCode(schoolId: string | undefined): string | undefined {
 export function RequiredSubjectsView({ major }: Props) {
   const { state } = useFlow();
   const school = state.school;
-  const schoolSubjects = school?.allSubjects ?? [];
   const studentRegionCode = extractRegionCode(school?.id);
 
   // 펼쳐진 미개설 과목명 (한 번에 하나씩만 표시)
   const [openSubject, setOpenSubject] = useState<string | null>(null);
+
+  // 학생이 업로드한 교육과정 PDF가 있으면 NEIS보다 우선 사용
+  const uploaded = useMemo(() => getUploadedCurriculum(), []);
+  const usingUploaded = !!uploaded && uploaded.subjects.length > 0;
+  const schoolSubjects = useMemo(() => {
+    if (usingUploaded) {
+      return uploaded!.subjects.filter((s) => s.status === '개설').map((s) => s.name);
+    }
+    return school?.allSubjects ?? [];
+  }, [usingUploaded, uploaded, school]);
+  const uploadedDateLabel = uploaded?.meta.syncedAt
+    ? new Date(uploaded.meta.syncedAt).toLocaleDateString('ko-KR')
+    : '';
 
   const hasAny = useMemo(
     () => Object.values(major.relateSubject).some((v) => v.trim()),
@@ -58,6 +71,27 @@ export function RequiredSubjectsView({ major }: Props) {
       <p className="text-xs text-slate-500">
         이 학과에 진학하려면 고등학교에서 이런 과목을 들으면 좋아요
       </p>
+
+      {/* 출처 표시: 업로드한 PDF가 있으면 NEIS 대신 그 데이터를 사용 */}
+      {usingUploaded && (
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '6px 10px',
+            background: C.brandSoft,
+            color: C.brand,
+            borderRadius: 999,
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          <Sparkles size={11} strokeWidth={2.4} />
+          출처: 학생 업로드 PDF (AI 추출{uploadedDateLabel ? `, ${uploadedDateLabel}` : ''})
+        </div>
+      )}
 
       {SUBJECT_CATEGORIES.map(({ key, label, color, dotColor }) => {
         const subjects = major.relateSubject[key];
