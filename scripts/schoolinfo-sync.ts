@@ -68,65 +68,16 @@ const ENDPOINT = 'https://www.schoolinfo.go.kr/openApi.do';
 const DELAY_MS = 200;
 const MAX_PAGE_RETRIES = 3;
 
-// ─── 시도·시군구 매트릭스 (17개 시도 × 대표 시군구 — 점진 확장) ─────────
-// 검증 단계: 각 시도 1~2개 시군구만. 풀 매트릭스는 후속 PR에서 학교알리미
-// "시도시군구코드.xlsx" 다운로드 후 sido-sgg-codes.json 으로 분리 예정.
+// ─── 시도·시군구 매트릭스 (학교알리미 sido_sggCode.xlsx → JSON) ────────
+// 17개 시도 × 260개 시군구. 학교알리미 자체 코드 (강원=51, 전북=52 등 행자부와 다름)
 interface RegionEntry {
   sido: string;
   sidoCode: string;
   sggList: { sggCode: string; sggName: string }[];
 }
 
-const REGIONS: RegionEntry[] = [
-  {
-    sido: '서울특별시',
-    sidoCode: '11',
-    sggList: [
-      { sggCode: '11110', sggName: '종로구' },
-      { sggCode: '11140', sggName: '중구' },
-      { sggCode: '11170', sggName: '용산구' },
-      { sggCode: '11200', sggName: '성동구' },
-      { sggCode: '11215', sggName: '광진구' },
-      { sggCode: '11230', sggName: '동대문구' },
-      { sggCode: '11260', sggName: '중랑구' },
-      { sggCode: '11290', sggName: '성북구' },
-      { sggCode: '11305', sggName: '강북구' },
-      { sggCode: '11320', sggName: '도봉구' },
-      { sggCode: '11350', sggName: '노원구' },
-      { sggCode: '11380', sggName: '은평구' },
-      { sggCode: '11410', sggName: '서대문구' },
-      { sggCode: '11440', sggName: '마포구' },
-      { sggCode: '11470', sggName: '양천구' },
-      { sggCode: '11500', sggName: '강서구' },
-      { sggCode: '11530', sggName: '구로구' },
-      { sggCode: '11545', sggName: '금천구' },
-      { sggCode: '11560', sggName: '영등포구' },
-      { sggCode: '11590', sggName: '동작구' },
-      { sggCode: '11620', sggName: '관악구' },
-      { sggCode: '11650', sggName: '서초구' },
-      { sggCode: '11680', sggName: '강남구' },
-      { sggCode: '11710', sggName: '송파구' },
-      { sggCode: '11740', sggName: '강동구' },
-    ],
-  },
-  // 검증 단계의 다른 시도 — 대표 시군구 1개씩
-  { sido: '부산광역시', sidoCode: '26', sggList: [{ sggCode: '26110', sggName: '중구' }] },
-  { sido: '대구광역시', sidoCode: '27', sggList: [{ sggCode: '27110', sggName: '중구' }] },
-  { sido: '인천광역시', sidoCode: '28', sggList: [{ sggCode: '28110', sggName: '중구' }] },
-  { sido: '광주광역시', sidoCode: '29', sggList: [{ sggCode: '29110', sggName: '동구' }] },
-  { sido: '대전광역시', sidoCode: '30', sggList: [{ sggCode: '30110', sggName: '동구' }] },
-  { sido: '울산광역시', sidoCode: '31', sggList: [{ sggCode: '31110', sggName: '중구' }] },
-  { sido: '세종특별자치시', sidoCode: '36', sggList: [{ sggCode: '36110', sggName: '세종시' }] },
-  { sido: '경기도', sidoCode: '41', sggList: [{ sggCode: '41110', sggName: '수원시' }] },
-  { sido: '강원특별자치도', sidoCode: '42', sggList: [{ sggCode: '42110', sggName: '춘천시' }] },
-  { sido: '충청북도', sidoCode: '43', sggList: [{ sggCode: '43110', sggName: '청주시' }] },
-  { sido: '충청남도', sidoCode: '44', sggList: [{ sggCode: '44130', sggName: '천안시' }] },
-  { sido: '전북특별자치도', sidoCode: '45', sggList: [{ sggCode: '45110', sggName: '전주시' }] },
-  { sido: '전라남도', sidoCode: '46', sggList: [{ sggCode: '46110', sggName: '목포시' }] },
-  { sido: '경상북도', sidoCode: '47', sggList: [{ sggCode: '47110', sggName: '포항시' }] },
-  { sido: '경상남도', sidoCode: '48', sggList: [{ sggCode: '48121', sggName: '창원시' }] },
-  { sido: '제주특별자치도', sidoCode: '50', sggList: [{ sggCode: '50110', sggName: '제주시' }] },
-];
+const REGIONS_JSON_PATH = path.resolve(process.cwd(), 'src/data/schoolinfo-sido-sgg.json');
+const REGIONS: RegionEntry[] = JSON.parse(fs.readFileSync(REGIONS_JSON_PATH, 'utf-8'));
 
 const LEVEL_NAMES: Record<string, string> = {
   '02': '초등학교',
