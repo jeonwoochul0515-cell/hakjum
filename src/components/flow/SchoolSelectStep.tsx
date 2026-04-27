@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe, FileText, ChevronRight } from 'lucide-react';
 import { SubjectPreview } from '@/components/school/SubjectPreview';
+import { SchoolInfoLinks } from '@/components/flow/SchoolInfoLinks';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -146,6 +147,15 @@ export function SchoolSelectStep() {
       )}
 
       {state.school && state.school.allSubjects.length > 0 && <SubjectPreview school={state.school} />}
+
+      {/* 학교 정보 외부 링크 (홈페이지 + 학교알리미 공시 + PDF 업로드) */}
+      {state.school && (
+        <SchoolInfoLinks
+          schoolName={state.school.name}
+          shlIdfCd={state.school.shlIdfCd}
+          homepageUrl={state.school.homepageUrl}
+        />
+      )}
 
       {/* 학교 교육과정 PDF 업로드 진입 (가장 정확한 데이터 — NEIS보다 우선) */}
       <Link

@@ -8,6 +8,8 @@ export interface School {
   subjectsByGrade: Record<string, string[]>;
   allSubjects: string[];
   gradeDataYear?: Record<string, string>;  // 학년별 데이터 기준 연도
+  shlIdfCd?: string;        // 학교알리미 학교 식별 UUID (정보공시 페이지 URL용)
+  homepageUrl?: string;     // 학교 자체 홈페이지 (학교알리미 HMPG_ADRES)
 }
 
 export interface University {
