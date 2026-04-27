@@ -94,12 +94,14 @@ function parseArgs() {
   let apiType = '0';
   let level = '04'; // 고등학교 기본
   let sidoFilter: string | null = null;
+  let pbanYr: string | null = null; // 일부 항목 (apiType=08 등) 필수
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--apiType' && args[i + 1]) apiType = args[++i];
     else if (args[i] === '--level' && args[i + 1]) level = args[++i];
     else if (args[i] === '--sido' && args[i + 1]) sidoFilter = args[++i];
+    else if (args[i] === '--year' && args[i + 1]) pbanYr = args[++i];
   }
-  return { apiType, level, sidoFilter };
+  return { apiType, level, sidoFilter, pbanYr };
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -124,7 +126,8 @@ async function fetchOne(
   apiType: string,
   sidoCode: string,
   sggCode: string,
-  schulKndCode: string
+  schulKndCode: string,
+  pbanYr: string | null
 ): Promise<any[]> {
   const url = new URL(ENDPOINT);
   url.searchParams.set('apiKey', API_KEY!);
@@ -132,6 +135,7 @@ async function fetchOne(
   url.searchParams.set('sidoCode', sidoCode);
   url.searchParams.set('sggCode', sggCode);
   url.searchParams.set('schulKndCode', schulKndCode);
+  if (pbanYr) url.searchParams.set('pbanYr', pbanYr);
 
   let lastErr: Error | undefined;
   for (let attempt = 1; attempt <= MAX_PAGE_RETRIES; attempt++) {
@@ -160,9 +164,9 @@ async function fetchOne(
 
 // ─── 메인 ────────────────────────────────────────────────────────────────
 async function main() {
-  const { apiType, level, sidoFilter } = parseArgs();
+  const { apiType, level, sidoFilter, pbanYr } = parseArgs();
   const levelName = LEVEL_NAMES[level] ?? level;
-  console.log(`[schoolinfo] apiType=${apiType}, schulKndCode=${level} (${levelName})`);
+  console.log(`[schoolinfo] apiType=${apiType}, schulKndCode=${level} (${levelName})${pbanYr ? `, pbanYr=${pbanYr}` : ''}`);
   console.log(`[schoolinfo] endpoint: ${ENDPOINT}`);
 
   const targets = sidoFilter
@@ -177,7 +181,7 @@ async function main() {
     for (const sgg of region.sggList) {
       totalCalls++;
       try {
-        const items = await fetchOne(apiType, region.sidoCode, sgg.sggCode, level);
+        const items = await fetchOne(apiType, region.sidoCode, sgg.sggCode, level, pbanYr);
         allRecords.push(...items);
         console.log(
           `  ✓ ${region.sido} ${sgg.sggName}: ${items.length}건 (누적 ${allRecords.length})`
@@ -214,7 +218,7 @@ async function main() {
     records: allRecords,
   };
 
-  const outRel = `data/schoolinfo/api${apiType}-${level}.json`;
+  const outRel = `data/schoolinfo/api${apiType}-${level}${pbanYr ? `-${pbanYr}` : ''}.json`;
   const outPath = path.resolve(process.cwd(), outRel);
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   const tmp = outPath + '.tmp';
