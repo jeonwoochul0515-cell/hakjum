@@ -1,6 +1,6 @@
-import { Sparkles, MapPin, Briefcase, ChevronRight, Star } from 'lucide-react';
+import { Sparkles, MapPin, Award, ArrowRight } from 'lucide-react';
 import type { AIExploreResult } from '@/types';
-import { Badge } from '@/components/ui/Badge';
+import { C } from '@/lib/design-tokens';
 
 interface Props {
   result: AIExploreResult;
@@ -8,110 +8,196 @@ interface Props {
   onSelectMajor: (majorName: string, category: string) => void;
 }
 
-const categoryColorMap: Record<string, 'sky' | 'indigo' | 'amber' | 'red' | 'green' | 'gray' | 'orange'> = {
-  '공학계열': 'sky',
-  '자연계열': 'green',
-  '인문계열': 'indigo',
-  '사회계열': 'orange',
-  '교육계열': 'amber',
-  '의약계열': 'red',
-  '예체능계열': 'gray',
-};
-
 export function AIRecommendationCards({ result, loading, onSelectMajor }: Props) {
   return (
     <div className="animate-fade-in-up">
       {/* AI 분석 요약 */}
       {result.summary && (
-        <div className="bg-gradient-to-r from-sky-50 to-indigo-50 rounded-xl p-4 mb-5 border border-sky-100">
-          <div className="flex items-start gap-2">
-            <Sparkles size={16} className="text-sky-primary flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-xs font-semibold text-sky-700 mb-1">AI 분석 결과</p>
-              <p className="text-sm text-slate-700 leading-relaxed">{result.summary}</p>
+        <div
+          style={{
+            background: C.brandSoft,
+            borderRadius: 14,
+            padding: 16,
+            marginBottom: 20,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <div
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 6,
+                background: C.brand,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Sparkles size={13} color="#fff" strokeWidth={2.2} />
             </div>
+            <span style={{ fontSize: 12.5, fontWeight: 700, color: C.brand, letterSpacing: '-0.02em' }}>
+              AI 분석 결과
+            </span>
+          </div>
+          <div
+            style={{
+              fontSize: 13,
+              lineHeight: 1.7,
+              color: C.ink,
+              letterSpacing: '-0.01em',
+            }}
+          >
+            {result.summary}
           </div>
           {result.source === 'fallback' && (
-            <p className="text-xs text-slate-400 mt-2 ml-6">* 오프라인 추천 결과입니다</p>
+            <div style={{ fontSize: 10.5, color: C.sub, marginTop: 8 }}>* 오프라인 추천 결과입니다</div>
           )}
         </div>
       )}
 
       {/* 추천 학과 카드 목록 */}
-      <div className="space-y-3">
+      <div>
         {result.recommendations.map((rec, i) => (
           <button
             key={i}
             onClick={() => onSelectMajor(rec.majorName, rec.category)}
             disabled={loading}
-            className="w-full text-left bg-white rounded-xl p-4 border border-slate-100 hover:border-sky-primary/30 hover:shadow-md active:scale-[0.98] transition-all cursor-pointer disabled:opacity-60 disabled:cursor-wait group"
+            className="cursor-pointer active:scale-[0.99] transition-all text-left disabled:opacity-60 disabled:cursor-wait"
+            style={{
+              width: '100%',
+              background: '#fff',
+              border: `1.5px solid ${C.line}`,
+              borderRadius: 16,
+              padding: 18,
+              marginBottom: 10,
+              display: 'block',
+            }}
           >
-            {/* 상단: 학과명 + 매칭 점수 */}
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <h3 className="font-bold text-slate-800 text-base">{rec.majorName}</h3>
-                  <Badge color={categoryColorMap[rec.category] || 'gray'}>{rec.category}</Badge>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10, gap: 10 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      padding: '3px 8px',
+                      borderRadius: 4,
+                      background: i === 0 ? C.brand : C.brandSoft,
+                      color: i === 0 ? '#fff' : C.brand,
+                      fontWeight: 700,
+                      letterSpacing: '-0.01em',
+                    }}
+                  >
+                    {rec.category}
+                  </span>
+                  {i === 0 && (
+                    <span
+                      style={{
+                        fontSize: 10,
+                        padding: '3px 8px',
+                        borderRadius: 4,
+                        background: '#fef3c7',
+                        color: '#a16207',
+                        fontWeight: 700,
+                      }}
+                    >
+                      ★ 최적 추천
+                    </span>
+                  )}
                 </div>
-                <p className="text-sm text-slate-600 leading-relaxed mt-1.5">{rec.reason}</p>
+                <div style={{ fontSize: 19, fontWeight: 800, letterSpacing: '-0.04em', marginBottom: 6, color: C.ink }}>
+                  {rec.majorName}
+                </div>
               </div>
-
-              {/* 매칭 점수 */}
-              <div className="flex-shrink-0 flex flex-col items-center">
-                <div className="relative w-12 h-12 flex items-center justify-center">
-                  <svg className="w-12 h-12 -rotate-90" viewBox="0 0 48 48">
-                    <circle cx="24" cy="24" r="20" fill="none" stroke="#e2e8f0" strokeWidth="3" />
-                    <circle
-                      cx="24" cy="24" r="20" fill="none"
-                      stroke={rec.matchScore >= 80 ? '#0ea5e9' : rec.matchScore >= 60 ? '#6366f1' : '#94a3b8'}
-                      strokeWidth="3"
-                      strokeDasharray={`${(rec.matchScore / 100) * 125.6} 125.6`}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <span className="absolute text-xs font-bold text-slate-700">{rec.matchScore}</span>
+              <div
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 14,
+                  background: C.brandSoft,
+                  color: C.brand,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 800,
+                    letterSpacing: '-0.04em',
+                    lineHeight: 1,
+                    fontVariantNumeric: 'tabular-nums',
+                  }}
+                >
+                  {rec.matchScore}
                 </div>
-                <span className="text-[10px] text-slate-400 mt-0.5">적합도</span>
+                <div style={{ fontSize: 9, opacity: 0.8, marginTop: 2, fontWeight: 600 }}>적합도</div>
               </div>
             </div>
 
-            {/* 대학 목록 (간략) */}
+            <div
+              style={{
+                fontSize: 13,
+                lineHeight: 1.7,
+                color: C.sub,
+                marginBottom: 12,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {rec.reason}
+            </div>
+
             {rec.universities.length > 0 && (
-              <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                <MapPin size={12} className="text-slate-400 flex-shrink-0" />
-                {rec.universities.slice(0, 4).map((u, j) => (
-                  <span
-                    key={j}
-                    className={`text-xs px-1.5 py-0.5 rounded ${
-                      u.area === '부산' ? 'bg-sky-50 text-sky-600' : 'bg-slate-50 text-slate-500'
-                    }`}
-                  >
-                    {u.name}
-                  </span>
-                ))}
-                {rec.universities.length > 4 && (
-                  <span className="text-xs text-slate-400">+{rec.universities.length - 4}</span>
-                )}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  marginBottom: 8,
+                  fontSize: 11.5,
+                  color: C.sub,
+                }}
+              >
+                <MapPin size={12} color={C.sub} />
+                <span>{rec.universities.slice(0, 4).map((u) => u.name).join(' · ')}</span>
               </div>
             )}
 
-            {/* 관련 직업 */}
             {rec.relatedJobs.length > 0 && (
-              <div className="mt-2 flex items-center gap-1.5 flex-wrap">
-                <Briefcase size={12} className="text-slate-400 flex-shrink-0" />
-                {rec.relatedJobs.slice(0, 3).map((job, j) => (
-                  <span key={j} className="text-xs text-slate-500">{job}{j < Math.min(rec.relatedJobs.length, 3) - 1 ? ',' : ''}</span>
-                ))}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  fontSize: 11.5,
+                  color: C.sub,
+                }}
+              >
+                <Award size={12} color={C.sub} />
+                <span>{rec.relatedJobs.slice(0, 3).join(' · ')} 등</span>
               </div>
             )}
 
-            {/* 하단 CTA */}
-            <div className="mt-3 pt-3 border-t border-slate-50 flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <Star size={12} className="text-amber-primary" />
-                <span className="text-xs text-slate-500">상세 정보 보기</span>
-              </div>
-              <ChevronRight size={16} className="text-slate-400 group-hover:text-sky-primary transition-colors" />
+            <div
+              style={{
+                marginTop: 12,
+                paddingTop: 12,
+                borderTop: `1px solid ${C.line}`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                fontSize: 12,
+                fontWeight: 600,
+                color: C.brand,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              <span>상세 정보 + 추천 과목 보기</span>
+              <ArrowRight size={14} color={C.brand} strokeWidth={2.2} />
             </div>
           </button>
         ))}

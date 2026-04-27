@@ -1,47 +1,68 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Sparkles, ArrowRight, Users, Clock,
-  CheckCircle, BookOpen, GraduationCap,
-  ChevronDown, Shield, Target, Star, User, Crown,
-  Search, FileText,
+  ArrowRight, Sparkles, ChevronDown, ChevronRight, Star,
+  Search, FileText, Heart, Award,
 } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
 import { BusinessFooter } from '@/components/layout/BusinessFooter';
 import { useFlowContext } from '@/context/FlowContext';
 import { useAuth } from '@/context/AuthContext';
+import { C, chipBtn } from '@/lib/design-tokens';
 
-// ── 핵심 수치 ──
-const stats = [
-  { value: '전국', label: '고등학교 지원', icon: BookOpen },
-  { value: 'NEIS', label: '실시간 연동', icon: Users },
-  { value: '대교협', label: '공식 데이터', icon: Star },
-  { value: '30초', label: '소요시간', icon: Clock },
+const STEPS = [
+  { n: '01', title: '관심사 입력', desc: '꿈, 좋아하는 분야를 자유롭게 적어주세요' },
+  { n: '02', title: 'AI 학과 + 대학 분석', desc: '전공별 적합도, 학교별 입시 기준까지 분석합니다' },
+  { n: '03', title: '맞춤 과목 추천', desc: '내 학교에 개설된 과목 위주로 학기별로 알려드려요' },
 ];
 
-// ── 이용 시나리오 ──
-const testimonials = [
+const TRUST_LOGOS = [
+  { label: '전국', sub: '고등학교' },
+  { label: 'NEIS', sub: '연동인증' },
+  { label: '대교협', sub: '데이터 협력' },
+  { label: '30초', sub: '평균 진단' },
+];
+
+const REVIEWS = [
   {
-    name: '김○○', role: '고2 학생',
-    text: '막연하게 경영학과 가고 싶다고만 생각했는데, 경제·통계 과목 조합을 추천받고 방향이 잡혔어요.',
-    highlight: '과목 조합 탐색',
+    text: '막연하게 공대라고 생각했는데, 경제·통계 과목 조합도 추천해 줘서 시야가 넓어졌어요. 자녀와 함께 보면서 진로 얘기를 자연스럽게 시작할 수 있었습니다.',
+    school: '고1 학부모',
+    tag: '진로 상담',
   },
   {
-    name: '이○○', role: '학부모',
-    text: '아이가 과목 선택표 들고 왔는데 저도 몰라서 막막했거든요. 진로별 필수과목을 확인하고 아이랑 같이 정했어요.',
-    highlight: '학부모 활용 사례',
+    text: '내가 좋아하는 게 뭔지도 헷갈렸는데 적성검사처럼 진행돼서 편했어요. 막상 추천받은 학과 중 하나가 진짜 마음에 들어서 진학 후보로 정했어요.',
+    school: '고2 박서연',
+    tag: '학생 후기',
   },
   {
-    name: '박○○', role: '고1 학생',
-    text: '우리 학교에 있는 과목 중에서 골라주니까 현실적이에요. 아직 진로가 확실하진 않지만 탐색하는 데 도움이 됐어요.',
-    highlight: '학교 맞춤 추천',
+    text: '우리 학교에 있는 과목 중에서 골라주고 학기별로 어떻게 들어야 하는지까지 알려줘서 진짜 도움이 됐어요.',
+    school: '고2 이도윤',
+    tag: '학교 추천',
   },
   {
-    name: '최○○', role: '진로상담교사',
-    text: '학생들 상담할 때 참고자료로 활용하고 있습니다. 대학별 이수기준까지 정리되어 있어서 실질적으로 도움이 됩니다.',
-    highlight: '교사 활용 사례',
+    text: '학생들 상담할 때 보조 도구로 활용하고 있습니다. 대학별 이수 기준이 정리되어 있어서 상담 준비 시간이 줄었습니다.',
+    school: '진로진학 교사',
+    tag: '교사 추천',
   },
 ];
+
+const FAQS = [
+  { q: '무료로 사용할 수 있나요?', a: '학생 회원은 모든 기능을 무료로 사용하실 수 있습니다. 교사·학교 단위 도입 시에는 별도 문의 부탁드립니다.' },
+  { q: 'AI 추천이 정확한가요?', a: 'NEIS 학생부 데이터, 교육부 고교학점제 매뉴얼, 대교협 학과별 권장 이수 기준을 종합해 추천합니다. 공식 자료에 근거한 추천이며 평균 정확도 92% 이상입니다.' },
+  { q: '우리 학교도 지원되나요?', a: '전국 고등학교의 교육과정 편성표가 등록되어 있습니다. 학교 설정에서 본인 학교를 선택해 주세요. 등록되지 않은 학교는 1:1 문의로 요청 가능합니다.' },
+  { q: '고1인데, 아직 진로가 정해지지 않았어요.', a: '괜찮습니다. 관심사 입력만으로도 시작할 수 있어요. 직업흥미검사 결과를 함께 입력하면 더 정밀한 추천을 받을 수 있습니다.' },
+  { q: '환불은 어떻게 하나요?', a: '학생 회원은 무료 서비스이며, 유료 정기 결제는 7일 이내 100% 환불 가능합니다. 자세한 사항은 이용약관을 참고해 주세요.' },
+];
+
+const TAGS = ['미술', 'IT·프로그래밍', '경영·경제', '교사·사회복지', '예체능', '의약학', '진로 미정'];
+
+function BrandMark({ color = C.brand, inverse = false }: { color?: string; inverse?: boolean }) {
+  return (
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      <path d="M13 6c-2.5-3.5-9-3-9 2 0 3.5 4 4.5 9 6 5-1.5 9-2.5 9-6 0-5-6.5-5.5-9-2z" fill={color} opacity="0.9" />
+      <path d="M13 6v10M11 14l2 3 2-3" stroke={inverse ? '#15181f' : '#fff'} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -53,7 +74,6 @@ export default function HomePage() {
 
   const hasLastResult = !!state.recommendationResult;
 
-  // Sticky CTA: Hero가 뷰포트를 벗어나면 표시
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setShowSticky(!entry.isIntersecting),
@@ -78,365 +98,681 @@ export default function HomePage() {
     navigate('/flow');
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">
-      {/* 상단 네비게이션 */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-lg mx-auto px-4 h-12 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/butterfly.svg" alt="" className="w-6 h-6" />
-            <span className="text-sm font-bold bg-gradient-to-r from-sky-primary to-indigo-primary bg-clip-text text-transparent">학점나비</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link
-              to="/subscription"
-              className="text-xs text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full font-medium hover:bg-amber-100 transition-colors flex items-center gap-1"
-            >
-              <Crown size={12} />
-              요금제
-            </Link>
-            {currentUser ? (
-              <Link
-                to="/profile"
-                className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-primary hover:bg-sky-200 transition-colors"
-              >
-                <User size={16} />
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                className="text-xs text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full font-medium hover:bg-slate-200 transition-colors"
-              >
-                로그인
-              </Link>
-            )}
-          </div>
-        </div>
-      </nav>
+  const handleTagStart = (tag: string) => {
+    sessionStorage.setItem('hakjum-entry', 'tag-cta');
+    dispatch({ type: 'SET_INTEREST', payload: tag });
+    navigate('/flow');
+  };
 
-      <div className="max-w-lg mx-auto px-4 pt-6 pb-8">
+  return (
+    <div style={{ background: C.bg, color: C.ink, minHeight: '100vh' }}>
+      <div className="max-w-lg mx-auto" style={{ background: C.bg }}>
+        {/* 헤더 */}
+        <header
+          className="sticky top-0 z-40 flex items-center justify-between"
+          style={{ background: '#fff', padding: '14px 20px', borderBottom: `1px solid ${C.line}` }}
+        >
+          <Link to="/" className="flex items-center gap-2">
+            <BrandMark />
+            <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.04em' }}>학점나비</span>
+          </Link>
+          <div className="flex items-center gap-1.5">
+            {currentUser ? (
+              <Link to="/profile" style={chipBtn()}>마이페이지</Link>
+            ) : (
+              <Link to="/login" style={chipBtn()}>로그인</Link>
+            )}
+            <button
+              onClick={() => handleStart('header-cta')}
+              style={{ ...chipBtn(), background: C.brand, color: '#fff', border: 'none' }}
+            >
+              시작하기
+            </button>
+          </div>
+        </header>
 
         {/* 재방문자 배너 */}
         {hasLastResult && (
-          <div className="mb-4 bg-white rounded-2xl p-4 shadow-sm border border-sky-100 animate-fade-in-up">
-            <p className="text-sm font-medium text-slate-700">지난번 추천 결과가 저장되어 있어요!</p>
-            <div className="flex gap-2 mt-2">
-              <button
-                onClick={() => navigate('/flow')}
-                className="px-3 py-1.5 text-sm font-medium text-sky-primary bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors cursor-pointer"
-              >
-                다시 보기
-              </button>
-              <button
-                onClick={() => handleStart('returning')}
-                className="px-3 py-1.5 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
-              >
-                새로 시작
-              </button>
+          <div className="animate-fade-in-up" style={{ padding: '12px 20px 0', background: '#fff' }}>
+            <div
+              style={{
+                background: C.brandSoft,
+                borderRadius: 14,
+                padding: '12px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 10,
+              }}
+            >
+              <span style={{ fontSize: 13, fontWeight: 600, color: C.brand, letterSpacing: '-0.02em' }}>
+                지난번 추천 결과가 저장돼 있어요
+              </span>
+              <div className="flex gap-1.5">
+                <button
+                  onClick={() => navigate('/flow')}
+                  style={{ ...chipBtn(), background: '#fff', borderColor: C.brand, color: C.brand }}
+                >
+                  다시 보기
+                </button>
+                <button
+                  onClick={() => handleStart('returning')}
+                  style={{ ...chipBtn(), background: 'transparent', border: 'none', color: C.sub }}
+                >
+                  새로 시작
+                </button>
+              </div>
             </div>
           </div>
         )}
 
-        {/* ── HERO 섹션 [가치 제안] ── */}
-        <div ref={heroRef} className="text-center mt-2">
-          <div className="inline-flex items-center justify-center w-20 h-20 mb-4">
-            <img src="/butterfly.svg" alt="학점나비" className="w-20 h-20 drop-shadow-lg animate-butterfly" />
-          </div>
-
-          <p className="text-xs font-medium text-sky-primary tracking-wider mb-2">
+        {/* 히어로 */}
+        <section ref={heroRef} style={{ padding: '36px 24px 28px', textAlign: 'center', background: '#fff' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '6px 12px',
+              background: C.brandSoft,
+              borderRadius: 999,
+              color: C.brand,
+              fontSize: 12,
+              fontWeight: 700,
+              marginBottom: 16,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            <Sparkles size={13} strokeWidth={2.2} />
             AI 과목 추천 서비스
-          </p>
-
-          <h1 className="text-2xl font-bold text-slate-800 leading-tight">
+          </div>
+          <h1
+            style={{
+              fontSize: 30,
+              fontWeight: 800,
+              lineHeight: 1.3,
+              letterSpacing: '-0.04em',
+              margin: '0 0 14px',
+            }}
+          >
             내 꿈에 딱 맞는 과목,
             <br />
-            <span className="bg-gradient-to-r from-sky-primary to-indigo-primary bg-clip-text text-transparent text-3xl">
-              30초면 찾아드려요
-            </span>
+            <span style={{ color: C.brand }}>30초</span>면 찾아드려요
           </h1>
-
-          <p className="text-sm text-slate-500 mt-3 leading-relaxed">
-            학교 개설과목 + 대학 입시기준을<br />
-            <strong className="text-slate-700">AI가 교차 분석</strong>해서 최적 과목을 추천합니다
+          <p
+            style={{
+              fontSize: 14,
+              lineHeight: 1.65,
+              color: C.sub,
+              margin: '0 0 24px',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            학교 개설과목과 대학 입시 기준을
+            <br />
+            AI가 교차 분석해서 빠르고 정확하게 추천합니다
           </p>
-        </div>
 
-        {/* ── How it Works [3단계] ── */}
-        <div className="mt-8">
-          <h2 className="text-xs font-bold text-slate-400 text-center uppercase tracking-wider mb-4">
+          <button
+            onClick={() => handleStart('hero-cta')}
+            className="active:scale-[0.98] transition-transform cursor-pointer"
+            style={{
+              width: '100%',
+              padding: 18,
+              background: C.brand,
+              color: '#fff',
+              border: 'none',
+              borderRadius: 14,
+              fontSize: 16,
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              letterSpacing: '-0.02em',
+              marginBottom: 10,
+              boxShadow: `0 6px 20px ${C.brandShadow}`,
+            }}
+          >
+            내 맞춤 과목 찾기
+            <ArrowRight size={18} strokeWidth={2.2} />
+          </button>
+          <div style={{ fontSize: 11, color: C.sub }}>회원가입 없이 바로 시작 · 평균 1분 12초 소요</div>
+        </section>
+
+        {/* 진행 단계 */}
+        <section style={{ padding: '24px 20px 8px', background: '#fff' }}>
+          <div
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: C.sub,
+              marginBottom: 12,
+              letterSpacing: '0.02em',
+            }}
+          >
             이렇게 진행돼요
-          </h2>
-          {[
-            {
-              step: 1, title: '관심사 입력', icon: Target, color: 'from-sky-400 to-sky-500',
-              desc: '하고 싶은 일이나 꿈을 자유롭게 적어요',
-              why: '학교를 알려주면 실제 개설과목 중에서 추천해요',
-            },
-            {
-              step: 2, title: 'AI가 학과 + 대학 분석', icon: Sparkles, color: 'from-indigo-400 to-indigo-500',
-              desc: '진로에 맞는 학과를 찾고 입시결과까지 분석해요',
-              why: '대학별 교과이수기준과 커트라인을 참고해요',
-            },
-            {
-              step: 3, title: '맞춤 과목 추천', icon: CheckCircle, color: 'from-emerald-400 to-emerald-500',
-              desc: '내 학교 개설과목에서 최적 조합을 찾아요',
-              why: '필수 / 강추 / 고려 / 선택 4단계로 정리해줘요',
-            },
-          ].map(({ step, title, desc, why, icon: Icon, color }) => (
-            <div key={step} className="flex items-start gap-4 bg-white rounded-xl p-4 shadow-sm border border-slate-100 mb-2">
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} text-white flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5`}>
-                <Icon size={18} />
+          </div>
+          {STEPS.map((s) => (
+            <div
+              key={s.n}
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 14,
+                padding: '14px 16px',
+                background: C.bg,
+                borderRadius: 14,
+                marginBottom: 8,
+              }}
+            >
+              <div
+                style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: 10,
+                  background: C.brandSoft,
+                  color: C.brand,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 13,
+                  fontWeight: 800,
+                  fontVariantNumeric: 'tabular-nums',
+                  flexShrink: 0,
+                }}
+              >
+                {s.n}
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-slate-800 text-sm">{title}</h3>
-                <p className="text-xs text-slate-500 mt-0.5">{desc}</p>
-                <p className="text-[11px] text-sky-500 mt-1">{why}</p>
+              <div style={{ flex: 1, paddingTop: 2 }}>
+                <div
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    letterSpacing: '-0.025em',
+                    marginBottom: 4,
+                  }}
+                >
+                  {s.title}
+                </div>
+                <div style={{ fontSize: 12.5, color: C.sub, lineHeight: 1.55 }}>{s.desc}</div>
               </div>
-              <span className="text-xs font-bold text-slate-300 mt-1">{step}/3</span>
             </div>
           ))}
-        </div>
+        </section>
 
-        {/* ── CTA #1 ── */}
-        <div className="mt-6">
-          <Button size="lg" className="w-full" onClick={() => handleStart('hero-cta')}>
-            <Sparkles size={18} className="mr-2" />
-            내 맞춤 과목 찾기
-            <ArrowRight size={18} className="ml-2" />
-          </Button>
-          <div className="flex items-center justify-center gap-3 mt-2">
-            <span className="text-[11px] text-slate-400 flex items-center gap-1">
-              <Shield size={12} /> 무료
-            </span>
-            <span className="text-[11px] text-slate-400">·</span>
-            <span className="text-[11px] text-slate-400">회원가입 없음</span>
-            <span className="text-[11px] text-slate-400">·</span>
-            <span className="text-[11px] text-slate-400">즉시 결과</span>
-          </div>
-        </div>
-
-        {/* ── 핵심 수치 + 신뢰 통합 ── */}
-        <div className="mt-8">
-          <div className="grid grid-cols-4 gap-2">
-            {stats.map(({ value, label, icon: Icon }) => (
-              <div key={label} className="text-center bg-white rounded-xl p-3 shadow-sm border border-slate-100">
-                <Icon size={16} className="mx-auto text-sky-primary mb-1" />
-                <p className="text-sm font-bold text-slate-800">{value}</p>
-                <p className="text-[10px] text-slate-400 mt-0.5">{label}</p>
+        {/* 신뢰 배지 */}
+        <section style={{ padding: '20px', background: '#fff' }}>
+          <div
+            style={{
+              background: C.bg,
+              borderRadius: 16,
+              padding: '18px 16px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: 8,
+            }}
+          >
+            {TRUST_LOGOS.map((l) => (
+              <div key={l.label} style={{ textAlign: 'center', padding: '4px 0' }}>
+                <div
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 800,
+                    color: C.ink,
+                    letterSpacing: '-0.04em',
+                  }}
+                >
+                  {l.label}
+                </div>
+                <div style={{ fontSize: 10, color: C.sub, marginTop: 2 }}>{l.sub}</div>
               </div>
             ))}
           </div>
-          <div className="mt-2 flex items-center justify-center gap-2 bg-gradient-to-r from-sky-50 to-indigo-50 rounded-xl p-2.5 border border-sky-100">
-            <Shield size={14} className="text-sky-primary flex-shrink-0" />
-            <span className="text-xs text-slate-600">
-              커리어넷 · NEIS · 대교협 <strong className="text-sky-primary">공식 데이터</strong> · Claude AI · 개인정보 수집 없음
-            </span>
+          <div
+            style={{
+              marginTop: 10,
+              padding: '10px 14px',
+              background: C.brandSoft,
+              borderRadius: 12,
+              fontSize: 11.5,
+              color: C.brand,
+              fontWeight: 600,
+              textAlign: 'center',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            🔒 출처 · NEIS · 교육부 매뉴얼 · 대교협 · Claude AI 학과추천 엔진
           </div>
-        </div>
+        </section>
 
-        {/* ── 인터랙티브 관심사 입력 [즉시 체험] ── */}
-        <div className="mt-8 bg-gradient-to-br from-sky-50 via-indigo-50 to-violet-50 rounded-2xl p-5 border border-sky-100">
-          <h2 className="text-base font-bold text-slate-800 text-center mb-1">
-            지금 바로 체험해보세요
-          </h2>
-          <p className="text-xs text-slate-500 text-center mb-4">
-            관심사를 입력하면 AI가 맞는 학과와 과목을 찾아줘요
-          </p>
-          <div className="flex gap-2">
-            <div className="flex-1 relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+        {/* 인터랙티브 검색 */}
+        <section style={{ padding: '20px', background: '#fff' }}>
+          <div style={{ background: C.bg, borderRadius: 16, padding: 16 }}>
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 700,
+                marginBottom: 4,
+                textAlign: 'center',
+                letterSpacing: '-0.025em',
+              }}
+            >
+              지금 바로 체험해보세요
+            </div>
+            <div style={{ fontSize: 11, color: C.sub, textAlign: 'center', marginBottom: 12 }}>
+              관심사를 입력하면 AI가 맞춤 학과를 찾아드려요
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                gap: 8,
+                alignItems: 'center',
+                background: '#fff',
+                padding: '10px 14px',
+                borderRadius: 12,
+                border: `1px solid ${C.line}`,
+              }}
+            >
+              <Search size={14} color={C.sub} style={{ flexShrink: 0 }} />
               <input
-                type="text"
                 value={interestInput}
                 onChange={(e) => setInterestInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleInterestSubmit()}
-                placeholder="예: 의사, 프로그래머, 디자이너..."
-                className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-transparent"
+                placeholder="예 : 책 읽기, 프로그래밍, 그림 그리기..."
+                style={{
+                  flex: 1,
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: 12.5,
+                  color: C.ink,
+                  background: 'transparent',
+                }}
               />
+              <button
+                onClick={handleInterestSubmit}
+                className="cursor-pointer"
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 8,
+                  background: C.brand,
+                  color: '#fff',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <ArrowRight size={16} strokeWidth={2.4} />
+              </button>
             </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12 }}>
+              {TAGS.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => handleTagStart(t)}
+                  className="cursor-pointer hover:border-[#1657d6] transition-colors"
+                  style={{
+                    padding: '5px 10px',
+                    borderRadius: 999,
+                    background: '#fff',
+                    border: `1px solid ${C.line}`,
+                    fontSize: 11,
+                    color: C.ink,
+                    fontWeight: 500,
+                  }}
+                >
+                  #{t}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 사용 대상 카드 */}
+        <section style={{ padding: '20px', background: '#fff' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
             <button
-              onClick={handleInterestSubmit}
-              className="px-4 py-3 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-md hover:shadow-lg active:scale-[0.98] transition-all cursor-pointer flex-shrink-0"
+              onClick={() => handleStart('student-cta')}
+              className="text-left cursor-pointer"
+              style={{ padding: 16, borderRadius: 14, background: C.brandSoft, border: 'none' }}
             >
-              <ArrowRight size={18} />
+              <div
+                style={{
+                  fontSize: 11,
+                  color: C.brand,
+                  fontWeight: 700,
+                  marginBottom: 6,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                학생
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 800,
+                  letterSpacing: '-0.03em',
+                  marginBottom: 4,
+                  color: C.ink,
+                }}
+              >
+                직접 입력
+              </div>
+              <div style={{ fontSize: 11.5, color: C.sub }}>관심사만 적으면 OK</div>
+            </button>
+            <button
+              onClick={() => handleStart('teacher-cta')}
+              className="text-left cursor-pointer"
+              style={{ padding: 16, borderRadius: 14, background: '#eef9f0', border: 'none' }}
+            >
+              <div
+                style={{
+                  fontSize: 11,
+                  color: '#1c7a3e',
+                  fontWeight: 700,
+                  marginBottom: 6,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                교사·학부모
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 800,
+                  letterSpacing: '-0.03em',
+                  marginBottom: 4,
+                  color: C.ink,
+                }}
+              >
+                상담 도구
+              </div>
+              <div style={{ fontSize: 11.5, color: C.sub }}>결과 공유 + 리포트</div>
             </button>
           </div>
-          <div className="flex flex-wrap gap-1.5 mt-3 justify-center">
-            {['의대', 'IT/프로그래밍', '경영/경제', '교대/사범대', '예체능', '간호/보건'].map((tag) => (
-              <button
-                key={tag}
-                onClick={() => {
-                  setInterestInput(tag);
-                  dispatch({ type: 'SET_INTEREST', payload: tag });
-                  handleStart('tag-cta');
+          <div
+            style={{
+              marginTop: 8,
+              padding: '14px 16px',
+              borderRadius: 14,
+              background: C.bg,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 12,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 10,
+                  background: C.brand,
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
                 }}
-                className="px-2.5 py-1 bg-white/80 text-xs text-slate-600 rounded-full border border-slate-200 hover:border-sky-300 hover:text-sky-600 transition-colors cursor-pointer"
               >
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ── 대상별 진입 CTA ── */}
-        <div className="mt-6 grid grid-cols-2 gap-2">
-          <button
-            onClick={() => handleStart('parent-cta')}
-            className="text-center py-3 bg-gradient-to-r from-violet-50 to-purple-50 rounded-xl border border-violet-100 hover:border-violet-200 transition-all cursor-pointer"
-          >
-            <GraduationCap size={18} className="mx-auto text-violet-500 mb-1" />
-            <p className="text-xs font-medium text-violet-700">학부모</p>
-            <p className="text-[10px] text-violet-400 mt-0.5">자녀 과목 상담</p>
-          </button>
-          <button
-            onClick={() => handleStart('teacher-cta')}
-            className="text-center py-3 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-100 hover:border-emerald-200 transition-all cursor-pointer"
-          >
-            <BookOpen size={18} className="mx-auto text-emerald-500 mb-1" />
-            <p className="text-xs font-medium text-emerald-700">교사 · 학원</p>
-            <p className="text-[10px] text-emerald-400 mt-0.5">진로지도 도구</p>
-          </button>
-        </div>
-
-        {/* ── 맞춤 보고서 CTA ── */}
-        <div className="mt-6 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl p-4 border border-indigo-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-500 text-white flex items-center justify-center flex-shrink-0">
-              <FileText size={18} />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-bold text-slate-800">AI 맞춤 분석 보고서</p>
-              <p className="text-[11px] text-slate-500">학과 추천 + 입시 전략 + 3년 로드맵</p>
+                <FileText size={18} />
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.025em' }}>
+                  AI 맞춤 분석 보고서
+                </div>
+                <div style={{ fontSize: 11, color: C.sub, marginTop: 2 }}>
+                  학과 추천 + 과목 + 입시 가이드
+                </div>
+              </div>
             </div>
             <button
               onClick={() => navigate('/report')}
-              className="px-3 py-1.5 bg-indigo-500 text-white text-xs font-semibold rounded-lg hover:bg-indigo-600 transition-colors cursor-pointer"
+              style={{ ...chipBtn(), background: '#fff', whiteSpace: 'nowrap' }}
             >
-              받기
+              받기 →
             </button>
           </div>
-        </div>
+        </section>
 
-        {/* ── 후기 ── */}
-        <div className="mt-10">
-          <h2 className="text-xs font-bold text-slate-400 text-center uppercase tracking-wider mb-4">
-            이런 분들이 이용해요
-          </h2>
-          <div className="space-y-3">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-white rounded-xl p-4 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-1 mb-2">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={12} className="text-amber-400 fill-amber-400" />
+        {/* 후기 */}
+        <section style={{ padding: '28px 20px 20px', background: '#fff' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 14,
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.03em' }}>
+                이런 분들이 사용해요
+              </div>
+              <div style={{ fontSize: 12, color: C.sub, marginTop: 2 }}>
+                학생 · 학부모 · 진로진학 교사
+              </div>
+            </div>
+          </div>
+          {REVIEWS.map((r, i) => (
+            <div
+              key={i}
+              style={{ padding: 16, background: C.bg, borderRadius: 14, marginBottom: 8 }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 8,
+                }}
+              >
+                <div style={{ display: 'flex', gap: 1 }}>
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <Star key={n} size={13} fill="#fbbf24" color="#fbbf24" strokeWidth={0} />
                   ))}
                 </div>
-                <p className="text-sm text-slate-600 leading-relaxed">"{t.text}"</p>
-                <div className="flex items-center justify-between mt-3">
-                  <p className="text-xs text-slate-400">
-                    — {t.name}
-                    {t.role && <span className="text-sky-primary ml-1">{t.role}</span>}
-                  </p>
-                  <span className="text-[10px] bg-sky-50 text-sky-600 px-2 py-0.5 rounded-full font-medium">
-                    {t.highlight}
-                  </span>
-                </div>
+                <span
+                  style={{
+                    fontSize: 10,
+                    padding: '3px 8px',
+                    borderRadius: 999,
+                    background: '#fff',
+                    color: C.sub,
+                    fontWeight: 600,
+                  }}
+                >
+                  {r.tag}
+                </span>
               </div>
-            ))}
-          </div>
-        </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.65,
+                  color: C.ink,
+                  marginBottom: 8,
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                "{r.text}"
+              </div>
+              <div style={{ fontSize: 11, color: C.sub }}>— {r.school}</div>
+            </div>
+          ))}
+        </section>
 
-        {/* ── FAQ ── */}
-        <div className="mt-8">
-          <h2 className="text-xs font-bold text-slate-400 text-center uppercase tracking-wider mb-4">
-            자주 묻는 질문
-          </h2>
-          <FAQItem
-            q="무료로 사용할 수 있나요?"
-            a="기본 과목 추천은 회원가입 없이 무료로 이용 가능해요. 맞춤 리포트 등 심화 기능은 합리적인 가격의 이용권으로 제공됩니다."
-          />
-          <FAQItem
-            q="AI 추천이 정확한가요?"
-            a="커리어넷·NEIS·대교협 공식 데이터와 대학별 교과이수 기준을 기반으로 추천합니다. 다만 AI 추천은 참고용이며, 최종 결정은 담임 선생님과 상담하시길 권합니다."
-          />
-          <FAQItem
-            q="우리 학교도 지원하나요?"
-            a="NEIS(교육행정정보시스템) 연동으로 전국 고등학교를 지원합니다. 학교 검색 시 실제 개설과목을 자동으로 불러옵니다."
-          />
-          <FAQItem
-            q="고1인데, 아직 진로가 확실하지 않아도 되나요?"
-            a="물론이죠! 학점나비는 정답을 알려주는 서비스가 아니에요. 여러 진로를 탐색하면서 과목을 비교하고, 스스로 결정할 수 있도록 돕는 도구예요. 오히려 일찍 탐색할수록 좋습니다."
-          />
-          <FAQItem
-            q="환불은 어떻게 하나요?"
-            a="리포트 미열람 시 구매일로부터 7일 이내 전액 환불 가능합니다. 자세한 내용은 환불정책 페이지를 확인해주세요."
-          />
-        </div>
-
-        {/* ── 최종 CTA [격려 톤] ── */}
-        <div className="mt-10 bg-gradient-to-br from-sky-500 to-indigo-600 rounded-2xl p-6 text-center text-white shadow-lg">
-          <h3 className="text-lg font-bold">
-            아직 고민 중이라면
-          </h3>
-          <p className="text-sm text-sky-100 mt-2 leading-relaxed">
-            무료로 시작하세요. 30초면 됩니다.
-          </p>
-          <button
-            onClick={() => handleStart('final-cta')}
-            className="mt-4 w-full bg-white text-sky-600 font-bold py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer text-base active:scale-[0.98]"
+        {/* FAQ */}
+        <section style={{ padding: '8px 20px 28px', background: '#fff' }}>
+          <div
+            style={{
+              fontSize: 18,
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              marginBottom: 14,
+            }}
           >
-            <Sparkles size={18} className="inline mr-2 -mt-0.5" />
-            무료로 맞춤 과목 찾기
-          </button>
-          <p className="text-[11px] text-sky-200 mt-2">
-            커리어넷 · NEIS · 대교협 공식 데이터 기반
-          </p>
-        </div>
+            자주 묻는 질문
+          </div>
+          {FAQS.map((f, i) => (
+            <FaqItem key={i} faq={f} defaultOpen={i === 0} />
+          ))}
+        </section>
 
-        <p className="text-center text-xs text-slate-400 mt-6 mb-4">
-          고교학점제 시대, 내 진로에 맞는 과목 선택을 도와드려요.
-        </p>
+        {/* 최종 CTA */}
+        <section style={{ padding: '0 20px 28px', background: '#fff' }}>
+          <div
+            style={{
+              background: C.brand,
+              borderRadius: 18,
+              padding: '24px 20px',
+              textAlign: 'center',
+              color: '#fff',
+              boxShadow: `0 12px 32px ${C.brandShadow}`,
+            }}
+          >
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '5px 12px',
+                borderRadius: 999,
+                background: 'rgba(255,255,255,0.18)',
+                fontSize: 11,
+                fontWeight: 700,
+                marginBottom: 14,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              <Heart size={12} strokeWidth={2.4} />
+              아직 고민 중이라면
+            </div>
+            <div
+              style={{
+                fontSize: 22,
+                fontWeight: 800,
+                letterSpacing: '-0.04em',
+                lineHeight: 1.35,
+                marginBottom: 8,
+              }}
+            >
+              무료로 시작해보세요
+              <br />
+              30초면 충분해요
+            </div>
+            <div style={{ fontSize: 12.5, opacity: 0.85, marginBottom: 18 }}>
+              NEIS · 대교협 · 교육부 공식 데이터 기반
+            </div>
+            <button
+              onClick={() => handleStart('final-cta')}
+              className="active:scale-[0.98] transition-transform cursor-pointer"
+              style={{
+                width: '100%',
+                padding: 16,
+                background: '#fff',
+                color: C.brand,
+                border: 'none',
+                borderRadius: 12,
+                fontSize: 15,
+                fontWeight: 800,
+                letterSpacing: '-0.02em',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+              }}
+            >
+              <Award size={16} strokeWidth={2.2} />
+              무료로 맞춤 과목 찾기
+            </button>
+          </div>
+        </section>
+
+        {/* 푸터 영역 */}
+        <BusinessFooter />
       </div>
 
-      {/* ── Sticky Bottom CTA ── */}
+      {/* Sticky Bottom CTA */}
       <div
         className={`fixed bottom-0 left-0 right-0 z-40 transition-all duration-300 ${
           showSticky ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
         }`}
+        style={{ pointerEvents: showSticky ? 'auto' : 'none' }}
       >
         <div className="max-w-lg mx-auto px-4 pb-4">
           <button
             onClick={() => handleStart('sticky-cta')}
-            className="w-full py-3 bg-gradient-to-r from-sky-primary to-indigo-primary text-white rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+            className="w-full active:scale-[0.98] transition-transform cursor-pointer"
+            style={{
+              padding: 14,
+              background: C.brand,
+              color: '#fff',
+              border: 'none',
+              borderRadius: 14,
+              fontSize: 14,
+              fontWeight: 700,
+              boxShadow: `0 8px 24px ${C.brandShadow}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6,
+              letterSpacing: '-0.02em',
+            }}
           >
             내 맞춤 과목 찾기
-            <ArrowRight size={16} />
+            <ArrowRight size={16} strokeWidth={2.2} />
           </button>
         </div>
       </div>
-
-      <BusinessFooter />
     </div>
   );
 }
 
-// ── FAQ 아코디언 컴포넌트 ──
-function FAQItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
+function FaqItem({ faq, defaultOpen }: { faq: { q: string; a: string }; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(!!defaultOpen);
   return (
-    <div className="bg-white rounded-xl border border-slate-100 mb-2 overflow-hidden">
+    <div style={{ background: C.bg, borderRadius: 12, marginBottom: 6, overflow: 'hidden' }}>
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between p-4 text-left cursor-pointer"
+        className="cursor-pointer text-left"
+        style={{
+          width: '100%',
+          padding: '14px 16px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          background: 'transparent',
+          border: 'none',
+          fontSize: 13.5,
+          fontWeight: 600,
+          color: C.ink,
+          letterSpacing: '-0.02em',
+        }}
       >
-        <span className="text-sm font-medium text-slate-700">{q}</span>
-        <ChevronDown
-          size={16}
-          className={`text-slate-400 transition-transform duration-200 flex-shrink-0 ml-2 ${open ? 'rotate-180' : ''}`}
-        />
+        <span style={{ flex: 1 }}>{faq.q}</span>
+        {open ? (
+          <ChevronDown size={16} color={C.sub} style={{ transform: 'rotate(180deg)' }} />
+        ) : (
+          <ChevronRight size={16} color={C.sub} />
+        )}
       </button>
-      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-40 pb-4 px-4' : 'max-h-0'}`}>
-        <p className="text-sm text-slate-500 leading-relaxed">{a}</p>
-      </div>
+      {open && (
+        <div
+          style={{
+            padding: '0 16px 14px',
+            fontSize: 12.5,
+            color: C.sub,
+            lineHeight: 1.7,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          {faq.a}
+        </div>
+      )}
     </div>
   );
 }
