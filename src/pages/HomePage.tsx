@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   ArrowRight, Sparkles, ChevronDown, ChevronRight, Star,
-  Search, FileText, Heart, Award,
+  FileText, Heart, Award,
 } from 'lucide-react';
 import { BusinessFooter } from '@/components/layout/BusinessFooter';
 import { useFlowContext } from '@/context/FlowContext';
 import { useAuth } from '@/context/AuthContext';
 import { C, chipBtn } from '@/lib/design-tokens';
+import { PopularMajorCards } from '@/components/landing/PopularMajorCards';
+import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
 
 const STEPS = [
   { n: '01', title: '관심사 입력', desc: '꿈, 좋아하는 분야를 자유롭게 적어주세요' },
@@ -68,7 +70,7 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { state, dispatch } = useFlowContext();
   const { currentUser } = useAuth();
-  const [interestInput, setInterestInput] = useState('');
+  const [interestInput] = useState('');
   const [showSticky, setShowSticky] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -240,6 +242,11 @@ export default function HomePage() {
           <div style={{ fontSize: 11, color: C.sub }}>회원가입 없이 바로 시작 · 평균 1분 12초 소요</div>
         </section>
 
+        {/* 인기 학과 카드 (KCUE 데이터 기반) */}
+        <section style={{ padding: '20px', background: '#fff' }}>
+          <PopularMajorCards />
+        </section>
+
         {/* 진행 단계 */}
         <section style={{ padding: '24px 20px 8px', background: '#fff' }}>
           <div
@@ -346,7 +353,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 인터랙티브 검색 */}
+        {/* 인터랙티브 검색 (글로벌 검색바 + 빠른 태그) */}
         <section style={{ padding: '20px', background: '#fff' }}>
           <div style={{ background: C.bg, borderRadius: 16, padding: 16 }}>
             <div
@@ -358,56 +365,12 @@ export default function HomePage() {
                 letterSpacing: '-0.025em',
               }}
             >
-              지금 바로 체험해보세요
+              학과/대학 바로 검색
             </div>
             <div style={{ fontSize: 11, color: C.sub, textAlign: 'center', marginBottom: 12 }}>
-              관심사를 입력하면 AI가 맞춤 학과를 찾아드려요
+              학과명·대학명을 입력하면 자동완성으로 찾아드려요
             </div>
-            <div
-              style={{
-                display: 'flex',
-                gap: 8,
-                alignItems: 'center',
-                background: '#fff',
-                padding: '10px 14px',
-                borderRadius: 12,
-                border: `1px solid ${C.line}`,
-              }}
-            >
-              <Search size={14} color={C.sub} style={{ flexShrink: 0 }} />
-              <input
-                value={interestInput}
-                onChange={(e) => setInterestInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleInterestSubmit()}
-                placeholder="예 : 책 읽기, 프로그래밍, 그림 그리기..."
-                style={{
-                  flex: 1,
-                  border: 'none',
-                  outline: 'none',
-                  fontSize: 12.5,
-                  color: C.ink,
-                  background: 'transparent',
-                }}
-              />
-              <button
-                onClick={handleInterestSubmit}
-                className="cursor-pointer"
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 8,
-                  background: C.brand,
-                  color: '#fff',
-                  border: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                <ArrowRight size={16} strokeWidth={2.4} />
-              </button>
-            </div>
+            <GlobalSearchBar variant="hero" />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12 }}>
               {TAGS.map((t) => (
                 <button
@@ -428,6 +391,28 @@ export default function HomePage() {
                 </button>
               ))}
             </div>
+            {/* AI 기반 관심사 입력은 hero CTA 또는 진행 단계에서 안내 */}
+            <button
+              onClick={handleInterestSubmit}
+              className="cursor-pointer"
+              style={{
+                width: '100%',
+                marginTop: 10,
+                padding: '10px 14px',
+                background: '#fff',
+                border: `1px solid ${C.line}`,
+                borderRadius: 12,
+                fontSize: 12,
+                color: C.sub,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span>관심사로 AI 학과 추천 받기 →</span>
+              <ArrowRight size={14} color={C.brand} strokeWidth={2.2} />
+            </button>
           </div>
         </section>
 
