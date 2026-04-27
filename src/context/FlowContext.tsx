@@ -10,6 +10,7 @@ const initialState: FlowState = {
   grade: '',
   interest: '',
   tags: [],
+  tagInterests: {},
   aptitudeResult: null,
   aptitudeGender: '',
   exploreResult: null,
@@ -30,6 +31,7 @@ const PERSIST_KEYS: (keyof FlowState)[] = [
   'grade',
   'interest',
   'tags',
+  'tagInterests',
 ];
 
 function loadFromStorage(): Partial<FlowState> | null {
@@ -74,10 +76,34 @@ function flowReducer(state: FlowState, action: FlowAction): FlowState {
       return { ...state, interest: action.payload };
     case 'TOGGLE_TAG': {
       const tag = action.payload;
-      const tags = state.tags.includes(tag)
+      const isOn = state.tags.includes(tag);
+      const tags = isOn
         ? state.tags.filter((t) => t !== tag)
         : [...state.tags, tag];
-      return { ...state, tags };
+      // 토글 해제 시 관심도도 함께 정리 (관심도 0 = 미선택)
+      const tagInterests = { ...state.tagInterests };
+      if (isOn) {
+        delete tagInterests[tag];
+      } else if (tagInterests[tag] === undefined) {
+        // 토글로 처음 켤 때 기본값 60(관심) 부여 — 인지부하 없이 시작
+        tagInterests[tag] = 60;
+      }
+      return { ...state, tags, tagInterests };
+    }
+    case 'SET_TAG_INTEREST_LEVEL': {
+      const { tag, level } = action.payload;
+      const tagInterests = { ...state.tagInterests };
+      let tags = state.tags;
+      if (level <= 0) {
+        delete tagInterests[tag];
+        tags = state.tags.filter((t) => t !== tag);
+      } else {
+        tagInterests[tag] = level;
+        if (!state.tags.includes(tag)) {
+          tags = [...state.tags, tag];
+        }
+      }
+      return { ...state, tags, tagInterests };
     }
     case 'SET_EXPLORE_RESULT':
       return { ...state, exploreResult: action.payload };

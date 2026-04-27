@@ -5,6 +5,10 @@ interface QuickTagProps {
   tags: string[];
   selected: string[];
   onToggle: (tag: string) => void;
+  /** 분야별 관심도 (0~100). 없으면 기존 토글 동작과 동일. */
+  tagInterests?: Record<string, number>;
+  /** 3단계 관심도 사이클(30 → 60 → 100 → 해제). 미제공 시 onToggle 사용. */
+  onCycleLevel?: (tag: string, nextLevel: number) => void;
 }
 
 const interestCards = [
@@ -20,7 +24,39 @@ const interestCards = [
   { tag: '자연과학', Icon: Leaf, label: '자연·환경', desc: '자연과 환경을 탐구하고 싶어요' },
 ];
 
-export function QuickTag({ selected, onToggle }: QuickTagProps) {
+// 3단계 관심도 사이클: 미선택 → 30(조금) → 60(관심) → 100(매우) → 해제
+function nextLevel(current: number): number {
+  if (current <= 0) return 30;
+  if (current < 60) return 60;
+  if (current < 100) return 100;
+  return 0;
+}
+
+function levelLabel(level: number): string {
+  if (level >= 100) return '매우 관심';
+  if (level >= 60) return '관심';
+  if (level >= 30) return '조금 관심';
+  return '';
+}
+
+// brand(#1657d6) 톤 변형 — 디자인 토큰 기반 (rgba)
+function levelBg(level: number): string {
+  if (level >= 100) return C.brand;
+  if (level >= 60) return 'rgba(22, 87, 214, 0.55)';
+  if (level >= 30) return 'rgba(22, 87, 214, 0.28)';
+  return C.bg;
+}
+
+function levelSurface(level: number): string {
+  if (level >= 100) return C.brandSoft;
+  if (level >= 60) return 'rgba(234, 241, 255, 0.85)';
+  if (level >= 30) return 'rgba(234, 241, 255, 0.5)';
+  return '#fff';
+}
+
+export function QuickTag({ selected, onToggle, tagInterests, onCycleLevel }: QuickTagProps) {
+  const useLevels = !!onCycleLevel && !!tagInterests;
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 }}>
@@ -31,23 +67,44 @@ export function QuickTag({ selected, onToggle }: QuickTagProps) {
           {selected.length} / {interestCards.length}
         </span>
       </div>
-      <div style={{ fontSize: 11.5, color: C.sub, marginBottom: 12 }}>여러 개 선택할 수 있어요</div>
+      <div style={{ fontSize: 11.5, color: C.sub, marginBottom: 12 }}>
+        {useLevels ? '여러 번 누르면 관심도가 올라가요 (조금 → 관심 → 매우)' : '여러 개 선택할 수 있어요'}
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {interestCards.map(({ tag, Icon, label, desc }) => {
-          const isSelected = selected.includes(tag);
+          const level = tagInterests?.[tag] ?? (selected.includes(tag) ? 60 : 0);
+          const isSelected = selected.includes(tag) || level > 0;
+          const lvLabel = levelLabel(level);
+
+          const handleClick = () => {
+            if (useLevels) {
+              onCycleLevel!(tag, nextLevel(level));
+            } else {
+              onToggle(tag);
+            }
+          };
+
+          const bg = useLevels ? levelSurface(level) : (isSelected ? C.brandSoft : '#fff');
+          const iconBg = useLevels ? levelBg(level) : (isSelected ? C.brand : C.bg);
+          const borderColor = useLevels
+            ? (level >= 100 ? C.brand : level >= 30 ? 'rgba(22, 87, 214, 0.45)' : C.line)
+            : (isSelected ? C.brand : C.line);
+
           return (
             <button
               key={tag}
-              onClick={() => onToggle(tag)}
+              onClick={handleClick}
               className="cursor-pointer transition-colors text-left"
+              aria-label={lvLabel ? `${label} (${lvLabel})` : label}
               style={{
                 padding: 14,
-                background: isSelected ? C.brandSoft : '#fff',
-                border: `1.5px solid ${isSelected ? C.brand : C.line}`,
+                background: bg,
+                border: `1.5px solid ${borderColor}`,
                 borderRadius: 12,
                 display: 'flex',
                 alignItems: 'flex-start',
                 gap: 10,
+                position: 'relative',
               }}
             >
               <div
@@ -56,17 +113,34 @@ export function QuickTag({ selected, onToggle }: QuickTagProps) {
                   height: 32,
                   borderRadius: 8,
                   flexShrink: 0,
-                  background: isSelected ? C.brand : C.bg,
-                  color: isSelected ? '#fff' : C.brand,
+                  background: iconBg,
+                  color: level > 0 || isSelected ? '#fff' : C.brand,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Icon size={16} color={isSelected ? '#fff' : C.brand} strokeWidth={1.8} />
+                <Icon size={16} color={level > 0 || isSelected ? '#fff' : C.brand} strokeWidth={1.8} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.025em', color: C.ink }}>{label}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.025em', color: C.ink }}>{label}</div>
+                  {useLevels && lvLabel && (
+                    <span
+                      style={{
+                        fontSize: 9.5,
+                        fontWeight: 700,
+                        color: level >= 100 ? C.brand : C.sub,
+                        background: level >= 100 ? '#fff' : 'transparent',
+                        padding: level >= 100 ? '2px 6px' : 0,
+                        borderRadius: 6,
+                        letterSpacing: '-0.02em',
+                      }}
+                    >
+                      {lvLabel}
+                    </span>
+                  )}
+                </div>
                 <div style={{ fontSize: 10.5, color: C.sub, marginTop: 2, lineHeight: 1.4 }}>{desc}</div>
               </div>
             </button>

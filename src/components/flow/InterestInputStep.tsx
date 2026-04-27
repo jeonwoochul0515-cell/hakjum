@@ -1,4 +1,4 @@
-import { Sparkles, ChevronRight, FileText, RefreshCw, Search } from 'lucide-react';
+import { Sparkles, ChevronRight, FileText, RefreshCw, Search, Compass, CheckCircle2 } from 'lucide-react';
 import { GradeSelector } from '@/components/career/GradeSelector';
 import { QuickTag } from '@/components/career/QuickTag';
 import { useFlow } from '@/hooks/useFlow';
@@ -11,6 +11,13 @@ export function InterestInputStep() {
   const canProceed = (state.interest.trim().length >= 2 || state.tags.length > 0) && canUseAI();
   const remaining = getRemainingUsage();
   const limit = getDailyLimit();
+
+  // 인지심리학 관점: 첫 진입(미결정 추정)은 자기탐색을 권장하는 진입점으로 안내.
+  // Marcia 정체성 모형 — 흥미·탐색·검사 결과 어느 것도 없으면 "혼미/유실" 가능성.
+  const isFirstEntry =
+    !state.aptitudeResult?.url &&
+    state.tags.length === 0 &&
+    state.interest.trim().length === 0;
 
   const handleRecentSelect = (q: string) => {
     dispatch({ type: 'SET_INTEREST', payload: q });
@@ -37,8 +44,69 @@ export function InterestInputStep() {
         </p>
       </div>
 
-      {/* 직업흥미검사 카드 */}
-      {!state.aptitudeResult?.url && (
+      {/* 직업흥미검사 — 첫 진입(미결정)이면 강조형 그라디언트 카드, 그 외는 컴팩트 */}
+      {!state.aptitudeResult?.url && isFirstEntry && (
+        <button
+          onClick={() => go('aptitude-intro')}
+          className="cursor-pointer transition-transform active:scale-[0.99] text-left"
+          style={{
+            background: `linear-gradient(135deg, ${C.brand} 0%, #2f74e6 100%)`,
+            borderRadius: 16,
+            padding: '18px 18px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            marginBottom: 14,
+            width: '100%',
+            border: 'none',
+            boxShadow: `0 8px 24px ${C.brandShadow}`,
+            color: '#fff',
+          }}
+        >
+          <div
+            style={{
+              width: 46,
+              height: 46,
+              borderRadius: 12,
+              background: 'rgba(255,255,255,0.18)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <Compass size={22} color="#fff" strokeWidth={2} />
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', opacity: 0.85, marginBottom: 3 }}>
+              먼저 시작하기 · 5분 소요
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.3 }}>
+              관심사를 모르겠다면?<br />흥미검사로 발견해보세요
+            </div>
+          </div>
+          <ChevronRight size={20} color="#fff" />
+        </button>
+      )}
+
+      {/* 진로 탐색 안심 메시지 — Marcia 정체성 모형 기반 */}
+      {!state.aptitudeResult?.url && isFirstEntry && (
+        <div
+          style={{
+            fontSize: 11.5,
+            color: C.sub,
+            lineHeight: 1.55,
+            padding: '0 4px',
+            marginBottom: 24,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          진로가 명확하지 않아도 괜찮아요. 고1~2 학생 60%가 아직 진로를 탐색 중이에요. 흥미부터 시작해도 충분해요.
+        </div>
+      )}
+
+      {/* 컴팩트 진입 — 이미 입력이 있고 아직 검사는 안 했을 때 */}
+      {!state.aptitudeResult?.url && !isFirstEntry && (
         <button
           onClick={() => go('aptitude-intro')}
           className="cursor-pointer transition-colors text-left"
@@ -87,31 +155,19 @@ export function InterestInputStep() {
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            display: 'flex',
+            display: 'inline-flex',
             alignItems: 'center',
-            gap: 10,
+            gap: 8,
             background: '#eef9f0',
-            borderRadius: 14,
-            padding: '14px 16px',
-            marginBottom: 28,
+            borderRadius: 999,
+            padding: '8px 14px',
+            marginBottom: 24,
             border: '1px solid #c8ecd2',
+            textDecoration: 'none',
           }}
         >
-          <div
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 8,
-              background: '#1c7a3e',
-              color: '#fff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <FileText size={16} color="#fff" />
-          </div>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#1c7a3e', flex: 1 }}>
+          <CheckCircle2 size={14} color="#1c7a3e" strokeWidth={2.4} />
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#1c7a3e', letterSpacing: '-0.02em' }}>
             흥미검사 완료
           </span>
         </a>
@@ -131,6 +187,10 @@ export function InterestInputStep() {
           tags={state.tags}
           selected={state.tags}
           onToggle={(tag) => dispatch({ type: 'TOGGLE_TAG', payload: tag })}
+          tagInterests={state.tagInterests}
+          onCycleLevel={(tag, nextLevel) =>
+            dispatch({ type: 'SET_TAG_INTEREST_LEVEL', payload: { tag, level: nextLevel } })
+          }
         />
       </div>
 

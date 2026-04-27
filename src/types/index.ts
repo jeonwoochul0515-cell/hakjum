@@ -159,6 +159,9 @@ export interface FlowState {
   grade: string;
   interest: string;
   tags: string[];
+  /** 분야별 관심도 점수 (0~100). tags 토글과 호환되는 보조 필드.
+   *  Gottfredson 절충 모형: 단정적 진로 결정 대신 관심도를 점진적으로 좁힘. */
+  tagInterests: Record<string, number>;
   aptitudeResult: AptitudeResult | null;
   aptitudeGender: string;
   exploreResult: AIExploreResult | null;
@@ -178,6 +181,7 @@ export type FlowAction =
   | { type: 'SET_GRADE'; payload: string }
   | { type: 'SET_INTEREST'; payload: string }
   | { type: 'TOGGLE_TAG'; payload: string }
+  | { type: 'SET_TAG_INTEREST_LEVEL'; payload: { tag: string; level: number } }
   | { type: 'SET_APTITUDE_RESULT'; payload: AptitudeResult }
   | { type: 'SET_APTITUDE_GENDER'; payload: string }
   | { type: 'SET_EXPLORE_RESULT'; payload: AIExploreResult }
