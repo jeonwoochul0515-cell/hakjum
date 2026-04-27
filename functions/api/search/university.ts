@@ -23,9 +23,30 @@ interface Env {
 interface UniversityRecord {
   schoolName: string;       // 학교명
   region?: string;          // 시도(소재지)
-  schoolType?: string;      // 학교종류 (4년제/전문대학 등)
-  establishment?: string;   // 설립구분 (국립/사립 등)
-  majorCount: number;       // 보유 학과 수 (폐과/정원0 제외)
+  schoolType?: string;      // 학교종류 (4년제/전문대학 / 고등학교 종류명)
+  establishment?: string;   // 설립구분 (국립/사립/공립 등)
+  majorCount: number;       // 보유 학과 수 (폐과/정원0 제외, 고교는 0)
+  /** 'university' (KCUE) | 'highschool' (학교알리미) */
+  kind?: 'university' | 'highschool';
+  /** 고교의 경우 학교알리미 식별 UUID */
+  shlIdfCd?: string;
+}
+
+interface SchoolInfoRow {
+  SCHUL_NM?: string;
+  SCHUL_KND_SC_CODE?: string;
+  HS_KND_SC_NM?: string;
+  ADRCD_NM?: string;
+  FOND_SC_CODE?: string;
+  CLOSE_YN?: string;
+  ABSCH_YN?: string;
+  SHL_IDF_CD?: string;
+  [k: string]: unknown;
+}
+
+interface SchoolInfoFile {
+  _meta?: { syncedAt?: string; apiId?: string };
+  records?: SchoolInfoRow[];
 }
 
 interface KcueRow {
@@ -116,20 +137,65 @@ async function loadUniversityData(): Promise<{
 }> {
   try {
     // @ts-expect-error - 데이터 파일은 sync 스크립트가 생성하므로 빌드 시 없을 수 있음
-    const mod: { default: KcueMajorFile } = await import('../../../data/kcue/major-2025.json', {
-      with: { type: 'json' },
-    });
+    const mod: { default: KcueMajorFile & { records?: KcueRow[]; _meta?: { syncedAt?: string } } } =
+      await import('../../../data/kcue/major-2025.json', {
+        with: { type: 'json' },
+      });
     const file = mod.default || {};
-    const rows = Array.isArray(file.data) ? file.data : [];
-    const records = aggregateUniversities(rows);
+    const rows = Array.isArray(file.data)
+      ? file.data
+      : Array.isArray(file.records)
+        ? file.records
+        : [];
+    const records = aggregateUniversities(rows).map<UniversityRecord>((u) => ({
+      ...u,
+      kind: 'university',
+    }));
     return {
       records,
-      syncedAt: file.syncedAt || '',
+      syncedAt: file.syncedAt || file._meta?.syncedAt || '',
       total: records.length,
     };
   } catch {
     // 파일 없음(아직 sync 미실행) → 빈 데이터로 동작
     return { records: [], syncedAt: '', total: 0 };
+  }
+}
+
+/**
+ * 학교알리미(고등학교 메타) 데이터 로드 — 폐교/분교 제외
+ * 통합 검색에서 '대학 + 고교'를 함께 노출하기 위함
+ */
+async function loadHighSchoolData(): Promise<{
+  records: UniversityRecord[];
+  syncedAt: string;
+}> {
+  try {
+    // @ts-expect-error - schoolinfo-sync 가 생성, 빌드 시 없을 수 있음
+    const mod: { default: SchoolInfoFile } = await import('../../../data/schoolinfo/api0-04.json', {
+      with: { type: 'json' },
+    });
+    const file = mod.default || {};
+    const rows = Array.isArray(file.records) ? file.records : [];
+    const records: UniversityRecord[] = [];
+    for (const r of rows) {
+      if (r.CLOSE_YN === 'Y' || r.ABSCH_YN === 'Y') continue;
+      const name = String(r.SCHUL_NM || '').trim();
+      if (!name) continue;
+      const region = String(r.ADRCD_NM || '').split(/\s+/)[0] || '';
+      records.push({
+        schoolName: name,
+        region: region || undefined,
+        schoolType: String(r.HS_KND_SC_NM || '고등학교').trim(),
+        establishment: String(r.FOND_SC_CODE || '').trim() || undefined,
+        majorCount: 0,
+        kind: 'highschool',
+        shlIdfCd: String(r.SHL_IDF_CD || '').trim() || undefined,
+      });
+    }
+    return { records, syncedAt: file._meta?.syncedAt || '' };
+  } catch {
+    return { records: [], syncedAt: '' };
   }
 }
 
@@ -153,8 +219,24 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10) || 1);
   const rawLimit = parseInt(url.searchParams.get('limit') || '20', 10) || 20;
   const limit = Math.min(100, Math.max(1, rawLimit));
+  // ?kind=university (기본) | highschool | all
+  const kind = (url.searchParams.get('kind') || 'university').trim() as
+    | 'university'
+    | 'highschool'
+    | 'all';
 
-  const { records, syncedAt, total } = await loadUniversityData();
+  const [univ, hs] =
+    kind === 'university'
+      ? [await loadUniversityData(), { records: [] as UniversityRecord[], syncedAt: '' }]
+      : kind === 'highschool'
+        ? [
+            { records: [] as UniversityRecord[], syncedAt: '', total: 0 },
+            await loadHighSchoolData(),
+          ]
+        : await Promise.all([loadUniversityData(), loadHighSchoolData()]);
+  const records: UniversityRecord[] = [...univ.records, ...hs.records];
+  const syncedAt = univ.syncedAt || hs.syncedAt || '';
+  const total = ('total' in univ ? univ.total : 0) + hs.records.length;
 
   // 필터
   const queryLower = q.toLowerCase();

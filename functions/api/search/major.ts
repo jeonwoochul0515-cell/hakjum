@@ -28,6 +28,46 @@ interface MajorRecord {
   majorCode?: string;       // 학과 코드(있을 경우)
   status?: string;          // 학과상태명 (정상/폐과 등)
   quota?: number;           // 입학정원수
+  // ── 통계 인덱스(major-stats.json)에서 부착되는 필드 (선택) ──
+  schoolCount?: number;             // 운영 대학 수
+  quotaStats?: { min: number; avg: number; max: number; total: number };
+  tuitionAvgWon?: number | null;    // 학부 평균등록금(원)
+  scholarshipAvgPerUniv?: number | null;
+  relatedJobs?: string[];
+  mainSubjects?: string[];
+}
+
+interface MajorStatsEntry {
+  majorName: string;
+  category: string;
+  schoolCount: number;
+  schools: string[];
+  quota: { min: number; avg: number; max: number; total: number };
+  tuitionAvgWon: number | null;
+  scholarshipAvgPerUniv: number | null;
+  relatedJobs: string[];
+  mainSubjects: string[];
+}
+
+interface TrendingMajor {
+  keyword: string;
+  majorName: string;
+  category: string;
+  schoolCount: number;
+  totalQuota: number;
+  tuitionAvgWon: number | null;
+  summary: string;
+}
+
+interface MajorStatsFile {
+  _meta?: {
+    syncedAt?: string;
+    totalMajors?: number;
+    totalUniversities?: number;
+  };
+  byMajor?: Record<string, MajorStatsEntry>;
+  byCategory?: Record<string, { majorCount: number; totalQuota: number }>;
+  trending?: TrendingMajor[];
 }
 
 interface KcueMajorRow {
@@ -115,16 +155,36 @@ async function loadMajorData(): Promise<{ records: MajorRecord[]; syncedAt: stri
       with: { type: 'json' },
     });
     const file = mod.default || {};
-    const rows = Array.isArray(file.data) ? file.data : [];
+    // 실제 sync 결과는 { _meta, records } 또는 { syncedAt, data, totalCount } 둘 다 가능
+    const fileAny = file as KcueMajorFile & { records?: KcueMajorRow[]; _meta?: { syncedAt?: string; totalCount?: number } };
+    const rows = Array.isArray(file.data)
+      ? file.data
+      : Array.isArray(fileAny.records)
+        ? fileAny.records
+        : [];
     const records = normalizeMajors(rows);
-    return {
-      records,
-      syncedAt: file.syncedAt || '',
-      total: file.totalCount ?? rows.length,
-    };
+    const syncedAt = file.syncedAt || fileAny._meta?.syncedAt || '';
+    const total = file.totalCount ?? fileAny._meta?.totalCount ?? rows.length;
+    return { records, syncedAt, total };
   } catch {
     // 파일 없음(아직 sync 미실행) → 빈 데이터로 동작
     return { records: [], syncedAt: '', total: 0 };
+  }
+}
+
+/**
+ * 사전 계산된 통계 인덱스 로드 (scripts/build-stats-index.ts 산출)
+ * 없으면 null 반환 — 검색 결과 보강이 빠질 뿐 동작에는 영향 없음
+ */
+async function loadStatsIndex(): Promise<MajorStatsFile | null> {
+  try {
+    // @ts-expect-error - sync/build-stats-index 스크립트가 생성, 빌드 시 없을 수 있음
+    const mod: { default: MajorStatsFile } = await import('../../../data/kcue/major-stats.json', {
+      with: { type: 'json' },
+    });
+    return mod.default || null;
+  } catch {
+    return null;
   }
 }
 
@@ -148,8 +208,38 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10) || 1);
   const rawLimit = parseInt(url.searchParams.get('limit') || '20', 10) || 20;
   const limit = Math.min(100, Math.max(1, rawLimit));
+  const mode = (url.searchParams.get('mode') || '').trim();
+  const includeStats = url.searchParams.get('stats') !== '0'; // 기본 ON
 
-  const { records, syncedAt, total } = await loadMajorData();
+  // ── 트렌드 모드: ?mode=trending → 사전 계산된 trending 5개 반환 ─────────
+  if (mode === 'trending') {
+    const stats = await loadStatsIndex();
+    const trending = stats?.trending ?? [];
+    return new Response(
+      JSON.stringify({
+        data: trending,
+        _meta: {
+          ...SOURCE_META,
+          syncedAt: stats?._meta?.syncedAt ?? new Date().toISOString(),
+          totalMajors: stats?._meta?.totalMajors ?? 0,
+          totalUniversities: stats?._meta?.totalUniversities ?? 0,
+          mode: 'trending',
+        },
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=3600',
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+  }
+
+  const [{ records, syncedAt, total }, stats] = await Promise.all([
+    loadMajorData(),
+    includeStats ? loadStatsIndex() : Promise.resolve(null),
+  ]);
 
   // 필터
   const queryLower = q.toLowerCase();
@@ -175,15 +265,33 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const start = (page - 1) * limit;
   const paged = filtered.slice(start, start + limit);
 
+  // 통계 인덱스로 페이지 결과 보강
+  const enriched: MajorRecord[] = stats?.byMajor
+    ? paged.map((r) => {
+        const s = stats.byMajor![r.majorName];
+        if (!s) return r;
+        return {
+          ...r,
+          schoolCount: s.schoolCount,
+          quotaStats: s.quota,
+          tuitionAvgWon: s.tuitionAvgWon,
+          scholarshipAvgPerUniv: s.scholarshipAvgPerUniv,
+          relatedJobs: s.relatedJobs,
+          mainSubjects: s.mainSubjects,
+        };
+      })
+    : paged;
+
   const body = {
-    data: paged,
+    data: enriched,
     _meta: {
       ...SOURCE_META,
-      syncedAt: syncedAt || new Date().toISOString(),
+      syncedAt: syncedAt || stats?._meta?.syncedAt || new Date().toISOString(),
       totalCount: total,
       matchedCount,
       page,
       limit,
+      hasStats: !!stats?.byMajor,
     },
   };
 

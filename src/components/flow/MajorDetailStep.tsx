@@ -1,4 +1,5 @@
-import { ArrowRight, AlertTriangle, FileText } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, AlertTriangle, FileText, Building2, Users, GraduationCap } from 'lucide-react';
 import { MajorOverviewCard } from '@/components/explore/MajorOverviewCard';
 import { CareerOutcomeSection } from '@/components/explore/CareerOutcomeSection';
 import { RequiredSubjectsView } from '@/components/explore/RequiredSubjectsView';
@@ -8,6 +9,15 @@ import { ShareButton } from '@/components/explore/ShareButton';
 import { useFlow } from '@/hooks/useFlow';
 import { C } from '@/lib/design-tokens';
 
+interface MajorApiRecord {
+  majorName: string;
+  category?: string;
+  schoolCount?: number;
+  quotaStats?: { min: number; avg: number; max: number; total: number };
+  tuitionAvgWon?: number | null;
+  scholarshipAvgPerUniv?: number | null;
+}
+
 const MAJOR_NOTICES: Record<string, string> = {
   '법학과':
     '2009년부터 서울대, 연세대, 고려대 등 주요 25개 대학의 학부 법학과가 법학전문대학원(로스쿨)으로 전환되었습니다. 변호사를 희망하는 경우 학부 졸업 후 로스쿨 진학이 필요합니다. 일부 대학은 여전히 학부 법학과를 운영합니다.',
@@ -16,6 +26,26 @@ const MAJOR_NOTICES: Record<string, string> = {
 export function MajorDetailStep() {
   const { state, go, runRecommendation } = useFlow();
   const { selectedMajor, school, interest, exploreResult } = state;
+  const [stats, setStats] = useState<MajorApiRecord | null>(null);
+
+  // KCUE 통계 인덱스에서 학과 메타 (운영 대학 수·정원 통계) 조회
+  useEffect(() => {
+    if (!selectedMajor?.name) return;
+    let cancelled = false;
+    fetch(`/api/search/major?q=${encodeURIComponent(selectedMajor.name)}&limit=5`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('major fetch failed'))))
+      .then((json: { data?: MajorApiRecord[] }) => {
+        if (cancelled) return;
+        const exact = (json.data ?? []).find((d) => d.majorName === selectedMajor.name);
+        setStats(exact ?? json.data?.[0] ?? null);
+      })
+      .catch(() => {
+        // 폴백: stats null 유지 → 통계 영역 숨김
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedMajor?.name]);
 
   if (!selectedMajor) return null;
 
@@ -26,6 +56,12 @@ export function MajorDetailStep() {
   // exploreResult에서 현재 선택된 학과의 적합도 추출
   const matchScore =
     exploreResult?.recommendations.find((r) => r.majorName === selectedMajor.name)?.matchScore ?? 90;
+
+  const hasMajorStats =
+    !!stats &&
+    ((stats.schoolCount ?? 0) > 0 ||
+      (stats.quotaStats && stats.quotaStats.total > 0) ||
+      (stats.tuitionAvgWon ?? 0) > 0);
 
   return (
     <div className="animate-fade-in-up">
@@ -132,13 +168,58 @@ export function MajorDetailStep() {
               {matchScore >= 90 ? '최적 추천' : matchScore >= 80 ? '강력 추천' : '추천'}
             </div>
             <div style={{ fontSize: 13, lineHeight: 1.55, color: C.ink, letterSpacing: '-0.02em' }}>
-              관심사와 잘 맞는 학과예요.
+              {hasMajorStats && stats?.schoolCount && stats.quotaStats
+                ? `전국 ${stats.schoolCount}개 대학에서 운영하고 있어요.`
+                : '관심사와 잘 맞는 학과예요.'}
               <br />
-              우리 학교 개설 과목으로도 충분히 준비 가능해요.
+              {hasMajorStats && stats?.quotaStats
+                ? `평균 ${stats.quotaStats.avg.toLocaleString()}명 모집 (최저 ${stats.quotaStats.min}명 · 최고 ${stats.quotaStats.max}명)`
+                : '우리 학교 개설 과목으로도 충분히 준비 가능해요.'}
             </div>
           </div>
         </div>
       </div>
+
+      {/* 학과 통계 카드 — KCUE 사전계산 인덱스 기반 (운영 대학 수, 입학정원, 등록금) */}
+      {hasMajorStats && (
+        <div style={{ paddingBottom: 20 }}>
+          <div
+            style={{
+              background: '#fff',
+              border: `1px solid ${C.line}`,
+              borderRadius: 14,
+              padding: 14,
+              display: 'flex',
+              gap: 10,
+              flexWrap: 'wrap',
+            }}
+          >
+            {stats?.schoolCount && stats.schoolCount > 0 && (
+              <StatCell
+                icon={<Building2 size={14} color={C.brand} />}
+                label="운영 대학"
+                value={`${stats.schoolCount.toLocaleString()}개`}
+              />
+            )}
+            {stats?.quotaStats && stats.quotaStats.total > 0 && (
+              <StatCell
+                icon={<Users size={14} color={C.brand} />}
+                label="평균 모집정원"
+                value={`${stats.quotaStats.avg.toLocaleString()}명`}
+                sub={`총 ${stats.quotaStats.total.toLocaleString()}명`}
+              />
+            )}
+            {stats?.tuitionAvgWon != null && stats.tuitionAvgWon > 0 && (
+              <StatCell
+                icon={<GraduationCap size={14} color={C.brand} />}
+                label="등록금 평균"
+                value={`${Math.round(stats.tuitionAvgWon / 10_000).toLocaleString()}만원`}
+                sub="학부 1년"
+              />
+            )}
+          </div>
+        </div>
+      )}
 
       {/* 특수 안내 */}
       {notice && (
@@ -294,6 +375,46 @@ export function MajorDetailStep() {
           이 학과가 있는 대학교 보기 →
         </button>
       </div>
+    </div>
+  );
+}
+
+interface StatCellProps {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  sub?: string;
+}
+
+function StatCell({ icon, label, value, sub }: StatCellProps) {
+  return (
+    <div
+      style={{
+        flex: '1 1 100px',
+        minWidth: 100,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        {icon}
+        <span style={{ fontSize: 11, color: C.sub, fontWeight: 600, letterSpacing: '-0.01em' }}>
+          {label}
+        </span>
+      </div>
+      <div
+        style={{
+          fontSize: 17,
+          fontWeight: 800,
+          color: C.ink,
+          letterSpacing: '-0.03em',
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {value}
+      </div>
+      {sub && <div style={{ fontSize: 10.5, color: C.sub }}>{sub}</div>}
     </div>
   );
 }

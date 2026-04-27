@@ -55,7 +55,8 @@ export function MajorResultsStep() {
             내게 맞는 학과
           </h1>
           <div style={{ fontSize: 12, color: C.sub }}>
-            "{interest}" 관련 <strong style={{ color: C.ink }}>{exploreResult.recommendations.length}개 학과</strong>를 찾았어요
+            "{interest}" 관련 <strong style={{ color: C.ink }}>{exploreResult.recommendations.length}개 학과</strong>를{' '}
+            <strong style={{ color: C.ink }}>도전 · 적정 · 안전</strong> 3분할로 추천했어요
           </div>
         </div>
         <div style={{ display: 'flex', gap: 6 }}>
@@ -127,8 +128,13 @@ export function MajorResultsStep() {
           }}
         >
           <div style={{ fontWeight: 600, color: C.ink, marginBottom: 4 }}>📚 추천 근거</div>
-          2026 대교협 학과별 권장 이수 기준 · 교육부 고교학점제 매뉴얼
-          {state.school?.name ? ` · ${state.school.name} 2026학년도 교육과정 편성표 기반` : ' 기반'}
+          <div style={{ marginBottom: 6 }}>
+            2026 대교협 학과별 권장 이수 기준 · 교육부 고교학점제 매뉴얼
+            {state.school?.name ? ` · ${state.school.name} 2026학년도 교육과정 편성표 기반` : ' 기반'}
+          </div>
+          <div style={{ color: C.sub, opacity: 0.85 }}>
+            * 도전 · 적정 · 안전 3분할은 진학사 · 메가스터디 등 입시 컨설팅 표준 분류 방식을 따랐어요
+          </div>
         </div>
       </div>
     </div>
