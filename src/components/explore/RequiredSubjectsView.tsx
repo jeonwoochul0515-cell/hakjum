@@ -1,11 +1,22 @@
-import { useState, useMemo } from 'react';
-import { ChevronDown, AlertCircle, Sparkles } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { ChevronDown, AlertCircle, Sparkles, Users } from 'lucide-react';
 import type { MajorFull } from '@/types';
 import { useFlow } from '@/hooks/useFlow';
 import { checkSubjectAvailability } from '@/lib/subject-content';
 import { C } from '@/lib/design-tokens';
 import { UnopenedSubjectAlternatives } from '@/components/explore/UnopenedSubjectAlternatives';
 import { getUploadedCurriculum } from '@/lib/curriculum-storage';
+
+interface SchoolSubjectsResp {
+  data: {
+    schoolCode: string;
+    schoolName: string;
+    subjects: Record<string, number>;
+    subjectCount: number;
+    totalTeachers: number;
+  } | null;
+  _meta: { source: string; curriculum?: string; matched: boolean };
+}
 
 interface Props {
   major: MajorFull;
@@ -50,6 +61,28 @@ export function RequiredSubjectsView({ major }: Props) {
     ? new Date(uploaded.meta.syncedAt).toLocaleDateString('ko-KR')
     : '';
 
+  // 학교알리미 학교 × 과목 인덱스에서 교사 수 가져오기 (보강 데이터)
+  const [keris, setKeris] = useState<SchoolSubjectsResp['data'] | null>(null);
+  useEffect(() => {
+    if (!school?.name) return;
+    let cancelled = false;
+    fetch(`/api/school/subjects?schoolName=${encodeURIComponent(school.name)}`)
+      .then((r) => (r.ok ? (r.json() as Promise<SchoolSubjectsResp>) : null))
+      .then((j) => {
+        if (cancelled) return;
+        if (j?.data?.matched !== false) setKeris(j?.data ?? null);
+      })
+      .catch(() => {
+        // graceful: KERIS 없으면 NEIS만 사용
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [school?.name]);
+
+  // 과목명 → 교사 수 매핑
+  const teacherCountMap = keris?.subjects ?? {};
+
   const hasAny = useMemo(
     () => Object.values(major.relateSubject).some((v) => v.trim()),
     [major],
@@ -71,6 +104,29 @@ export function RequiredSubjectsView({ major }: Props) {
       <p className="text-xs text-slate-500">
         이 학과에 진학하려면 고등학교에서 이런 과목을 들으면 좋아요
       </p>
+
+      {/* 학교알리미 매칭 시 보강 출처 — 교사 수 표시 출처 */}
+      {keris && Object.keys(teacherCountMap).length > 0 && (
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '6px 10px',
+            background: '#eef9f0',
+            color: '#1c7a3e',
+            borderRadius: 999,
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+            marginRight: 6,
+          }}
+          title="학교알리미 KERIS 데이터로 담당 교사 수를 보강했어요"
+        >
+          <Users size={11} strokeWidth={2.4} />
+          교사 수 출처: 학교알리미 (2022 개정)
+        </div>
+      )}
 
       {/* 출처 표시: 업로드한 PDF가 있으면 NEIS 대신 그 데이터를 사용 */}
       {usingUploaded && (
@@ -115,12 +171,34 @@ export function RequiredSubjectsView({ major }: Props) {
                 const isOpen = openSubject === `${key}:${subj}`;
 
                 if (!isMissing) {
+                  const tCount = teacherCountMap[subj];
                   return (
                     <span
                       key={i}
-                      className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${color}`}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${color}`}
                     >
                       {subj}
+                      {tCount && tCount > 0 ? (
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 2,
+                            padding: '1px 5px',
+                            background: 'rgba(255,255,255,0.7)',
+                            borderRadius: 999,
+                            fontSize: 9.5,
+                            fontWeight: 700,
+                            color: C.ink,
+                            letterSpacing: '-0.01em',
+                          }}
+                          aria-label={`담당 교사 ${tCount}명`}
+                          title={`담당 교사 ${tCount}명 (학교알리미)`}
+                        >
+                          <Users size={9} strokeWidth={2.5} />
+                          {tCount}
+                        </span>
+                      ) : null}
                     </span>
                   );
                 }
