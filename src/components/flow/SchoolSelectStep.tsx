@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe, FileText, ChevronRight } from 'lucide-react';
+import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe, FileText, ChevronRight, CalendarDays } from 'lucide-react';
 import { SubjectPreview } from '@/components/school/SubjectPreview';
 import { SchoolInfoLinks } from '@/components/flow/SchoolInfoLinks';
 import { BusanCurriculumPanel } from '@/components/busan/BusanCurriculumPanel';
@@ -11,6 +11,7 @@ import { useSchoolSearch } from '@/hooks/useSchoolSearch';
 import { useFlow } from '@/hooks/useFlow';
 import type { NEISSchool } from '@/lib/neis-api';
 import { C } from '@/lib/design-tokens';
+import { isApplicationSeason } from '@/lib/season-detector';
 
 export function SchoolSelectStep() {
   const { state, dispatch, go } = useFlow();
@@ -145,6 +146,49 @@ export function SchoolSelectStep() {
                 : ' 개설과목 데이터가 없습니다'}
           </p>
         </div>
+      )}
+
+      {/* 11~12월 수강신청 시즌: 학교 선택 후 안내서 업로드 유도 */}
+      {state.school && isApplicationSeason() && (
+        <Link
+          to="/curriculum-upload"
+          className="cursor-pointer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '12px 14px',
+            borderRadius: 12,
+            background: C.brandSoft,
+            border: `1px solid ${C.brand}`,
+            textDecoration: 'none',
+          }}
+        >
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              background: C.brand,
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <CalendarDays size={16} strokeWidth={2.2} />
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: C.brand, letterSpacing: '-0.02em' }}>
+              지금은 수강신청 시즌이에요
+            </div>
+            <div style={{ fontSize: 11, color: C.sub, marginTop: 2 }}>
+              {state.school.name}의 내년 안내서를 받으셨다면 PDF로 업로드해보세요
+            </div>
+          </div>
+          <ArrowRight size={14} color={C.brand} strokeWidth={2.4} />
+        </Link>
       )}
 
       {state.school && state.school.allSubjects.length > 0 && <SubjectPreview school={state.school} />}

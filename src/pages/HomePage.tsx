@@ -10,6 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 import { C, chipBtn } from '@/lib/design-tokens';
 import { PopularMajorCards } from '@/components/landing/PopularMajorCards';
 import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
+import { NovemberSeasonBanner } from '@/components/season/NovemberSeasonBanner';
 
 const STEPS = [
   { n: '01', title: '관심사 입력', desc: '꿈, 좋아하는 분야를 자유롭게 적어주세요' },
@@ -241,6 +242,9 @@ export default function HomePage() {
           </button>
           <div style={{ fontSize: 11, color: C.sub }}>회원가입 없이 바로 시작 · 평균 1분 12초 소요</div>
         </section>
+
+        {/* 11월 수강신청 시즌 배너 — 시즌(11~12월) 외에는 자동 숨김 */}
+        <NovemberSeasonBanner schoolRegionHint={state.school?.id ?? null} />
 
         {/* 인기 학과 카드 (KCUE 데이터 기반) */}
         <section style={{ padding: '20px', background: '#fff' }}>

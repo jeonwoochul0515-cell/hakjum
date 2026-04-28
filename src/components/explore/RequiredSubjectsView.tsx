@@ -5,8 +5,13 @@ import { useFlow } from '@/hooks/useFlow';
 import { checkSubjectAvailability } from '@/lib/subject-content';
 import { C } from '@/lib/design-tokens';
 import { UnopenedSubjectAlternatives } from '@/components/explore/UnopenedSubjectAlternatives';
+import { NextYearPredictionCard } from '@/components/explore/NextYearPredictionCard';
 import { getUploadedCurriculum } from '@/lib/curriculum-storage';
 import { classifySchoolSize, sizeMeta } from '@/lib/school-size';
+import {
+  predictNextYearOpening,
+  predictionMeta,
+} from '@/lib/subject-prediction';
 
 interface SchoolSubjectsResp {
   data: {
@@ -90,6 +95,9 @@ export function RequiredSubjectsView({ major }: Props) {
 
   // 과목명 → 교사 수 매핑
   const teacherCountMap = keris?.subjects ?? {};
+  const studentCountForPrediction = keris?.studentCount ?? 0;
+  const schoolUnavailableForPrediction =
+    !school?.name || !keris || studentCountForPrediction <= 0;
 
   const hasAny = useMemo(
     () => Object.values(major.relateSubject).some((v) => v.trim()),
@@ -162,6 +170,14 @@ export function RequiredSubjectsView({ major }: Props) {
         })()
       )}
 
+      {/* 작년 데이터 기반 내년 개설 예측 카드 */}
+      <NextYearPredictionCard
+        major={major}
+        teacherCountMap={teacherCountMap}
+        studentCount={studentCountForPrediction}
+        schoolUnavailable={schoolUnavailableForPrediction}
+      />
+
       {/* 출처 표시: 업로드한 PDF가 있으면 NEIS 대신 그 데이터를 사용 */}
       {usingUploaded && (
         <div
@@ -206,6 +222,15 @@ export function RequiredSubjectsView({ major }: Props) {
 
                 if (!isMissing) {
                   const tCount = teacherCountMap[subj];
+                  // 학교알리미 매칭이 되어야만 예측 라벨 표시
+                  const pred = !schoolUnavailableForPrediction
+                    ? predictNextYearOpening(
+                        subj,
+                        tCount ?? 0,
+                        studentCountForPrediction,
+                      )
+                    : null;
+                  const pMeta = pred ? predictionMeta(pred.prediction) : null;
                   return (
                     <span
                       key={i}
@@ -233,11 +258,41 @@ export function RequiredSubjectsView({ major }: Props) {
                           {tCount}
                         </span>
                       ) : null}
+                      {pMeta ? (
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            padding: '1px 5px',
+                            background: pMeta.bg,
+                            color: pMeta.color,
+                            borderRadius: 999,
+                            fontSize: 9.5,
+                            fontWeight: 800,
+                            letterSpacing: '-0.01em',
+                          }}
+                          aria-label={`내년 개설 예측 ${pMeta.label}`}
+                          title={pred ? pred.message : pMeta.label}
+                        >
+                          {pMeta.icon} {pMeta.label}
+                        </span>
+                      ) : null}
                     </span>
                   );
                 }
 
                 // 미개설 과목 — 토글 버튼으로 렌더
+                const missingTCount = teacherCountMap[subj];
+                const missingPred = !schoolUnavailableForPrediction
+                  ? predictNextYearOpening(
+                      subj,
+                      missingTCount ?? 0,
+                      studentCountForPrediction,
+                    )
+                  : null;
+                const missingPMeta = missingPred
+                  ? predictionMeta(missingPred.prediction)
+                  : null;
                 return (
                   <button
                     key={i}
@@ -261,9 +316,27 @@ export function RequiredSubjectsView({ major }: Props) {
                     }}
                     aria-expanded={isOpen}
                     aria-label={`${subj} — 다른 방법으로 듣기`}
+                    title={missingPred ? missingPred.message : undefined}
                   >
                     <AlertCircle size={11} strokeWidth={2.4} />
                     <span>{subj}</span>
+                    {missingPMeta ? (
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          padding: '1px 5px',
+                          background: missingPMeta.bg,
+                          color: missingPMeta.color,
+                          borderRadius: 999,
+                          fontSize: 9.5,
+                          fontWeight: 800,
+                          letterSpacing: '-0.01em',
+                        }}
+                      >
+                        {missingPMeta.icon} {missingPMeta.label}
+                      </span>
+                    ) : null}
                     <ChevronDown
                       size={12}
                       strokeWidth={2.4}
