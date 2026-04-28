@@ -41,6 +41,5 @@ dist-ssr
 /학점나비_결제경로.pptx
 /sido_sggCode.xlsx
 
-# 학교알리미 PDF raw (manifest는 commit)
+# 학교알리미 PDF raw (91MB은 무시, manifest와 추출 결과는 commit)
 /data/busan/pdfs/
-/data/busan/extracted/

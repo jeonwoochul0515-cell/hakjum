@@ -24,7 +24,8 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const MODEL_ID = 'claude-haiku-4-5-20251001';
+// 더 큰 응답 위해 Sonnet 4.6 (32K 출력 가능). Haiku는 8K로 추출 데이터 잘림.
+const MODEL_ID = 'claude-sonnet-4-6';
 const MAX_TEXT_LEN = 60_000;
 const DELAY_MS = 800;
 
@@ -150,7 +151,7 @@ function safeParseJson(raw: string): ExtractedContent {
 async function callClaude(apiKey: string, title: string, pdfText: string): Promise<{ content: ExtractedContent; stopReason: string | null }> {
   const body = JSON.stringify({
     model: MODEL_ID,
-    max_tokens: 8192,
+    max_tokens: 32000,
     system: SYSTEM_PROMPT,
     messages: [{ role: 'user', content: buildUserPrompt(title, pdfText) }],
   });
