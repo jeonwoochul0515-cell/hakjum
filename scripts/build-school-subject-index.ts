@@ -30,11 +30,14 @@ interface SchoolSubject {
   schoolType: string;
   region: string;
   sigungu: string;
-  // 학교 규모 (api10 학생수 + api08 수업교원수에서 보강)
+  // 학교 규모 (api10 학생수 + api08 수업교원수 + api09 학급)
   studentCount?: number;
   studentByGrade?: { grade1: number; grade2: number; grade3: number };
   teacherCountTotal?: number; // api08 ITRT_TCR_TOT_FGR
   weeklyHours?: number; // api08 WEEK_TOT_ITRT_HR_FGR
+  classCount?: number; // api09 COL_C_SUM
+  avgStudentsPerClass?: number; // api09 COL_SUM
+  teacherCount?: number; // api09 TEACH_CNT
 }
 
 // 2015 명칭이 fully filter된 후에도 한 학교에 2015·2022 명칭 둘 다 있을 수 있음
@@ -71,6 +74,7 @@ function loadAuxIndex(file: string): Record<string, Record<string, any>> {
 }
 const STUDENT_IDX = loadAuxIndex('data/schoolinfo/api10-04-2025.json');
 const HOURS_IDX = loadAuxIndex('data/schoolinfo/api08-04-2025.json');
+const CLASS_IDX = loadAuxIndex('data/schoolinfo/api09-04-2025.json');
 
 function main() {
   const input = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf-8'));
@@ -130,6 +134,13 @@ function main() {
     if (hrs) {
       school.teacherCountTotal = hrs['ITRT_TCR_TOT_FGR'] || 0;
       school.weeklyHours = hrs['WEEK_TOT_ITRT_HR_FGR'] || 0;
+    }
+    // api09 학급 통계
+    const cls = CLASS_IDX[code];
+    if (cls) {
+      school.classCount = cls['COL_C_SUM'] || 0;
+      school.avgStudentsPerClass = cls['COL_SUM'] || 0;
+      school.teacherCount = cls['TEACH_CNT'] || 0;
     }
   }
   // bySubject 보강 (학교 수)

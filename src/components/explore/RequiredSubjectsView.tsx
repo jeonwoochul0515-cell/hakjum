@@ -6,6 +6,7 @@ import { checkSubjectAvailability } from '@/lib/subject-content';
 import { C } from '@/lib/design-tokens';
 import { UnopenedSubjectAlternatives } from '@/components/explore/UnopenedSubjectAlternatives';
 import { getUploadedCurriculum } from '@/lib/curriculum-storage';
+import { classifySchoolSize, sizeMeta } from '@/lib/school-size';
 
 interface SchoolSubjectsResp {
   data: {
@@ -18,6 +19,9 @@ interface SchoolSubjectsResp {
     studentByGrade?: { grade1: number; grade2: number; grade3: number };
     teacherCountTotal?: number;
     weeklyHours?: number;
+    classCount?: number;
+    avgStudentsPerClass?: number;
+    teacherCount?: number;
   } | null;
   _meta: { source: string; curriculum?: string; matched: boolean };
 }
@@ -109,72 +113,53 @@ export function RequiredSubjectsView({ major }: Props) {
         이 학과에 진학하려면 고등학교에서 이런 과목을 들으면 좋아요
       </p>
 
-      {/* 학교 규모 + 학교알리미 매칭 출처 */}
-      {keris && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          {keris.studentCount && keris.studentCount > 0 && (
-            <span
+      {/* 학교 규모 인사이트 카드 */}
+      {keris && keris.studentCount && keris.studentCount > 0 && (
+        (() => {
+          const size = classifySchoolSize(keris.studentCount);
+          const meta = sizeMeta(size);
+          return (
+            <div
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 4,
-                padding: '6px 10px',
-                background: C.brandSoft,
-                color: C.brand,
-                borderRadius: 999,
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '-0.01em',
-              }}
-              title={
-                keris.studentByGrade
-                  ? `1학년 ${keris.studentByGrade.grade1} · 2학년 ${keris.studentByGrade.grade2} · 3학년 ${keris.studentByGrade.grade3}`
-                  : ''
-              }
-            >
-              <Users size={11} strokeWidth={2.4} />
-              학생 {keris.studentCount.toLocaleString()}명
-            </span>
-          )}
-          {keris.teacherCountTotal && keris.teacherCountTotal > 0 && (
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 4,
-                padding: '6px 10px',
-                background: C.bg,
-                color: C.ink,
-                borderRadius: 999,
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '-0.01em',
+                background: meta.bg,
+                borderRadius: 14,
+                padding: '14px 16px',
                 border: `1px solid ${C.line}`,
               }}
             >
-              교원 {keris.teacherCountTotal}명
-            </span>
-          )}
-          {Object.keys(teacherCountMap).length > 0 && (
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 10px',
-                background: '#eef9f0',
-                color: '#1c7a3e',
-                borderRadius: 999,
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '-0.01em',
-              }}
-              title="학교알리미 KERIS 데이터로 학교 규모와 담당 교사 수를 보강했어요"
-            >
-              출처: 학교알리미 (2022 개정)
-            </span>
-          )}
-        </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: meta.color,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {meta.icon} {meta.label} ({meta.description})
+                </span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: C.sub,
+                  }}
+                >
+                  학생 {keris.studentCount.toLocaleString()}명
+                  {keris.classCount ? ` · ${keris.classCount}학급` : ''}
+                  {keris.avgStudentsPerClass ? ` · 학급당 ${keris.avgStudentsPerClass.toFixed(0)}명` : ''}
+                  {keris.teacherCountTotal ? ` · 교원 ${keris.teacherCountTotal}명` : ''}
+                </span>
+              </div>
+              <div style={{ fontSize: 11.5, color: C.ink, lineHeight: 1.5, letterSpacing: '-0.01em' }}>
+                {meta.diversityHint}
+              </div>
+              <div style={{ fontSize: 10, color: C.sub, marginTop: 6, letterSpacing: '-0.01em' }}>
+                출처 · 학교알리미(KERIS) 2022 개정 · 공공누리 출처표시
+              </div>
+            </div>
+          );
+        })()
       )}
 
       {/* 출처 표시: 업로드한 PDF가 있으면 NEIS 대신 그 데이터를 사용 */}

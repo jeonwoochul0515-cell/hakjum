@@ -24,11 +24,14 @@ interface SchoolSubjectEntry {
   subjectCount: number;
   totalTeachers: number;
   subjects: Record<string, number>;
-  // 학교 규모 (api10·api08 보강)
+  // 학교 규모 (api10·api08·api09 보강)
   studentCount?: number;
   studentByGrade?: { grade1: number; grade2: number; grade3: number };
   teacherCountTotal?: number;
   weeklyHours?: number;
+  classCount?: number;
+  avgStudentsPerClass?: number;
+  teacherCount?: number;
 }
 
 interface IndexFile {
