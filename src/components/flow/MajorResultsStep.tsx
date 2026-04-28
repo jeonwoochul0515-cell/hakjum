@@ -130,7 +130,11 @@ export function MajorResultsStep() {
           <div style={{ fontWeight: 600, color: C.ink, marginBottom: 4 }}>📚 추천 근거</div>
           <div style={{ marginBottom: 6 }}>
             2026 대교협 학과별 권장 이수 기준 · 교육부 고교학점제 매뉴얼
-            {state.school?.name ? ` · ${state.school.name} 2026학년도 교육과정 편성표 기반` : ' 기반'}
+            {exploreResult.schoolContextName
+              ? ` · ${exploreResult.schoolContextName} NEIS 시간표·학교알리미 실측 데이터 반영`
+              : state.school?.name
+                ? ` · ${state.school.name} 2026학년도 교육과정 편성표 기반`
+                : ' 기반'}
           </div>
           <div style={{ color: C.sub, opacity: 0.85 }}>
             * 도전 · 적정 · 안전 3분할은 진학사 · 메가스터디 등 입시 컨설팅 표준 분류 방식을 따랐어요

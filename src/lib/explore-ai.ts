@@ -5,11 +5,22 @@
  * - 커리어넷(career.go.kr) 학과정보 관련 키워드
  * - 대교협 2028 교과이수기준 계열 분류
  * 폴백 결과는 'fallback' 출처로 표기되어 공식 데이터와 구분됩니다.
+ *
+ * 학교 컨텍스트 통합:
+ * - NEIS 시간표·학교알리미 인덱스·부산 PDF 데이터를 프롬프트에 주입
+ * - 추천 응답을 후처리하여 학과별 "내 학교 적합도" 첨부
  */
 import type { School, AIExploreResult, AIExploreRecommendation } from '@/types';
 import { popularMajors } from '@/data/majors';
+import { buildSchoolContext, analyzeSchoolFit, type SchoolContextData } from '@/lib/school-context';
 
-function buildExplorePrompt(interest: string, school?: School | null, regionName?: string, aptitudeInfo?: string): string {
+function buildExplorePrompt(
+  interest: string,
+  school: School | null | undefined,
+  regionName: string | undefined,
+  aptitudeInfo: string | undefined,
+  schoolContext: SchoolContextData,
+): string {
   let prompt = `당신은 한국 대학 학과 추천 전문가입니다. 고등학생의 관심사와 희망 진로를 분석하여 적합한 대학교 학과를 추천해주세요.
 
 ## 학생 정보
@@ -22,6 +33,11 @@ function buildExplorePrompt(interest: string, school?: School | null, regionName
   }
   if (aptitudeInfo) {
     prompt += `\n- 적성검사 결과: ${aptitudeInfo}`;
+  }
+
+  // 학교 컨텍스트 (있을 때만 — 1000자 이내로 이미 절단됨)
+  if (schoolContext.promptText) {
+    prompt += `\n\n${schoolContext.promptText}`;
   }
 
   prompt += `
@@ -55,10 +71,15 @@ function buildExplorePrompt(interest: string, school?: School | null, regionName
 7. 추천 학과는 matchScore가 높은 순서로 정렬하세요
 8. category는 반드시 다음 중 하나: 공학계열, 자연계열, 인문계열, 사회계열, 교육계열, 의약계열, 예체능계열`;
 
+  if (schoolContext.promptText) {
+    prompt += `
+9. reason 마지막에 "우리 학교 ◯◯·◯◯ 과목으로 준비 가능" 형태로 학교 매칭을 1문장 추가하세요 (위 학교 데이터 기반)`;
+  }
+
   return prompt;
 }
 
-async function callExploreAI(prompt: string): Promise<AIExploreResult> {
+async function callExploreAI(prompt: string, schoolContext: SchoolContextData): Promise<AIExploreResult> {
   const response = await fetch('/api/recommend', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -76,27 +97,42 @@ async function callExploreAI(prompt: string): Promise<AIExploreResult> {
   const parsed = JSON.parse(jsonMatch[0]);
 
   const recommendations: AIExploreRecommendation[] = (parsed.recommendations || []).map(
-    (r: AIExploreRecommendation) => ({
-      majorName: r.majorName || '',
-      category: r.category || '',
-      reason: r.reason || '',
-      universities: (r.universities || []).map((u) => ({
-        name: u.name || '',
-        area: u.area || '',
-      })),
-      relatedJobs: r.relatedJobs || [],
-      matchScore: typeof r.matchScore === 'number' ? r.matchScore : 70,
-    })
+    (r: AIExploreRecommendation) => {
+      const base: AIExploreRecommendation = {
+        majorName: r.majorName || '',
+        category: r.category || '',
+        reason: r.reason || '',
+        universities: (r.universities || []).map((u) => ({
+          name: u.name || '',
+          area: u.area || '',
+        })),
+        relatedJobs: r.relatedJobs || [],
+        matchScore: typeof r.matchScore === 'number' ? r.matchScore : 70,
+      };
+      // 학교 컨텍스트가 있으면 적합도 후처리
+      if (schoolContext.availableSubjects.length > 0) {
+        const fit = analyzeSchoolFit(base.majorName, schoolContext.availableSubjects);
+        base.schoolFitScore = fit.schoolFitScore;
+        base.schoolMatchedSubjects = fit.matchedSubjects;
+        base.schoolMissingSubjects = fit.missingSubjects;
+      }
+      return base;
+    },
   );
 
   return {
     recommendations,
     summary: parsed.summary || '',
     source: 'ai',
+    schoolContextName: schoolContext.schoolName,
   };
 }
 
-function fallbackExploreRecommend(interest: string, regionName?: string): AIExploreResult {
+function fallbackExploreRecommend(
+  interest: string,
+  regionName?: string,
+  schoolContext?: SchoolContextData,
+): AIExploreResult {
   const query = interest.toLowerCase();
 
   const scored = popularMajors.map((major) => {
@@ -201,24 +237,35 @@ function fallbackExploreRecommend(interest: string, regionName?: string): AIExpl
     ? relevant.slice(0, 5)
     : scored.slice(0, 3);
 
-  const recommendations: AIExploreRecommendation[] = top.map(({ major, score }) => ({
-    majorName: major.name,
-    category: major.category,
-    reason: `"${interest}" 관심사와 관련된 학과입니다. ${major.jobs.split(',').slice(0, 2).join(', ')} 등의 직업으로 진출할 수 있어요.`,
-    universities: [...major.universities]
-      .sort((a, b) => {
-        if (!regionName) return 0;
-        return (a.area === regionName ? -1 : 0) - (b.area === regionName ? -1 : 0);
-      })
-      .slice(0, 6).map((u) => ({ name: u.name, area: u.area })),
-    relatedJobs: major.jobs.split(',').map((j) => j.trim()).filter(Boolean).slice(0, 4),
-    matchScore: score,
-  }));
+  const recommendations: AIExploreRecommendation[] = top.map(({ major, score }) => {
+    const rec: AIExploreRecommendation = {
+      majorName: major.name,
+      category: major.category,
+      reason: `"${interest}" 관심사와 관련된 학과입니다. ${major.jobs.split(',').slice(0, 2).join(', ')} 등의 직업으로 진출할 수 있어요.`,
+      universities: [...major.universities]
+        .sort((a, b) => {
+          if (!regionName) return 0;
+          return (a.area === regionName ? -1 : 0) - (b.area === regionName ? -1 : 0);
+        })
+        .slice(0, 6).map((u) => ({ name: u.name, area: u.area })),
+      relatedJobs: major.jobs.split(',').map((j) => j.trim()).filter(Boolean).slice(0, 4),
+      matchScore: score,
+    };
+    // 학교 컨텍스트가 있으면 적합도 첨부 (fallback에도 적용)
+    if (schoolContext && schoolContext.availableSubjects.length > 0) {
+      const fit = analyzeSchoolFit(rec.majorName, schoolContext.availableSubjects);
+      rec.schoolFitScore = fit.schoolFitScore;
+      rec.schoolMatchedSubjects = fit.matchedSubjects;
+      rec.schoolMissingSubjects = fit.missingSubjects;
+    }
+    return rec;
+  });
 
   return {
     recommendations,
     summary: `"${interest}" 관심사를 바탕으로 관련 학과를 찾아봤어요. 학과를 선택하면 상세 정보를 확인할 수 있어요.`,
     source: 'fallback',
+    schoolContextName: schoolContext?.schoolName,
   };
 }
 
@@ -228,10 +275,13 @@ export async function getExploreRecommendations(
   regionName?: string,
   aptitudeInfo?: string,
 ): Promise<AIExploreResult> {
+  // 학교 컨텍스트 빌드 — 미선택 시 빈 컨텍스트 반환 (graceful)
+  const schoolContext = await buildSchoolContext(school);
+
   try {
-    const prompt = buildExplorePrompt(interest, school, regionName, aptitudeInfo);
-    return await callExploreAI(prompt);
+    const prompt = buildExplorePrompt(interest, school, regionName, aptitudeInfo, schoolContext);
+    return await callExploreAI(prompt, schoolContext);
   } catch {
-    return fallbackExploreRecommend(interest, regionName);
+    return fallbackExploreRecommend(interest, regionName, schoolContext);
   }
 }

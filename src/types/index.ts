@@ -205,10 +205,18 @@ export interface AIExploreRecommendation {
   universities: { name: string; area: string }[];
   relatedJobs: string[];
   matchScore: number; // 0-100
+  /** 학교 컨텍스트 기반 — 학생 학교에서 이 학과를 준비할 수 있는 정도 (0-100) */
+  schoolFitScore?: number;
+  /** 학교에 개설되어 학과 준비에 활용 가능한 과목 (최대 3개) */
+  schoolMatchedSubjects?: string[];
+  /** 학교에 미개설된, 학과가 요구하는 핵심 과목 */
+  schoolMissingSubjects?: string[];
 }
 
 export interface AIExploreResult {
   recommendations: AIExploreRecommendation[];
   summary: string;
   source: 'ai' | 'fallback';
+  /** 추천에 사용된 학교명 (출처 표시용) */
+  schoolContextName?: string;
 }

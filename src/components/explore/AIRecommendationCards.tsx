@@ -498,6 +498,72 @@ function MajorCard({ rec, isTopOverall, tier, loading, stats, onSelect }: MajorC
         </div>
       )}
 
+      {/* 내 학교 적합도 — 학교 컨텍스트 기반 후처리 결과 */}
+      {typeof rec.schoolFitScore === 'number' && (
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 6,
+            marginTop: 10,
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              fontSize: 10.5,
+              padding: '3px 8px',
+              borderRadius: 6,
+              background: rec.schoolFitScore >= 75 ? '#dcfce7' : rec.schoolFitScore >= 50 ? '#fef3c7' : '#fee2e2',
+              color: rec.schoolFitScore >= 75 ? '#166534' : rec.schoolFitScore >= 50 ? '#854d0e' : '#991b1b',
+              fontWeight: 700,
+              letterSpacing: '-0.01em',
+              fontVariantNumeric: 'tabular-nums',
+            }}
+            title={
+              (rec.schoolMatchedSubjects?.length ? `개설: ${rec.schoolMatchedSubjects.join(', ')}` : '')
+                + (rec.schoolMissingSubjects?.length ? ` / 부족: ${rec.schoolMissingSubjects.join(', ')}` : '')
+            }
+          >
+            내 학교 적합도 {rec.schoolFitScore}
+          </span>
+          {(rec.schoolMatchedSubjects ?? []).slice(0, 2).map((s) => (
+            <span
+              key={s}
+              style={{
+                fontSize: 10.5,
+                padding: '3px 8px',
+                borderRadius: 6,
+                background: C.brandSoft,
+                color: C.brand,
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              ✓ {s}
+            </span>
+          ))}
+          {(rec.schoolMissingSubjects ?? []).slice(0, 1).map((s) => (
+            <span
+              key={s}
+              style={{
+                fontSize: 10.5,
+                padding: '3px 8px',
+                borderRadius: 6,
+                background: '#f1f5f9',
+                color: '#64748b',
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}
+            >
+              미개설: {s}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* KCUE 통계 — 운영 대학 수 / 등록금 평균 / 장학금 수혜 평균 */}
       {stats && hasStatChips(stats) && (
         <div
