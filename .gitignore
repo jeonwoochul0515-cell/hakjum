@@ -37,4 +37,10 @@ dist-ssr
 # 임시 / 작업물
 /PROJECT-HANDOFF.md
 /image.png
+/image copy.png
 /학점나비_결제경로.pptx
+/sido_sggCode.xlsx
+
+# 학교알리미 PDF raw (manifest는 commit)
+/data/busan/pdfs/
+/data/busan/extracted/
