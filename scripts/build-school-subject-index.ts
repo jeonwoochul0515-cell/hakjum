@@ -1,0 +1,123 @@
+/**
+ * 학교 × 과목 매핑 인덱스 빌드
+ * 입력: data/schoolinfo/api24-04-2025-d20-2022only.json (필터링된 2022 개정 only)
+ * 출력: data/schoolinfo/school-subject-index.json
+ *
+ * 용도:
+ *   학생이 본인 학교 코드(SCHUL_CODE)로 즉시 "이 학교에 ◯◯ 과목 개설됐나?" 답.
+ *   RequiredSubjectsView 또는 새 컴포넌트가 이 인덱스 사용.
+ */
+
+import * as fs from 'fs';
+import * as path from 'path';
+
+const INPUT_FILE = path.resolve(
+  process.cwd(),
+  'data/schoolinfo/api24-04-2025-d20-2022only.json'
+);
+const OUTPUT_FILE = path.resolve(
+  process.cwd(),
+  'data/schoolinfo/school-subject-index.json'
+);
+
+interface SchoolSubject {
+  subjectCount: number; // 운영 중인 과목 수
+  totalTeachers: number; // 전체 교사 수 합
+  // 과목명 → 교사 수
+  subjects: Record<string, number>;
+  // 메타
+  schoolName: string;
+  schoolType: string;
+  region: string;
+  sigungu: string;
+}
+
+function main() {
+  const input = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf-8'));
+  const records = input.records as Array<Record<string, any>>;
+  console.log(`입력: ${records.length.toLocaleString()}건`);
+
+  const bySchool: Record<string, SchoolSubject> = {};
+  const bySubject: Record<string, { schoolCount: number; totalTeachers: number }> = {};
+
+  for (const r of records) {
+    const code = r['SCHUL_CODE'] as string;
+    const sbj = r['SBJT_NM'] as string;
+    const teachers = (r['SUM_CNT'] as number) || 0;
+    if (!code || !sbj) continue;
+
+    if (!bySchool[code]) {
+      bySchool[code] = {
+        subjectCount: 0,
+        totalTeachers: 0,
+        subjects: {},
+        schoolName: r['SCHUL_NM'] as string,
+        schoolType: (r['HS_KND_SC_NM'] as string) || '',
+        region: (r['ATPT_OFCDC_ORG_NM'] as string) || '',
+        sigungu: (r['ADRCD_NM'] as string) || '',
+      };
+    }
+    const school = bySchool[code];
+    school.subjects[sbj] = (school.subjects[sbj] || 0) + teachers;
+    school.totalTeachers += teachers;
+
+    if (!bySubject[sbj]) {
+      bySubject[sbj] = { schoolCount: 0, totalTeachers: 0 };
+    }
+  }
+
+  // subjectCount 후처리
+  for (const code in bySchool) {
+    const school = bySchool[code];
+    school.subjectCount = Object.keys(school.subjects).length;
+  }
+  // bySubject 보강 (학교 수)
+  for (const code in bySchool) {
+    const school = bySchool[code];
+    for (const sbj in school.subjects) {
+      bySubject[sbj].schoolCount++;
+      bySubject[sbj].totalTeachers += school.subjects[sbj];
+    }
+  }
+
+  const output = {
+    _meta: {
+      source: '학교알리미_KERIS_apiType=24_depthNo=20',
+      apiId: 'schoolinfo.go.kr/openApi.do',
+      curriculum: '2022 개정 (2015 개정 명칭 과목 제거됨)',
+      license: '공공누리 출처표시',
+      organization: '한국교육학술정보원(KERIS)',
+      syncedAt: input._meta.syncedAt,
+      filteredAt: input._meta.filterAppliedAt,
+      builtAt: new Date().toISOString(),
+      schoolCount: Object.keys(bySchool).length,
+      subjectCount: Object.keys(bySubject).length,
+      totalRecords: records.length,
+    },
+    bySchool,
+    bySubject,
+  };
+
+  const tmp = OUTPUT_FILE + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(output, null, 0), 'utf-8');
+  fs.renameSync(tmp, OUTPUT_FILE);
+  const sizeMB = (fs.statSync(OUTPUT_FILE).size / 1024 / 1024).toFixed(2);
+  console.log(`저장: ${OUTPUT_FILE} (${sizeMB} MB)`);
+  console.log(`  학교 수: ${output._meta.schoolCount.toLocaleString()}`);
+  console.log(`  유니크 과목: ${output._meta.subjectCount.toLocaleString()}`);
+
+  // 샘플
+  const sampleCode = 'S010000379'; // 경복고
+  const sample = bySchool[sampleCode];
+  if (sample) {
+    console.log(`\n샘플 — ${sampleCode} ${sample.schoolName}`);
+    console.log(`  과목 수: ${sample.subjectCount}, 교사 수: ${sample.totalTeachers}`);
+    console.log(`  주요 과목 5:`);
+    Object.entries(sample.subjects)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .forEach(([sbj, cnt]) => console.log(`    ${sbj}: ${cnt}명`));
+  }
+}
+
+main();
