@@ -14,6 +14,10 @@ interface SchoolSubjectsResp {
     subjects: Record<string, number>;
     subjectCount: number;
     totalTeachers: number;
+    studentCount?: number;
+    studentByGrade?: { grade1: number; grade2: number; grade3: number };
+    teacherCountTotal?: number;
+    weeklyHours?: number;
   } | null;
   _meta: { source: string; curriculum?: string; matched: boolean };
 }
@@ -105,26 +109,71 @@ export function RequiredSubjectsView({ major }: Props) {
         이 학과에 진학하려면 고등학교에서 이런 과목을 들으면 좋아요
       </p>
 
-      {/* 학교알리미 매칭 시 보강 출처 — 교사 수 표시 출처 */}
-      {keris && Object.keys(teacherCountMap).length > 0 && (
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            padding: '6px 10px',
-            background: '#eef9f0',
-            color: '#1c7a3e',
-            borderRadius: 999,
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: '-0.01em',
-            marginRight: 6,
-          }}
-          title="학교알리미 KERIS 데이터로 담당 교사 수를 보강했어요"
-        >
-          <Users size={11} strokeWidth={2.4} />
-          교사 수 출처: 학교알리미 (2022 개정)
+      {/* 학교 규모 + 학교알리미 매칭 출처 */}
+      {keris && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {keris.studentCount && keris.studentCount > 0 && (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+                padding: '6px 10px',
+                background: C.brandSoft,
+                color: C.brand,
+                borderRadius: 999,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '-0.01em',
+              }}
+              title={
+                keris.studentByGrade
+                  ? `1학년 ${keris.studentByGrade.grade1} · 2학년 ${keris.studentByGrade.grade2} · 3학년 ${keris.studentByGrade.grade3}`
+                  : ''
+              }
+            >
+              <Users size={11} strokeWidth={2.4} />
+              학생 {keris.studentCount.toLocaleString()}명
+            </span>
+          )}
+          {keris.teacherCountTotal && keris.teacherCountTotal > 0 && (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+                padding: '6px 10px',
+                background: C.bg,
+                color: C.ink,
+                borderRadius: 999,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '-0.01em',
+                border: `1px solid ${C.line}`,
+              }}
+            >
+              교원 {keris.teacherCountTotal}명
+            </span>
+          )}
+          {Object.keys(teacherCountMap).length > 0 && (
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '6px 10px',
+                background: '#eef9f0',
+                color: '#1c7a3e',
+                borderRadius: 999,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '-0.01em',
+              }}
+              title="학교알리미 KERIS 데이터로 학교 규모와 담당 교사 수를 보강했어요"
+            >
+              출처: 학교알리미 (2022 개정)
+            </span>
+          )}
         </div>
       )}
 

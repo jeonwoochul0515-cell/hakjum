@@ -22,7 +22,7 @@ const OUTPUT_FILE = path.resolve(
 
 interface SchoolSubject {
   subjectCount: number; // 운영 중인 과목 수
-  totalTeachers: number; // 전체 교사 수 합
+  totalTeachers: number; // 전체 교사 수 합 (api24 SUM_CNT)
   // 과목명 → 교사 수
   subjects: Record<string, number>;
   // 메타
@@ -30,6 +30,11 @@ interface SchoolSubject {
   schoolType: string;
   region: string;
   sigungu: string;
+  // 학교 규모 (api10 학생수 + api08 수업교원수에서 보강)
+  studentCount?: number;
+  studentByGrade?: { grade1: number; grade2: number; grade3: number };
+  teacherCountTotal?: number; // api08 ITRT_TCR_TOT_FGR
+  weeklyHours?: number; // api08 WEEK_TOT_ITRT_HR_FGR
 }
 
 // 2015 명칭이 fully filter된 후에도 한 학교에 2015·2022 명칭 둘 다 있을 수 있음
@@ -48,11 +53,32 @@ function normalizeSubject(s: string): string {
   return RENAME_MAP[s] ?? s;
 }
 
+// 학생수 (api10) + 수업·교원 통계 (api08) 보강 인덱스
+function loadAuxIndex(file: string): Record<string, Record<string, any>> {
+  try {
+    const f = path.resolve(process.cwd(), file);
+    if (!fs.existsSync(f)) return {};
+    const j = JSON.parse(fs.readFileSync(f, 'utf-8'));
+    const idx: Record<string, Record<string, any>> = {};
+    for (const r of j.records as Array<Record<string, any>>) {
+      const code = r['SCHUL_CODE'] as string;
+      if (code) idx[code] = r;
+    }
+    return idx;
+  } catch {
+    return {};
+  }
+}
+const STUDENT_IDX = loadAuxIndex('data/schoolinfo/api10-04-2025.json');
+const HOURS_IDX = loadAuxIndex('data/schoolinfo/api08-04-2025.json');
+
 function main() {
   const input = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf-8'));
   const records = input.records as Array<Record<string, any>>;
   console.log(`입력: ${records.length.toLocaleString()}건`);
   console.log(`renameMap: ${Object.keys(RENAME_MAP).length}개 매핑 적용`);
+  console.log(`학생수 인덱스 (api10): ${Object.keys(STUDENT_IDX).length}개 학교`);
+  console.log(`수업통계 인덱스 (api08): ${Object.keys(HOURS_IDX).length}개 학교`);
 
   const bySchool: Record<string, SchoolSubject> = {};
   const bySubject: Record<string, { schoolCount: number; totalTeachers: number }> = {};
@@ -84,10 +110,27 @@ function main() {
     }
   }
 
-  // subjectCount 후처리
+  // subjectCount + 학생수·수업통계 후처리
   for (const code in bySchool) {
     const school = bySchool[code];
     school.subjectCount = Object.keys(school.subjects).length;
+
+    // api10 학생수
+    const stu = STUDENT_IDX[code];
+    if (stu) {
+      school.studentCount = stu['STDNT_SUM'] || 0;
+      school.studentByGrade = {
+        grade1: stu['STDNT_SUM_41'] || 0,
+        grade2: stu['STDNT_SUM_42'] || 0,
+        grade3: stu['STDNT_SUM_43'] || 0,
+      };
+    }
+    // api08 수업·교원 통계
+    const hrs = HOURS_IDX[code];
+    if (hrs) {
+      school.teacherCountTotal = hrs['ITRT_TCR_TOT_FGR'] || 0;
+      school.weeklyHours = hrs['WEEK_TOT_ITRT_HR_FGR'] || 0;
+    }
   }
   // bySubject 보강 (학교 수)
   for (const code in bySchool) {
