@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Search, School as SchoolIcon, Loader2, Globe, FileText, ChevronRight } from 'lucide-react';
 import { SubjectPreview } from '@/components/school/SubjectPreview';
 import { SchoolInfoLinks } from '@/components/flow/SchoolInfoLinks';
+import { BusanCurriculumPanel } from '@/components/busan/BusanCurriculumPanel';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -154,6 +155,14 @@ export function SchoolSelectStep() {
           schoolName={state.school.name}
           shlIdfCd={state.school.shlIdfCd}
           homepageUrl={state.school.homepageUrl}
+        />
+      )}
+
+      {/* 부산 학교일 때만 자동 노출 — 비부산은 컴포넌트 내부에서 null 반환 */}
+      {state.school && (
+        <BusanCurriculumPanel
+          schoolName={state.school.name}
+          schoolId={state.school.id}
         />
       )}
 
