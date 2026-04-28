@@ -1,0 +1,17 @@
+[
+  {
+    "reason": "상세 접근 차단 (세션/CSRF 검증 실패 추정)",
+    "title": "고교학점제 이해하기, 2026 고등학교 교육과정 둘러보기",
+    "postUrl": "https://hscredit.goean.kr/hscredit/na/ntt/selectNttInfo.do?mi=5151&bbsId=3115&nttSn=1078847"
+  },
+  {
+    "reason": "상세 접근 차단 (세션/CSRF 검증 실패 추정)",
+    "title": "최소성취수준 보장지도 운영 안내",
+    "postUrl": "https://hscredit.goean.kr/hscredit/na/ntt/selectNttInfo.do?mi=5151&bbsId=3115&nttSn=1039603"
+  },
+  {
+    "reason": "상세 접근 차단 (세션/CSRF 검증 실패 추정)",
+    "title": "자율과정 운영 안내",
+    "postUrl": "https://hscredit.goean.kr/hscredit/na/ntt/selectNttInfo.do?mi=5151&bbsId=3115&nttSn=1039486"
+  }
+]
