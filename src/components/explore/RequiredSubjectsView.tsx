@@ -70,7 +70,7 @@ export function RequiredSubjectsView({ major }: Props) {
       .then((r) => (r.ok ? (r.json() as Promise<SchoolSubjectsResp>) : null))
       .then((j) => {
         if (cancelled) return;
-        if (j?.data?.matched !== false) setKeris(j?.data ?? null);
+        if (j?._meta?.matched !== false) setKeris(j?.data ?? null);
       })
       .catch(() => {
         // graceful: KERIS 없으면 NEIS만 사용
