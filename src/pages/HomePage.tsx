@@ -8,6 +8,7 @@ import { BusinessFooter } from '@/components/layout/BusinessFooter';
 import { useFlowContext } from '@/context/FlowContext';
 import { useAuth } from '@/context/AuthContext';
 import { C, chipBtn } from '@/lib/design-tokens';
+import { usePageMeta, jsonLdWebSite } from '@/lib/seo';
 import { PopularMajorCards } from '@/components/landing/PopularMajorCards';
 import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
 import { NovemberSeasonBanner } from '@/components/season/NovemberSeasonBanner';
@@ -76,6 +77,23 @@ export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
 
   const hasLastResult = !!state.recommendationResult;
+
+  usePageMeta({
+    title: '학점나비 - 고교학점제 AI 맞춤 과목 추천',
+    description:
+      '고교학점제 시대, 내 꿈에 맞는 학과와 과목을 AI가 30초 만에 추천합니다. 전국 고등학교 NEIS 연동, 대교협 데이터 기반 학과 분석, 학기별 과목 로드맵까지 학점나비에서.',
+    canonicalPath: '/',
+    keywords: [
+      '고교학점제',
+      '학과 추천',
+      '진로 추천',
+      '고등학생 과목 추천',
+      'AI 진로',
+      '내 학교 과목',
+      '고1 진로',
+    ],
+    jsonLd: jsonLdWebSite(),
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(

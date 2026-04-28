@@ -6,6 +6,7 @@ import { ReportInputStep } from '@/components/report/ReportInputStep';
 import { ReportPreviewStep } from '@/components/report/ReportPreviewStep';
 import { useAuth } from '@/context/AuthContext';
 import { saveReport, getReport, getLatestReport, markReportPaid } from '@/lib/report-storage';
+import { usePageMeta, jsonLdReportService } from '@/lib/seo';
 import type { ReportData } from '@/types/report';
 
 // generateReport는 다른 에이전트가 구현 중이므로 동적 import로 안전하게 로드
@@ -32,6 +33,21 @@ function ReportPageInner() {
   const [searchParams] = useSearchParams();
   const restoredRef = useRef(false);
   const lastSavedIdRef = useRef<string | null>(null);
+
+  usePageMeta({
+    title: 'AI 진로 진단 보고서 - 학점나비',
+    description:
+      '고1~고3 학생을 위한 AI 진로 진단 보고서. 적성검사 결과·맞춤 학과 추천·대학별 입시 기준·학기별 과목 로드맵을 PDF 한 권으로. 4,900원부터.',
+    canonicalPath: '/report',
+    keywords: [
+      '진로 진단 보고서',
+      'AI 진로 분석',
+      '고등학생 진로 검사',
+      '학과 추천 보고서',
+      '입시 컨설팅',
+    ],
+    jsonLd: jsonLdReportService(),
+  });
 
   // 결제 완료 후 복원: sessionStorage 의 pendingReport → 잠금해제
   // 또는 Firestore 의 사용자 보고서 (?id=xxx 또는 최근 1건) 자동 복원

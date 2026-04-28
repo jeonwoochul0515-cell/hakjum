@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/Badge';
 import { requestPayment } from '@/lib/toss-payments';
 import { useAuth } from '@/context/AuthContext';
 import { BusinessFooter } from '@/components/layout/BusinessFooter';
+import { usePageMeta } from '@/lib/seo';
 import {
   Sparkles,
   Zap,
@@ -98,6 +99,14 @@ export default function SubscriptionPage() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const season = getSeasonMessage();
   const { currentUser, isPaidUser, profileExtra } = useAuth();
+
+  usePageMeta({
+    title: '요금제 - 학점나비 AI 진로·과목 추천',
+    description:
+      '학점나비 무료 플랜·진로 진단 보고서(4,900원)·올인원 플랜(7,900원). 고1~고3 맞춤 AI 진로 분석과 학기별 과목 로드맵.',
+    canonicalPath: '/subscription',
+    keywords: ['학점나비 요금제', '진로 진단 보고서 가격', '고등학생 AI 컨설팅'],
+  });
 
   const handlePurchase = async (plan: PlanTier) => {
     if (plan.id === 'free') return;

@@ -1,0 +1,51 @@
+# 학점나비(hakjum) - robots.txt
+# https://hakjum.school
+
+User-agent: *
+Allow: /
+
+# 결제·인증·관리 경로 차단
+Disallow: /subscription/success
+Disallow: /subscription/fail
+Disallow: /subscription/teacher
+Disallow: /pay
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /curriculum-upload
+Disallow: /api/
+Disallow: /admin/
+
+# 한국 검색 엔진 봇 명시 허용
+User-agent: Yeti
+Allow: /
+Disallow: /subscription/success
+Disallow: /subscription/fail
+Disallow: /pay
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /api/
+
+User-agent: Daum
+Allow: /
+Disallow: /subscription/success
+Disallow: /subscription/fail
+Disallow: /pay
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /api/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /subscription/success
+Disallow: /subscription/fail
+Disallow: /pay
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+Disallow: /api/
+
+# 사이트맵
+Sitemap: https://hakjum.school/sitemap.xml
