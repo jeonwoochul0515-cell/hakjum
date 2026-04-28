@@ -1,0 +1,656 @@
+{
+  "meta": {
+    "source": "home.pen.go.kr/hscredit",
+    "extractedAt": "2026-04-28T11:16:48.979Z",
+    "originalUrl": "https://home.pen.go.kr/hscredit/na/ntt/selectNttInfo.do?mi=17454&bbsId=5244&nttSn=971304",
+    "title": "2026학년도 고등학교 교육과정 편성·운영의 길라잡이(교육과정 업무 매뉴얼)",
+    "fileName": "5244_971304_2026학년도_고등학교_교육과정_편성·운영의_길라잡이(교육과정_업무_매뉴얼).pdf",
+    "rawTextLength": 210676,
+    "truncated": true,
+    "model": "claude-sonnet-4-6",
+    "stopReason": "end_turn"
+  },
+  "content": {
+    "majors": [],
+    "subjects": [
+      {
+        "name": "화법과 작문",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "국어 교과 일반선택 과목"
+      },
+      {
+        "name": "독서와 작문",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "국어 교과 일반선택 과목"
+      },
+      {
+        "name": "문학",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "국어 교과 일반선택 과목"
+      },
+      {
+        "name": "대수",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 일반선택 과목"
+      },
+      {
+        "name": "미적분Ⅰ",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 일반선택 과목"
+      },
+      {
+        "name": "확률과 통계",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 일반선택 과목"
+      },
+      {
+        "name": "영어Ⅰ",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 일반선택 과목"
+      },
+      {
+        "name": "영어Ⅱ",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 일반선택 과목"
+      },
+      {
+        "name": "한국사Ⅰ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 공통과목"
+      },
+      {
+        "name": "한국사Ⅱ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 공통과목"
+      },
+      {
+        "name": "통합사회Ⅰ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 공통과목"
+      },
+      {
+        "name": "통합사회Ⅱ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 공통과목"
+      },
+      {
+        "name": "통합과학Ⅰ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 공통과목"
+      },
+      {
+        "name": "통합과학Ⅱ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 공통과목"
+      },
+      {
+        "name": "과학탐구실험Ⅰ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 공통과목"
+      },
+      {
+        "name": "과학탐구실험Ⅱ",
+        "area": "공통과목",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 공통과목"
+      },
+      {
+        "name": "세계시민과 지리",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 일반선택 과목"
+      },
+      {
+        "name": "세계사",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 일반선택 과목"
+      },
+      {
+        "name": "사회와 문화",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 일반선택 과목"
+      },
+      {
+        "name": "현대사회와 윤리",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 일반선택 과목"
+      },
+      {
+        "name": "물리학",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 일반선택 과목"
+      },
+      {
+        "name": "화학",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 일반선택 과목"
+      },
+      {
+        "name": "생명과학",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 일반선택 과목"
+      },
+      {
+        "name": "지구과학",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 일반선택 과목"
+      },
+      {
+        "name": "체육Ⅰ",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "체육 교과 일반선택 과목"
+      },
+      {
+        "name": "체육Ⅱ",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "체육 교과 일반선택 과목"
+      },
+      {
+        "name": "음악",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 일반선택 과목"
+      },
+      {
+        "name": "미술",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 일반선택 과목"
+      },
+      {
+        "name": "영어 독해와 작문",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 일반선택 과목"
+      },
+      {
+        "name": "정보",
+        "area": "일반선택",
+        "grade": null,
+        "semester": null,
+        "description": "기술·가정/정보 교과 일반선택 과목"
+      },
+      {
+        "name": "미적분Ⅱ",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "기하",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "경제수학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "인공지능 수학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "직무수학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "고급수학Ⅰ",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "고급수학Ⅱ",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 진로선택 과목"
+      },
+      {
+        "name": "영어 발표와 토론",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 진로선택 과목"
+      },
+      {
+        "name": "심화영어",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 진로선택 과목"
+      },
+      {
+        "name": "심화영어 독해와 작문",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 진로선택 과목"
+      },
+      {
+        "name": "한국지리 탐구",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "도시의 미래 탐구",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "동아시아 역사 기행",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "정치",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "법과 사회",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "경제",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "윤리와 사상",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "인문학과 윤리",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "국제 관계의 이해",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 진로선택 과목"
+      },
+      {
+        "name": "역학과 에너지",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "전자기와 양자",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "물질과 에너지",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "화학 반응의 세계",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "세포와 물질대사",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "생물의 유전",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "행성우주과학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "지구시스템과학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "고급물리학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "고급화학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "고급생명과학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "고급지구과학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 진로선택 과목"
+      },
+      {
+        "name": "스포츠 생활Ⅰ",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "체육 교과 진로선택 과목"
+      },
+      {
+        "name": "스포츠 생활Ⅱ",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "체육 교과 진로선택 과목"
+      },
+      {
+        "name": "음악 연주와 창작",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 진로선택 과목"
+      },
+      {
+        "name": "음악 감상과 비평",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 진로선택 과목"
+      },
+      {
+        "name": "미술 창작",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 진로선택 과목"
+      },
+      {
+        "name": "미술 감상과 비평",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 진로선택 과목"
+      },
+      {
+        "name": "인공지능 기초",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "기술·가정/정보 교과 진로선택 과목"
+      },
+      {
+        "name": "데이터 과학",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "기술·가정/정보 교과 진로선택 과목"
+      },
+      {
+        "name": "소프트웨어와 생활",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "기술·가정/정보 교과 융합선택 과목"
+      },
+      {
+        "name": "과학의 역사와 문화",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 융합선택 과목"
+      },
+      {
+        "name": "기후변화와 환경생태",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 융합선택 과목"
+      },
+      {
+        "name": "융합과학 탐구",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "과학 교과 융합선택 과목"
+      },
+      {
+        "name": "수학과제 탐구",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "수학 교과 융합선택 과목"
+      },
+      {
+        "name": "금융과 경제생활",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 융합선택 과목"
+      },
+      {
+        "name": "윤리문제 탐구",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 융합선택 과목"
+      },
+      {
+        "name": "역사로 탐구하는 현대세계",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "사회 교과 융합선택 과목"
+      },
+      {
+        "name": "스포츠 과학",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "체육 교과 융합선택 과목"
+      },
+      {
+        "name": "음악과 미디어",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 융합선택 과목"
+      },
+      {
+        "name": "미술과 매체",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "예술 교과 융합선택 과목"
+      },
+      {
+        "name": "창의적 국어생활",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "국어 교과 융합선택 과목"
+      },
+      {
+        "name": "영어 문화와 생활",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "영어 교과 융합선택 과목"
+      },
+      {
+        "name": "매체 의사소통",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "국어 교과 융합선택 과목"
+      },
+      {
+        "name": "진로와 직업",
+        "area": "진로선택",
+        "grade": null,
+        "semester": null,
+        "description": "진로 교과 진로선택 과목"
+      },
+      {
+        "name": "생태와 환경",
+        "area": "융합선택",
+        "grade": null,
+        "semester": null,
+        "description": "융합선택 과목"
+      }
+    ],
+    "schools": [],
+    "careerGuide": [
+      {
+        "topic": "고교학점제 교육과정 편성 원칙",
+        "summary": "고교학점제 하에서 학교는 학생의 진로와 적성을 고려하여 다양한 과목을 개설해야 하며, 학생은 공통과목 이수 후 선택과목을 자유롭게 수강할 수 있다. 학교는 학생 수요를 반영하여 교육과정을 편성·운영하여야 한다."
+      },
+      {
+        "topic": "과목 이수 단위 및 학점 기준",
+        "summary": "2026학년도 기준 총 이수학점은 192학점이며, 교과 이수학점은 174학점(자율이수학점 18학점 포함), 창의적 체험활동 18학점으로 구성된다. 공통과목, 일반선택, 진로선택, 융합선택 과목별로 이수학점 기준이 다르게 적용된다."
+      },
+      {
+        "topic": "선택과목 이수 방법 및 최소 이수학점",
+        "summary": "학생은 교과별 최소 이수학점 기준을 충족하면서 자신의 진로에 맞는 과목을 선택해야 한다. 일반선택과목은 4단위(학점) 이상, 진로선택과목과 융합선택과목은 2단위 이상 편성하는 것을 원칙으로 한다."
+      },
+      {
+        "topic": "성취평가제 적용",
+        "summary": "고교학점제에서는 선택과목에 성취평가제(A~E 등급)가 적용되며, 학생은 과목별 성취기준에 도달해야 학점을 취득할 수 있다. 미이수 방지를 위한 보충학습 기회가 제공된다."
+      },
+      {
+        "topic": "공동교육과정 및 온라인 수업 활용",
+        "summary": "단위학교에서 개설하기 어려운 소인수·심화 과목은 인근 학교와의 공동교육과정 또는 부산 온라인 학교를 통해 수강할 수 있다. 학생은 자신의 진로에 필요한 과목이 학교에 개설되지 않을 경우 이를 활용할 수 있다."
+      },
+      {
+        "topic": "학생 수강신청 및 수업 이동",
+        "summary": "학생은 자신의 진로 계획에 따라 수강 신청을 하며, 선택한 과목에 따라 반이 편성된다. 같은 과목이라도 학교별 운영 방식에 따라 동일반 또는 이동수업 형태로 진행될 수 있다."
+      },
+      {
+        "topic": "대학 입학전형과 과목 선택의 연계",
+        "summary": "학생은 희망 대학 및 학과의 입학전형 요소를 고려하여 과목을 선택할 필요가 있다. 대학별 핵심 권장과목이나 이수 권장과목 기준을 사전에 확인하고 이를 진로 과목 선택에 반영하는 것이 중요하다."
+      },
+      {
+        "topic": "진로·학업 설계 지도",
+        "summary": "학교는 학생의 진로·학업 설계를 돕기 위해 진로 상담, 과목 선택 안내, 학업 계획서 작성 지도 등을 실시해야 한다. 학생은 자신의 흥미, 적성, 진로 희망을 종합적으로 고려하여 3년간의 학업 계획을 수립해야 한다."
+      },
+      {
+        "topic": "이수 완료 기준 및 미이수 처리",
+        "summary": "과목별 성취율이 40% 미만인 경우 미이수로 처리될 수 있으며, 미이수 발생 시 보충 이수 기회가 제공된다. 학교는 학생의 학업 부진을 조기에 발견하고 지원하는 체계를 갖추어야 한다."
+      },
+      {
+        "topic": "전문교과 이수",
+        "summary": "직업 계열 또는 특수 목적 고등학교의 학생은 전문교과를 이수할 수 있으며, 일반고 학생도 공동교육과정을 통해 전문교과 일부를 이수할 수 있다. 전문교과 이수를 통해 심화된 직업·전공 기초 역량을 기를 수 있다."
+      }
+    ]
+  }
+}

@@ -127,7 +127,17 @@ async function extractTextFromPdf(buffer: ArrayBuffer): Promise<string> {
       .join(' ');
     pages.push(text);
   }
-  return pages.join('\n\n--- PAGE BREAK ---\n\n');
+  return sanitizeSurrogates(pages.join('\n\n--- PAGE BREAK ---\n\n'));
+}
+
+// PDF 추출 시 lone surrogate (UTF-16 짝 안 맞는 문자) 제거.
+// JSON.stringify 단계에서 'invalid high surrogate' 에러 방지.
+function sanitizeSurrogates(s: string): string {
+  // Lone high surrogate (high 뒤에 low 없음)
+  let cleaned = s.replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])/g, '');
+  // Lone low surrogate (앞에 high 없는 low)
+  cleaned = cleaned.replace(/(^|[^\uD800-\uDBFF])([\uDC00-\uDFFF])/g, '$1');
+  return cleaned;
 }
 
 function safeParseJson(raw: string): ExtractedContent {
