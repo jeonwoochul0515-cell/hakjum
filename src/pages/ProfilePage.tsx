@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, Mail, Clock, Crown, ChevronRight, BookOpen, History, Settings, Pencil, Check, X } from 'lucide-react';
+import { LogOut, User, Mail, Clock, Crown, ChevronRight, BookOpen, History, Settings, Pencil, Check, X, FileText, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { useAuth } from '@/context/AuthContext';
+import { listReports, deleteReport, type SavedReportSummary } from '@/lib/report-storage';
 
 export default function ProfilePage() {
   const { currentUser, logout, profileExtra, savedResults, updateProfileExtra, isPaidUser } = useAuth();
@@ -16,12 +17,37 @@ export default function ProfilePage() {
   const [editUserType, setEditUserType] = useState(profileExtra.userType || '');
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
+  const [savedReports, setSavedReports] = useState<SavedReportSummary[]>([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
 
   useEffect(() => {
     setEditGrade(profileExtra.grade || '');
     setEditSchool(profileExtra.schoolName || '');
     setEditUserType(profileExtra.userType || '');
   }, [profileExtra]);
+
+  // 내 보고서 목록 로드 (Firestore)
+  useEffect(() => {
+    if (!currentUser?.uid) return;
+    let cancelled = false;
+    setReportsLoading(true);
+    listReports(currentUser.uid)
+      .then((items) => {
+        if (!cancelled) setSavedReports(items);
+      })
+      .finally(() => {
+        if (!cancelled) setReportsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [currentUser]);
+
+  async function handleDeleteReport(id: string) {
+    if (!currentUser?.uid) return;
+    setSavedReports((prev) => prev.filter((r) => r.id !== id));
+    await deleteReport(currentUser.uid, id);
+  }
 
   useEffect(() => {
     if (!currentUser) {
@@ -247,6 +273,77 @@ export default function ProfilePage() {
             >
               이용권 구매하기
             </button>
+          )}
+        </Card>
+
+        {/* My Reports (Firestore) */}
+        <Card className="animate-fade-in-up overflow-hidden">
+          <div className="p-5 pb-3">
+            <div className="flex items-center gap-2 mb-1">
+              <FileText className="w-5 h-5 text-sky-primary" />
+              <h3 className="text-base font-semibold text-slate-900">내 보고서</h3>
+              {savedReports.length > 0 && (
+                <span className="text-xs text-slate-400">{savedReports.length}건</span>
+              )}
+            </div>
+            <p className="text-xs text-slate-400">
+              결제한 보고서는 영구 보관 · 무료 미리보기는 30일 후 자동 정리
+            </p>
+          </div>
+
+          {reportsLoading ? (
+            <div className="px-5 pb-5">
+              <div className="text-center py-6 text-sm text-slate-400">불러오는 중...</div>
+            </div>
+          ) : savedReports.length > 0 ? (
+            <div className="divide-y divide-slate-100">
+              {savedReports.map((r) => (
+                <div
+                  key={r.id}
+                  className="px-5 py-3 flex items-center justify-between hover:bg-slate-50 transition-colors"
+                >
+                  <button
+                    onClick={() => navigate(`/report?id=${encodeURIComponent(r.id)}`)}
+                    className="flex-1 min-w-0 text-left cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-medium text-slate-800 truncate">
+                        {r.schoolName || '학교 미선택'}
+                      </p>
+                      {r.isPaid && (
+                        <Badge color="amber">결제</Badge>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-500 truncate">
+                      {r.topMajor ? `TOP ${r.topMajor}` : r.interest || '관심사 미입력'}
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      {new Date(r.createdAt).toLocaleDateString('ko-KR')}
+                    </p>
+                  </button>
+                  <button
+                    onClick={() => handleDeleteReport(r.id)}
+                    className="p-2 rounded-lg hover:bg-red-50 text-slate-300 hover:text-red-500 transition-colors cursor-pointer ml-2"
+                    title="삭제"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="px-5 pb-5">
+              <div className="text-center py-6 bg-slate-50 rounded-xl">
+                <FileText className="w-7 h-7 text-slate-300 mx-auto mb-1.5" />
+                <p className="text-sm text-slate-400">아직 생성된 보고서가 없어요</p>
+                <button
+                  onClick={() => navigate('/report')}
+                  className="text-sm text-sky-primary font-semibold mt-2 hover:underline cursor-pointer"
+                >
+                  AI 분석 보고서 받으러 가기
+                </button>
+              </div>
+            </div>
           )}
         </Card>
 

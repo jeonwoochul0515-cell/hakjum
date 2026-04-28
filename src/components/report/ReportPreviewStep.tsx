@@ -1,4 +1,4 @@
-import { useRef, lazy, Suspense, type ComponentType } from 'react';
+import { useRef, lazy, Suspense, useState, type ComponentType } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   FileText, Calendar, Lock, Download, Share2,
@@ -6,10 +6,18 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useReportContext } from '@/context/ReportContext';
+import { generatePdfReport } from '@/lib/pdf-report';
 
 // ── 확정된 섹션 컴포넌트 ──
 import { ProfileSection } from '@/components/report/sections/ProfileSection';
 import { MajorTop10Section } from '@/components/report/sections/MajorTop10Section';
+
+// ── 인사이트 보강 카드 (2026-04 추가) ──
+import { SchoolInsightCard } from '@/components/report/sections/SchoolInsightCard';
+import { TierMatrixCard } from '@/components/report/sections/TierMatrixCard';
+import { SchoolFitCard } from '@/components/report/sections/SchoolFitCard';
+import { BusanCurriculumCard } from '@/components/report/sections/BusanCurriculumCard';
+import { KcueStatsCard } from '@/components/report/sections/KcueStatsCard';
 
 // ── 다른 에이전트가 구현 중인 섹션 (lazy + 에러 경계) ──
 function safeLazy<T extends ComponentType<any>>(
@@ -58,6 +66,8 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
   const { state } = useReportContext();
   const navigate = useNavigate();
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const printAreaRef = useRef<HTMLDivElement | null>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
   const reportData = state.reportData;
 
   if (!reportData) return null;
@@ -69,6 +79,30 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
   const handlePayment = () => {
     sessionStorage.setItem('pendingReport', JSON.stringify(reportData));
     navigate('/subscription');
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!printAreaRef.current || downloadingPdf) return;
+    setDownloadingPdf(true);
+    try {
+      const topMajor =
+        reportData.sections.majorTop10?.recommendations?.[0]?.name || '보고서';
+      const dateStr = new Date(reportData.createdAt)
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, '');
+      await generatePdfReport(printAreaRef.current, {
+        schoolName: reportData.input.school.name,
+        majorName: topMajor,
+        date: dateStr,
+      });
+    } catch (err) {
+      console.warn('[ReportPreviewStep] PDF generation failed', err);
+      // 폴백: 브라우저 인쇄
+      window.print();
+    } finally {
+      setDownloadingPdf(false);
+    }
   };
 
   const handleShare = async () => {
@@ -92,7 +126,7 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
   const formattedDate = `${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 ${createdAt.getDate()}일`;
 
   return (
-    <div className="space-y-4 animate-fade-in-up pb-24">
+    <div ref={printAreaRef} className="space-y-4 animate-fade-in-up pb-24" data-report-print-area>
       {/* ── 상단 헤더 ── */}
       <div className="bg-gradient-to-r from-sky-500 to-indigo-600 rounded-2xl p-5 text-white shadow-lg">
         <div className="flex items-center gap-2 mb-2">
@@ -144,11 +178,21 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
         </div>
       )}
 
+      {/* 1-A. 학교 규모 인사이트 (무료 — 신규) */}
+      {reportData.sections.schoolInsight && (
+        <SchoolInsightCard data={reportData.sections.schoolInsight} />
+      )}
+
       {/* 2. 추천 학과 TOP 10 */}
       {reportData.sections.majorTop10 && (
         <div ref={(el) => { sectionRefs.current['majorTop10'] = el; }}>
           <MajorTop10Section data={reportData.sections.majorTop10} isPaid={isPaid} />
         </div>
+      )}
+
+      {/* 2-A. 도전·적정·안전 매트릭스 (무료 미리보기 — 신규) */}
+      {reportData.sections.tierMatrix && (
+        <TierMatrixCard data={reportData.sections.tierMatrix} isPaid={isPaid} />
       )}
 
       {/* ── 무료 사용자 결제 유도 (섹션 3 전) ── */}
@@ -165,6 +209,11 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
             <LockedSection label="학과 상세 분석" />
           )}
         </div>
+      )}
+
+      {/* 3-A. 학교 적합도 (학과별 — 신규) */}
+      {reportData.sections.schoolFit && (
+        <SchoolFitCard data={reportData.sections.schoolFit} isPaid={isPaid} />
       )}
 
       {/* 4. 대학 매칭 */}
@@ -244,6 +293,16 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
         </div>
       )}
 
+      {/* 9-A. KCUE 학과 통계 (정원·등록금·장학금 — 신규) */}
+      {reportData.sections.kcueStats && (
+        <KcueStatsCard data={reportData.sections.kcueStats} isPaid={isPaid} />
+      )}
+
+      {/* 9-B. 부산 학생 특화 (조건부 — 신규) */}
+      {reportData.sections.busanInsight?.isBusan && (
+        <BusanCurriculumCard data={reportData.sections.busanInsight} isPaid={isPaid} />
+      )}
+
       {/* 10. 액션 플랜 */}
       {reportData.sections.actionPlan && (
         <div ref={(el) => { sectionRefs.current['actionPlan'] = el; }}>
@@ -259,11 +318,17 @@ export function ReportPreviewStep({ isPaid = false }: Props) {
 
       {/* ── 하단 고정 바 ── */}
       {isPaid ? (
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 shadow-lg">
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 shadow-lg print:hidden">
           <div className="max-w-lg mx-auto px-4 py-3 flex gap-2">
-            <Button variant="primary" size="md" className="flex-1" onClick={() => window.print()}>
+            <Button
+              variant="primary"
+              size="md"
+              className="flex-1"
+              onClick={handleDownloadPdf}
+              disabled={downloadingPdf}
+            >
               <Download size={16} className="mr-2" />
-              PDF 다운로드
+              {downloadingPdf ? 'PDF 생성 중...' : 'PDF 다운로드'}
             </Button>
             <Button variant="secondary" size="md" className="flex-1" onClick={handleShare}>
               <Share2 size={16} className="mr-2" />

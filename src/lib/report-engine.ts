@@ -17,9 +17,19 @@ import type {
   RoadmapSection,
   CompetitionSection,
   ActionPlanSection,
+  SchoolInsight,
+  TierMatrix,
+  SchoolFitSection,
+  SchoolFitItem,
+  BusanInsight,
+  KcueStatsSection,
+  KcueStatItem,
 } from '@/types/report';
 import { buildReportPhase1Prompt, buildReportPhase2Prompt } from '@/lib/report-prompt';
 import { getRequirementsForMajor } from '@/data/admission-requirements';
+import { classifySchoolSize, sizeMeta, SIZE_DISTRIBUTION } from '@/lib/school-size';
+import { classifyTier } from '@/lib/recommendation-tier';
+import { analyzeSchoolFit } from '@/lib/school-context';
 
 // ── JSON 복구 (claude-api.ts 패턴) ──
 
@@ -171,6 +181,149 @@ function calculateFulfillment(
   return { items, overallRate };
 }
 
+// ── 학교 규모 인사이트 ──
+
+interface SchoolApiInfo {
+  studentCount?: number;
+  classCount?: number;
+  avgStudentsPerClass?: number;
+  totalTeachers?: number;
+}
+
+async function fetchSchoolApiInfo(schoolName: string): Promise<SchoolApiInfo | null> {
+  try {
+    const res = await fetch(`/api/school/subjects?schoolName=${encodeURIComponent(schoolName)}`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json?.data ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function buildSchoolInsight(info: SchoolApiInfo | null): SchoolInsight {
+  const studentCount = info?.studentCount;
+  const size = classifySchoolSize(studentCount);
+  const meta = sizeMeta(size);
+  const distributionPct = SIZE_DISTRIBUTION[size];
+
+  let recommendation = meta.diversityHint;
+  if (size === 'large') {
+    recommendation = '선택과목 폭이 넓어요. 진로별 심화과목까지 다양하게 활용하세요.';
+  } else if (size === 'medium') {
+    recommendation = '안정적 운영. 핵심 과목은 학교 수업으로, 심화는 공동교육과정으로 보완하세요.';
+  } else if (size === 'small') {
+    recommendation = '공동교육과정·온라인 학교 활용을 적극 권장합니다 (희망 과목 미개설 시).';
+  } else {
+    recommendation = '거점학교 공동교육과정 또는 온라인 수강이 거의 필수입니다.';
+  }
+
+  return {
+    size,
+    label: meta.label,
+    studentCount,
+    classCount: info?.classCount,
+    avgPerClass: info?.avgStudentsPerClass,
+    distributionPct,
+    recommendation,
+    diversityHint: meta.diversityHint,
+  };
+}
+
+// ── 도전·적정·안전 매트릭스 ──
+
+function buildTierMatrix(recommendations: MajorRecommendation[]): TierMatrix {
+  const challenge: TierMatrix['challenge'] = [];
+  const fit: TierMatrix['fit'] = [];
+  const safe: TierMatrix['safe'] = [];
+  for (const rec of recommendations) {
+    const tier = classifyTier(rec.matchScore);
+    const item = { name: rec.name, rank: rec.rank, matchScore: rec.matchScore };
+    if (tier === 'challenge') challenge.push(item);
+    else if (tier === 'fit') fit.push(item);
+    else safe.push(item);
+  }
+  const summary = `도전 ${challenge.length}개 · 적정 ${fit.length}개 · 안전 ${safe.length}개로 구성되었어요.`;
+  return { challenge, fit, safe, summary };
+}
+
+// ── 학교 적합도 (TOP 5 학과) ──
+
+function buildSchoolFit(input: ReportInput, top: MajorRecommendation[]): SchoolFitSection {
+  const subjects = input.school.allSubjects ?? [];
+  const items: SchoolFitItem[] = top.slice(0, 5).map((r) => {
+    const fit = analyzeSchoolFit(r.name, subjects);
+    return {
+      majorName: r.name,
+      schoolFitScore: fit.schoolFitScore,
+      matched: fit.matchedSubjects,
+      missing: fit.missingSubjects,
+    };
+  });
+  const avg =
+    items.length > 0
+      ? Math.round(items.reduce((s, x) => s + x.schoolFitScore, 0) / items.length)
+      : 0;
+  return { items, avgScore: avg };
+}
+
+// ── 부산 학생 특화 ──
+
+async function fetchBusanInsight(schoolName: string): Promise<BusanInsight> {
+  const empty: BusanInsight = {
+    isBusan: false,
+    jointCurriculumSchools: [],
+    guides: [],
+  };
+  try {
+    const res = await fetch(`/api/busan/curriculum-info?schoolName=${encodeURIComponent(schoolName)}`);
+    if (!res.ok) return empty;
+    const json = await res.json();
+    const d = json?.data;
+    if (!d?.isBusan) return empty;
+    return {
+      isBusan: true,
+      matchedLocation: d.schoolMatched?.location ?? '부산광역시',
+      jointCurriculumSchools: (d.jointCurriculumSchools ?? []).slice(0, 5),
+      guides: (d.relatedGuides ?? []).slice(0, 3).map((g: { topic?: string; content?: string }) => ({
+        topic: g.topic ?? '',
+        content: (g.content ?? '').slice(0, 200),
+      })),
+    };
+  } catch {
+    return empty;
+  }
+}
+
+// ── KCUE 학과 통계 ──
+
+async function fetchKcueStat(majorName: string): Promise<KcueStatItem | null> {
+  try {
+    const res = await fetch(
+      `/api/search/major?q=${encodeURIComponent(majorName)}&limit=1&stats=1`,
+    );
+    if (!res.ok) return null;
+    const json = await res.json();
+    const item = json?.data?.[0];
+    if (!item) return null;
+    return {
+      majorName: item.majorName ?? majorName,
+      schoolCount: item.schoolCount ?? 0,
+      quotaAvg: item.quotaStats?.avg ?? item.quota ?? 0,
+      tuitionAvgWon: item.tuitionAvgWon ?? 0,
+      scholarshipAvgPerUniv: item.scholarshipAvgPerUniv ?? 0,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function buildKcueStats(top: MajorRecommendation[]): Promise<KcueStatsSection> {
+  const limited = top.slice(0, 3);
+  const items = await Promise.all(limited.map((r) => fetchKcueStat(r.name)));
+  return { items: items.filter((x): x is KcueStatItem => x !== null) };
+}
+
 // ── 고유 ID 생성 ──
 
 function generateId(): string {
@@ -273,6 +426,17 @@ export async function generateReport(input: ReportInput): Promise<ReportData> {
     totalSubjects: input.school.allSubjects.length,
   };
 
+  // ── 인사이트 보강 (병렬 fetch) ──
+  const [schoolApiInfo, busanInsight, kcueStats] = await Promise.all([
+    fetchSchoolApiInfo(input.school.name),
+    fetchBusanInsight(input.school.name),
+    buildKcueStats(top3),
+  ]);
+
+  const schoolInsight = buildSchoolInsight(schoolApiInfo);
+  const tierMatrix = buildTierMatrix(recommendations);
+  const schoolFit = buildSchoolFit(input, recommendations);
+
   // ── 10개 섹션 조립 ──
   const reportData: ReportData = {
     id: generateId(),
@@ -304,6 +468,11 @@ export async function generateReport(input: ReportInput): Promise<ReportData> {
         })),
       } as CompetitionSection,
       actionPlan,
+      schoolInsight,
+      tierMatrix,
+      schoolFit,
+      busanInsight,
+      kcueStats,
     },
     isPaid: false,
   };

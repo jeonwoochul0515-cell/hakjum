@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { User, Crown, Sparkles, AlertCircle, ArrowLeft } from 'lucide-react';
 import { ReportProvider, useReportContext } from '@/context/ReportContext';
 import { ReportInputStep } from '@/components/report/ReportInputStep';
 import { ReportPreviewStep } from '@/components/report/ReportPreviewStep';
 import { useAuth } from '@/context/AuthContext';
+import { saveReport, getReport, getLatestReport, markReportPaid } from '@/lib/report-storage';
+import type { ReportData } from '@/types/report';
 
 // generateReport는 다른 에이전트가 구현 중이므로 동적 import로 안전하게 로드
 async function loadGenerateReport() {
@@ -25,20 +27,61 @@ export default function ReportPage() {
 }
 
 function ReportPageInner() {
-  const { dispatch } = useReportContext();
+  const { state, dispatch } = useReportContext();
+  const { currentUser, isPaidUser } = useAuth();
+  const [searchParams] = useSearchParams();
+  const restoredRef = useRef(false);
+  const lastSavedIdRef = useRef<string | null>(null);
 
-  // 결제 완료 후 복원: sessionStorage에 pendingReport가 있으면 잠금해제
+  // 결제 완료 후 복원: sessionStorage 의 pendingReport → 잠금해제
+  // 또는 Firestore 의 사용자 보고서 (?id=xxx 또는 최근 1건) 자동 복원
   useEffect(() => {
+    if (restoredRef.current) return;
+
     const pending = sessionStorage.getItem('pendingReport');
     if (pending) {
       try {
-        const reportData = JSON.parse(pending);
+        const reportData = JSON.parse(pending) as ReportData;
         dispatch({ type: 'SET_REPORT', payload: reportData });
         dispatch({ type: 'SET_PAID' });
+        restoredRef.current = true;
+        // Firestore 영구 저장 (결제분으로 표시)
+        if (currentUser?.uid) {
+          markReportPaid(currentUser.uid, reportData).catch(() => undefined);
+        }
       } catch { /* ignore */ }
       sessionStorage.removeItem('pendingReport');
+      return;
     }
-  }, [dispatch]);
+
+    // Firestore 새로고침 복원 — 인증된 사용자에 한함
+    if (!currentUser?.uid) return;
+    const wantId = searchParams.get('id');
+    (async () => {
+      try {
+        const data = wantId
+          ? await getReport(currentUser.uid, wantId)
+          : await getLatestReport(currentUser.uid);
+        if (data) {
+          dispatch({ type: 'SET_REPORT', payload: data });
+          if (data.isPaid || isPaidUser) {
+            dispatch({ type: 'SET_PAID' });
+          }
+          restoredRef.current = true;
+          lastSavedIdRef.current = data.id;
+        }
+      } catch { /* ignore */ }
+    })();
+  }, [dispatch, currentUser, searchParams, isPaidUser]);
+
+  // 새로 생성된 보고서 자동 저장 (Firestore)
+  useEffect(() => {
+    const data = state.reportData;
+    if (!data || !currentUser?.uid) return;
+    if (lastSavedIdRef.current === data.id) return;
+    lastSavedIdRef.current = data.id;
+    saveReport(currentUser.uid, { ...data, isPaid: state.isPaid }).catch(() => undefined);
+  }, [state.reportData, state.isPaid, currentUser]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-indigo-50">

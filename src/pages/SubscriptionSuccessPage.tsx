@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { CheckCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { markReportPaid } from '@/lib/report-storage';
+import type { ReportData } from '@/types/report';
 
 export default function SubscriptionSuccessPage() {
   const [searchParams] = useSearchParams();
@@ -73,8 +75,15 @@ export default function SubscriptionSuccessPage() {
 
       setStatus('success');
 
-      // 보고서 결제 후 복원: pendingReport가 있으면 /report로 리다이렉트
-      if (sessionStorage.getItem('pendingReport')) {
+      // 보고서 결제 후 복원: pendingReport 가 있으면 Firestore 영구 저장 + /report 로 리다이렉트
+      const pendingReport = sessionStorage.getItem('pendingReport');
+      if (pendingReport) {
+        if (currentUser?.uid) {
+          try {
+            const reportData = JSON.parse(pendingReport) as ReportData;
+            await markReportPaid(currentUser.uid, reportData);
+          } catch { /* ignore */ }
+        }
         setTimeout(() => navigate('/report'), 1500);
       }
     } catch (err) {
