@@ -63,15 +63,14 @@ const ALIAS: Record<string, string[]> = {
 };
 
 let cached: IndexFile | null = null;
-async function loadIndex(): Promise<IndexFile | null> {
+async function loadIndex(req: Request): Promise<IndexFile | null> {
   if (cached) return cached;
   try {
-    // Cloudflare Pages Functions: 정적 import 가능 (JSON)
-    // dynamic import로 graceful fallback
-    const mod = await import('../../../data/schoolinfo/school-subject-index.json', {
-      with: { type: 'json' },
-    });
-    cached = (mod as any).default ?? mod;
+    // public/data/ 정적 자산을 fetch (Cloudflare Pages Functions 권장)
+    const url = new URL('/data/school-subject-index.json', req.url);
+    const res = await fetch(url.toString());
+    if (!res.ok) return null;
+    cached = (await res.json()) as IndexFile;
     return cached;
   } catch {
     return null;
@@ -89,7 +88,7 @@ export const onRequestGet: PagesFunction = async (context) => {
     );
   }
 
-  const idx = await loadIndex();
+  const idx = await loadIndex(context.request);
   if (!idx) {
     return Response.json(
       {

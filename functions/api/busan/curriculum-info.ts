@@ -102,13 +102,13 @@ function looksLikeBusanByName(schoolName: string): boolean {
 }
 
 let cached: BusanIndex | null = null;
-async function loadIndex(): Promise<BusanIndex | null> {
+async function loadIndex(req: Request): Promise<BusanIndex | null> {
   if (cached) return cached;
   try {
-    const mod = await import('../../../data/busan/busan-curriculum-index.json', {
-      with: { type: 'json' },
-    });
-    cached = ((mod as { default?: BusanIndex }).default ?? (mod as unknown as BusanIndex));
+    const url = new URL('/data/busan-curriculum-index.json', req.url);
+    const res = await fetch(url.toString());
+    if (!res.ok) return null;
+    cached = (await res.json()) as BusanIndex;
     return cached;
   } catch {
     return null;
@@ -148,7 +148,7 @@ export const onRequestGet: PagesFunction = async (context) => {
     );
   }
 
-  const idx = await loadIndex();
+  const idx = await loadIndex(context.request);
   if (!idx) {
     return Response.json(
       {

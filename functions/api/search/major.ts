@@ -148,13 +148,12 @@ function normalizeMajors(rows: KcueMajorRow[]): MajorRecord[] {
  * KCUE 데이터 동적 로드
  * 데이터 파일이 없으면 빈 배열 반환 (빌드 깨지지 않음)
  */
-async function loadMajorData(): Promise<{ records: MajorRecord[]; syncedAt: string; total: number }> {
+async function loadMajorData(req: Request): Promise<{ records: MajorRecord[]; syncedAt: string; total: number }> {
   try {
-    // @ts-expect-error - 데이터 파일은 sync 스크립트가 생성하므로 빌드 시 없을 수 있음
-    const mod: { default: KcueMajorFile } = await import('../../../data/kcue/major-2025.json', {
-      with: { type: 'json' },
-    });
-    const file = mod.default || {};
+    const url = new URL('/data/major-2025.json', req.url);
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error('not ok');
+    const file = (await res.json()) as KcueMajorFile;
     // 실제 sync 결과는 { _meta, records } 또는 { syncedAt, data, totalCount } 둘 다 가능
     const fileAny = file as KcueMajorFile & { records?: KcueMajorRow[]; _meta?: { syncedAt?: string; totalCount?: number } };
     const rows = Array.isArray(file.data)
@@ -176,13 +175,12 @@ async function loadMajorData(): Promise<{ records: MajorRecord[]; syncedAt: stri
  * 사전 계산된 통계 인덱스 로드 (scripts/build-stats-index.ts 산출)
  * 없으면 null 반환 — 검색 결과 보강이 빠질 뿐 동작에는 영향 없음
  */
-async function loadStatsIndex(): Promise<MajorStatsFile | null> {
+async function loadStatsIndex(req: Request): Promise<MajorStatsFile | null> {
   try {
-    // @ts-expect-error - sync/build-stats-index 스크립트가 생성, 빌드 시 없을 수 있음
-    const mod: { default: MajorStatsFile } = await import('../../../data/kcue/major-stats.json', {
-      with: { type: 'json' },
-    });
-    return mod.default || null;
+    const url = new URL('/data/major-stats.json', req.url);
+    const res = await fetch(url.toString());
+    if (!res.ok) return null;
+    return (await res.json()) as MajorStatsFile;
   } catch {
     return null;
   }
@@ -213,7 +211,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   // ── 트렌드 모드: ?mode=trending → 사전 계산된 trending 5개 반환 ─────────
   if (mode === 'trending') {
-    const stats = await loadStatsIndex();
+    const stats = await loadStatsIndex(context.request);
     const trending = stats?.trending ?? [];
     return new Response(
       JSON.stringify({
@@ -237,8 +235,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   }
 
   const [{ records, syncedAt, total }, stats] = await Promise.all([
-    loadMajorData(),
-    includeStats ? loadStatsIndex() : Promise.resolve(null),
+    loadMajorData(context.request),
+    includeStats ? loadStatsIndex(context.request) : Promise.resolve(null),
   ]);
 
   // 필터

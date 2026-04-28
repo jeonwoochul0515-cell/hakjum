@@ -130,18 +130,16 @@ function aggregateUniversities(rows: KcueRow[]): UniversityRecord[] {
  * KCUE 데이터 동적 로드
  * 데이터 파일이 없으면 빈 배열 반환 (빌드 깨지지 않음)
  */
-async function loadUniversityData(): Promise<{
+async function loadUniversityData(req: Request): Promise<{
   records: UniversityRecord[];
   syncedAt: string;
   total: number;
 }> {
   try {
-    // @ts-expect-error - 데이터 파일은 sync 스크립트가 생성하므로 빌드 시 없을 수 있음
-    const mod: { default: KcueMajorFile & { records?: KcueRow[]; _meta?: { syncedAt?: string } } } =
-      await import('../../../data/kcue/major-2025.json', {
-        with: { type: 'json' },
-      });
-    const file = mod.default || {};
+    const url = new URL('/data/major-2025.json', req.url);
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error('not ok');
+    const file = (await res.json()) as KcueMajorFile & { records?: KcueRow[]; _meta?: { syncedAt?: string } };
     const rows = Array.isArray(file.data)
       ? file.data
       : Array.isArray(file.records)
@@ -166,16 +164,15 @@ async function loadUniversityData(): Promise<{
  * 학교알리미(고등학교 메타) 데이터 로드 — 폐교/분교 제외
  * 통합 검색에서 '대학 + 고교'를 함께 노출하기 위함
  */
-async function loadHighSchoolData(): Promise<{
+async function loadHighSchoolData(req: Request): Promise<{
   records: UniversityRecord[];
   syncedAt: string;
 }> {
   try {
-    // @ts-expect-error - schoolinfo-sync 가 생성, 빌드 시 없을 수 있음
-    const mod: { default: SchoolInfoFile } = await import('../../../data/schoolinfo/api0-04.json', {
-      with: { type: 'json' },
-    });
-    const file = mod.default || {};
+    const url = new URL('/data/api0-04.json', req.url);
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error('not ok');
+    const file = (await res.json()) as SchoolInfoFile;
     const rows = Array.isArray(file.records) ? file.records : [];
     const records: UniversityRecord[] = [];
     for (const r of rows) {
@@ -227,13 +224,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   const [univ, hs] =
     kind === 'university'
-      ? [await loadUniversityData(), { records: [] as UniversityRecord[], syncedAt: '' }]
+      ? [await loadUniversityData(context.request), { records: [] as UniversityRecord[], syncedAt: '' }]
       : kind === 'highschool'
         ? [
             { records: [] as UniversityRecord[], syncedAt: '', total: 0 },
-            await loadHighSchoolData(),
+            await loadHighSchoolData(context.request),
           ]
-        : await Promise.all([loadUniversityData(), loadHighSchoolData()]);
+        : await Promise.all([loadUniversityData(context.request), loadHighSchoolData(context.request)]);
   const records: UniversityRecord[] = [...univ.records, ...hs.records];
   const syncedAt = univ.syncedAt || hs.syncedAt || '';
   const total = ('total' in univ ? univ.total : 0) + hs.records.length;
