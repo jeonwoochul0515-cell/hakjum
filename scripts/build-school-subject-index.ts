@@ -32,17 +32,35 @@ interface SchoolSubject {
   sigungu: string;
 }
 
+// 2015 명칭이 fully filter된 후에도 한 학교에 2015·2022 명칭 둘 다 있을 수 있음
+// (예: 학교가 일부 학년 데이터를 2015 명칭 그대로 등록). renameMap으로 합산.
+const LEGACY_FILE = path.resolve(process.cwd(), 'src/data/curriculum-2015-legacy.json');
+const RENAME_MAP: Record<string, string> = (() => {
+  try {
+    const j = JSON.parse(fs.readFileSync(LEGACY_FILE, 'utf-8'));
+    return j.renameMap ?? {};
+  } catch {
+    return {};
+  }
+})();
+
+function normalizeSubject(s: string): string {
+  return RENAME_MAP[s] ?? s;
+}
+
 function main() {
   const input = JSON.parse(fs.readFileSync(INPUT_FILE, 'utf-8'));
   const records = input.records as Array<Record<string, any>>;
   console.log(`입력: ${records.length.toLocaleString()}건`);
+  console.log(`renameMap: ${Object.keys(RENAME_MAP).length}개 매핑 적용`);
 
   const bySchool: Record<string, SchoolSubject> = {};
   const bySubject: Record<string, { schoolCount: number; totalTeachers: number }> = {};
 
   for (const r of records) {
     const code = r['SCHUL_CODE'] as string;
-    const sbj = r['SBJT_NM'] as string;
+    const rawSbj = r['SBJT_NM'] as string;
+    const sbj = rawSbj ? normalizeSubject(rawSbj) : '';
     const teachers = (r['SUM_CNT'] as number) || 0;
     if (!code || !sbj) continue;
 
