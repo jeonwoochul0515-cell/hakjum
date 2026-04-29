@@ -13,6 +13,8 @@
 import type { School, AIExploreResult, AIExploreRecommendation } from '@/types';
 import { popularMajors } from '@/data/majors';
 import { buildSchoolContext, analyzeSchoolFit, type SchoolContextData } from '@/lib/school-context';
+import { loadFromSession as loadSelfExplorationSession } from '@/lib/self-exploration/storage';
+import { buildPersonalContext } from '@/lib/self-exploration/personal-context';
 
 function buildExplorePrompt(
   interest: string,
@@ -20,6 +22,7 @@ function buildExplorePrompt(
   regionName: string | undefined,
   aptitudeInfo: string | undefined,
   schoolContext: SchoolContextData,
+  personalContext: string,
 ): string {
   let prompt = `당신은 한국 대학 학과 추천 전문가입니다. 고등학생의 관심사와 희망 진로를 분석하여 적합한 대학교 학과를 추천해주세요.
 
@@ -38,6 +41,11 @@ function buildExplorePrompt(
   // 학교 컨텍스트 (있을 때만 — 1000자 이내로 이미 절단됨)
   if (schoolContext.promptText) {
     prompt += `\n\n${schoolContext.promptText}`;
+  }
+
+  // 자가탐색 컨텍스트 (RIASEC + 강점 + 가치관, 600자 이내)
+  if (personalContext) {
+    prompt += `\n\n${personalContext}`;
   }
 
   prompt += `
@@ -278,8 +286,12 @@ export async function getExploreRecommendations(
   // 학교 컨텍스트 빌드 — 미선택 시 빈 컨텍스트 반환 (graceful)
   const schoolContext = await buildSchoolContext(school);
 
+  // 자가탐색 컨텍스트 (sessionStorage에서 로드, 없으면 빈 문자열)
+  // 예: "## 학생 자가탐색 결과 ... - RIASEC 흥미: 탐구형(I) 82, 예술형(A) 76 ..."
+  const personalContext = buildPersonalContext(loadSelfExplorationSession());
+
   try {
-    const prompt = buildExplorePrompt(interest, school, regionName, aptitudeInfo, schoolContext);
+    const prompt = buildExplorePrompt(interest, school, regionName, aptitudeInfo, schoolContext, personalContext);
     return await callExploreAI(prompt, schoolContext);
   } catch {
     return fallbackExploreRecommend(interest, regionName, schoolContext);

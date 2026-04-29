@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { useAuth } from '@/context/AuthContext';
 import { listReports, deleteReport, type SavedReportSummary } from '@/lib/report-storage';
+import { SelfExplorationSummaryCard } from '@/components/self-exploration/SelfExplorationSummaryCard';
 
 export default function ProfilePage() {
   const { currentUser, logout, profileExtra, savedResults, updateProfileExtra, isPaidUser } = useAuth();
@@ -275,6 +276,11 @@ export default function ProfilePage() {
             </button>
           )}
         </Card>
+
+        {/* 자가탐색 결과 (RIASEC + 강점 + 가치관) */}
+        <div className="animate-fade-in-up">
+          <SelfExplorationSummaryCard uid={currentUser?.uid} />
+        </div>
 
         {/* My Reports (Firestore) */}
         <Card className="animate-fade-in-up overflow-hidden">

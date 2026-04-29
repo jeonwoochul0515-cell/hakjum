@@ -1,10 +1,12 @@
-import { ArrowRight, SkipForward, ClipboardCheck } from 'lucide-react';
+import { ArrowRight, SkipForward, ClipboardCheck, Compass } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { useFlow } from '@/hooks/useFlow';
 import { C } from '@/lib/design-tokens';
 
 export function AptitudeIntroStep() {
   const { state, dispatch, go } = useFlow();
+  const navigate = useNavigate();
 
   const genderSelected = !!state.aptitudeGender;
 
@@ -140,6 +142,62 @@ export function AptitudeIntroStep() {
         흥미검사 시작하기
         <ArrowRight size={18} className="ml-2" />
       </Button>
+
+      {/* 학점나비 자체 자가탐색 카드 (보완재) */}
+      <button
+        onClick={() => navigate('/self-exploration')}
+        className="w-full cursor-pointer transition-colors"
+        style={{
+          padding: 14,
+          background: '#fff',
+          border: `1px solid ${C.line}`,
+          borderRadius: 14,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+          textAlign: 'left',
+        }}
+      >
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 10,
+            background: C.brandSoft,
+            color: C.brand,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          <Compass size={20} />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div
+            style={{
+              fontSize: 13.5,
+              fontWeight: 700,
+              color: C.ink,
+              letterSpacing: '-0.025em',
+            }}
+          >
+            학점나비 자체 자가탐색 (10분)
+          </div>
+          <div
+            style={{
+              fontSize: 11.5,
+              color: C.sub,
+              marginTop: 2,
+              letterSpacing: '-0.01em',
+              lineHeight: 1.45,
+            }}
+          >
+            RIASEC + 강점 + 가치관 — AI 추천에 자동 반영돼요
+          </div>
+        </div>
+        <ArrowRight size={16} color={C.sub} />
+      </button>
 
       <button
         onClick={() => go('interest-input')}
